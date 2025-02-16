@@ -16,7 +16,7 @@ public class Produit {
     private Connection cnx;
 
     public enum Categorie {
-        ALBUMS, VETEMENTS, ACCESSOIRES, LIGHTSTICKS
+        albums, vetements, accesoires, lightsticks
     }
 
     // Constructeur principal

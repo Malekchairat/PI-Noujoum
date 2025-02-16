@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
-
+import java.util.Arrays;
 import javax.sql.rowset.serial.SerialBlob;
 
 public class addproduitcontroller {
@@ -27,10 +27,13 @@ public class addproduitcontroller {
     private TextArea description;
 
     @FXML
-    private TextField categorie;
+    private ComboBox<Categorie> categorieComboBox;
 
     @FXML
     private TextField disponibilite;
+
+    @FXML
+    private TextField prix;
 
     @FXML
     private ImageView image;
@@ -42,6 +45,12 @@ public class addproduitcontroller {
     private Button browseImage;
 
     private File selectedImageFile;
+
+    @FXML
+    public void initialize() {
+        // Remplir la ComboBox avec les valeurs de l'énumération Categorie
+        categorieComboBox.getItems().addAll(Categorie.values());
+    }
 
     @FXML
     void browseImageAction(ActionEvent event) {
@@ -66,10 +75,11 @@ public class addproduitcontroller {
             // Validation des champs
             String nomProduit = nom.getText().trim();
             String desc = description.getText().trim();
-            String cat = categorie.getText().trim();
+            Categorie selectedCategorie = categorieComboBox.getValue();
             String disp = disponibilite.getText().trim();
+            String prixText = prix.getText().trim();
 
-            if (nomProduit.isEmpty() || desc.isEmpty() || cat.isEmpty() || disp.isEmpty() || selectedImageFile == null) {
+            if (nomProduit.isEmpty() || desc.isEmpty() || selectedCategorie == null || disp.isEmpty() || prixText.isEmpty() || selectedImageFile == null) {
                 showAlert("Erreur", "Tous les champs et une image sont requis.", Alert.AlertType.ERROR);
                 return;
             }
@@ -82,6 +92,14 @@ public class addproduitcontroller {
                 return;
             }
 
+            float prixValue;
+            try {
+                prixValue = Float.parseFloat(prixText);
+            } catch (NumberFormatException e) {
+                showAlert("Erreur", "Le prix doit être un nombre valide.", Alert.AlertType.ERROR);
+                return;
+            }
+
             // Lecture et conversion de l'image en Blob
             Blob imageBlob;
             try (InputStream inputStream = new FileInputStream(selectedImageFile)) {
@@ -90,7 +108,14 @@ public class addproduitcontroller {
             }
 
             // Création du produit et ajout
-            Produit produit = new Produit(0, nomProduit, desc, Categorie.valueOf(cat.toUpperCase()), 0.0f, disponibiliteInt, imageBlob
+            Produit produit = new Produit(
+                    0,
+                    nomProduit,
+                    desc,
+                    selectedCategorie,
+                    prixValue,
+                    disponibiliteInt,
+                    imageBlob
             );
 
             ServicesCrud service = new ServicesCrud();
@@ -111,8 +136,9 @@ public class addproduitcontroller {
     private void resetFields() {
         nom.clear();
         description.clear();
-        categorie.clear();
+        categorieComboBox.getSelectionModel().clearSelection();
         disponibilite.clear();
+        prix.clear();
         image.setImage(null);
         selectedImageFile = null;
     }
