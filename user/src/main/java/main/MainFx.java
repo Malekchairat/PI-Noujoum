@@ -1,4 +1,4 @@
-package tests;
+package main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class MainFx extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterPersonne.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPromotion.fxml"));
             Parent root = loader.load();
             Scene sc = new Scene(root);
             stage.setTitle("Ajouter");

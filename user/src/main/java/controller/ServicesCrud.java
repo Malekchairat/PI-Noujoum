@@ -1,7 +1,6 @@
 package controller;
 
 import entity.Produit;
-import entity.Produit.Categorie;
 import tools.DataSource;
 
 import java.sql.*;
@@ -9,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProduitCrud implements InterfaceProduit<Produit> {
+public class ServicesCrud implements InterfaceServices<Produit> {
     private final Connection cnx;
     private PreparedStatement pst;
 
-    public ProduitCrud() {
+    public ServicesCrud() {
         this.cnx = DataSource.getInstance().getConnection();
     }
 

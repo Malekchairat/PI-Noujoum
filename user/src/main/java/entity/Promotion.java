@@ -19,12 +19,8 @@ public class Promotion {
         this.cnx = DataSource.getInstance().getConnection();
     }
 
-    public Promotion(int idpromotion, String code, float pourcentage, String expiration, Connection cnx) {
-        this.idpromotion = idpromotion;
-        this.code = code;
-        this.pourcentage = pourcentage;
-        this.expiration = expiration;
-        this.cnx = cnx;
+
+    public Promotion(String promo, float percent, String date) {
     }
 
     public int getIdpromotion() { return idpromotion; }
