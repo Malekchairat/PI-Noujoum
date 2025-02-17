@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ajouterEvenement">
+    <children>
+        <Label layoutX="50.0" layoutY="20.0" text="Location" />
+        <TextField fx:id="locationField" layoutX="200.0" layoutY="20.0" />
+
+        <Label layoutX="50.0" layoutY="60.0" text="Artist" />
+        <TextField fx:id="artist" layoutX="200.0" layoutY="60.0" />
+
+        <Label layoutX="50.0" layoutY="100.0" text="Description" />
+        <TextField fx:id="description" layoutX="200.0" layoutY="100.0" />
+
+        <Label layoutX="50.0" layoutY="140.0" text="Start Date" />
+        <DatePicker fx:id="startDate" layoutX="200.0" layoutY="140.0" />
+
+        <Label layoutX="50.0" layoutY="180.0" text="End Date" />
+        <DatePicker fx:id="endDate" layoutX="200.0" layoutY="180.0" />
+
+        <Label layoutX="50.0" layoutY="220.0" text="Time (hhmm)" />
+        <TextField fx:id="time" layoutX="200.0" layoutY="220.0" />
+
+        <Label layoutX="50.0" layoutY="260.0" text="Price" />
+        <TextField fx:id="price" layoutX="200.0" layoutY="260.0" />
+
+        <Label layoutX="50.0" layoutY="300.0" text="Ticket Count" />
+        <TextField fx:id="ticketCount" layoutX="200.0" layoutY="300.0" />
+
+        <Label layoutX="50.0" layoutY="340.0" text="Event Type" />
+        <ComboBox fx:id="eventType" layoutX="200.0" layoutY="340.0" />
+
+        <Button fx:id="ajout" layoutX="450.0" layoutY="380.0" mnemonicParsing="false" onAction="#ajout" text="Ajouter" />
+        <Button fx:id="show" layoutX="350.0" layoutY="380.0" mnemonicParsing="false" onAction="#Afficher" text="Afficher" />
+        <Button fx:id="update" layoutX="250.0" layoutY="380.0" mnemonicParsing="false" onAction="#update" text="Mettre à jour" />
+    </children>
+</AnchorPane>

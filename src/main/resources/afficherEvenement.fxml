@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.afficherEvenement">
+    <children>
+        <ScrollPane fitToWidth="true" prefWidth="600" prefHeight="400">
+
+            <content>
+                <TilePane fx:id="tilePane" prefColumns="2" hgap="10" vgap="10"
+                          style="-fx-padding: 10px;">
+                    <!-- Les cartes d'événements seront ajoutées dynamiquement ici -->
+                </TilePane>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
