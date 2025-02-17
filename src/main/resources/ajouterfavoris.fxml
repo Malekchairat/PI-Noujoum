@@ -5,15 +5,17 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Ajouterfavoris">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addfavoriscontroller">
    <children>
-      <Button id="id_ajoutfav" layoutX="173.0" layoutY="230.0" mnemonicParsing="false" text="ajouter" />
-      <TextField id="id_produit" layoutX="213.0" layoutY="53.0" />
-      <TextField id="id_user" layoutX="214.0" layoutY="97.0" />
-      <TextField id="id_date" layoutX="214.0" layoutY="143.0" />
+      <Button fx:id="id_ajoutfav" layoutX="173.0" layoutY="230.0" mnemonicParsing="false" onAction="#addFavoris" text="ajouter" />
+      <Button fx:id="id_afficherfav" layoutX="300.0" layoutY="230.0" mnemonicParsing="false" onAction="#showFavoris" text="Afficher Favoris" />
+
+      <TextField fx:id="id_produit" layoutX="213.0" layoutY="53.0" />
+      <TextField fx:id="id_user" layoutX="214.0" layoutY="97.0" />
+      <TextField fx:id="id_date" layoutX="214.0" layoutY="143.0" />
       <Label layoutX="92.0" layoutY="57.0" text="id_produit" />
       <Label layoutX="92.0" layoutY="101.0" text="id_user" />
       <Label layoutX="92.0" layoutY="147.0" text="date" />
    </children>
 </AnchorPane>
+

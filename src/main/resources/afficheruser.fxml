@@ -5,18 +5,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.TilePane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.showusercontroller">
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.showusercontroller">
     <children>
-        <Button fx:id="affich" layoutX="289.0" layoutY="323.0" mnemonicParsing="false" onAction="#loadUsers" text="Afficher" />
-        <ScrollPane layoutX="14.0" layoutY="48.0" prefHeight="230.0" prefWidth="431.0">
+        <Button fx:id="affich" layoutX="250.0" layoutY="350.0"
+                mnemonicParsing="false"
+                onAction="#loadUsers"
+                text="Afficher" />
+
+        <ScrollPane layoutX="14.0" layoutY="48.0" prefHeight="230.0" prefWidth="500.0" fitToWidth="true">
             <content>
-                <AnchorPane fx:id="scrollPanel" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                    <children>
-                        <TilePane fx:id="userTilePane" layoutX="28.0" prefHeight="200.0" prefWidth="200.0" />
-                    </children>
-                </AnchorPane>
+                <TilePane fx:id="userTilePane" prefWidth="500.0" prefTileWidth="220.0" prefTileHeight="250.0" hgap="20.0" vgap="20.0" />
             </content>
         </ScrollPane>
-      <Button fx:id="update" layoutX="512.0" layoutY="323.0" mnemonicParsing="false" onAction="#update" text="Modifier" />
+
     </children>
 </AnchorPane>

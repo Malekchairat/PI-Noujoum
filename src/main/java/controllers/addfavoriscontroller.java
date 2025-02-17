@@ -2,24 +2,27 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 
-import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-import models.User;
-import services.UserService;
+import models.Favoris;
+import services.FavorisService;
 
-public class addfavoriscontroller implements Initializable {
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
+
+
+public class addfavoriscontroller {
 
     @FXML
     private Button id_ajoutfav;
-
     @FXML
     private TextField id_produit;
     @FXML
@@ -27,61 +30,50 @@ public class addfavoriscontroller implements Initializable {
     @FXML
     private TextField id_date;
 
+    private final FavorisService favorisService = new FavorisService();
 
     @FXML
-    private Button show;
+    void addFavoris(ActionEvent event) {
+        String productText = id_produit.getText().trim();
+        String userText = id_user.getText().trim();
+        String dateText = id_date.getText().trim();
 
-
-
-    @FXML
-    void addUser(ActionEvent event) {
-        String first = id_produit.getText().trim();
-        String emailInput = id_user.getText().trim();
-        String last = id_date.getText().trim();
-
-        String role = idrole.getValue(); // Récupérer la valeur sélectionnée
-
-        if (first.isEmpty() || last.isEmpty() || emailInput.isEmpty() || passwordInput.isEmpty() || phone.isEmpty() || role == null) {
+        if (productText.isEmpty() || userText.isEmpty() || dateText.isEmpty()) {
             showAlert("Erreur", "Tous les champs doivent être remplis!", Alert.AlertType.ERROR);
             return;
         }
 
-        if (!emailInput.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            showAlert("Erreur", "Format d'email invalide!", Alert.AlertType.ERROR);
-            return;
-        }
-
-        if (passwordInput.length() < 8) {
-            showAlert("Erreur", "Le mot de passe doit contenir au moins 8 caractères!", Alert.AlertType.ERROR);
-            return;
-        }
-
-        if (!phone.matches("^\\d{8}$")) {
-            showAlert("Erreur", "Le numéro de téléphone doit contenir 8 chiffres!", Alert.AlertType.ERROR);
-            return;
-        }
-
-        User newUser = new User(1, first, last, emailInput, passwordInput, Integer.parseInt(phone), role, null);
-
-        UserService userCrud = new UserService();
         try {
-            userCrud.ajouter(newUser);
-            showAlert("Succès", "Utilisateur ajouté avec succès!", Alert.AlertType.INFORMATION);
+            int product = Integer.parseInt(productText);
+            int user = Integer.parseInt(userText);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate date = LocalDate.parse(dateText, formatter);
+
+            Favoris newFavoris = new Favoris(product, user, date);
+            favorisService.ajouterFavoris(newFavoris);
+
+            showAlert("Succès", "Favoris ajouté avec succès!", Alert.AlertType.INFORMATION);
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "L'ID produit et l'ID utilisateur doivent être des nombres!", Alert.AlertType.ERROR);
+        } catch (DateTimeParseException e) {
+            showAlert("Erreur", "Le format de la date doit être JJ/MM/AAAA!", Alert.AlertType.ERROR);
         } catch (SQLException e) {
-            showAlert("Erreur", "Échec de l'ajout de l'utilisateur: " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Erreur", "Échec de l'ajout du Favoris: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
     @FXML
-    void Afficher(ActionEvent event) {
+    private void showFavoris() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheruser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherfavoris.fxml"));
             Parent root = loader.load();
-            showusercontroller afficheruserController = loader.getController();
-            afficheruserController.loadUsers();
-            show.getScene().setRoot(root);
+            Stage stage = new Stage();
+            stage.setTitle("Afficher Favoris");
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println("Erreur lors du chargement de afficherfavoris.fxml : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

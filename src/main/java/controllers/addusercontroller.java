@@ -14,9 +14,12 @@ import java.util.ResourceBundle;
 
 import models.User;
 import services.UserService;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 
 public class addusercontroller implements Initializable {
-
+    @FXML
+    private Button goToAddFavoris;
     @FXML
     private Button id_ajout;
 
@@ -99,6 +102,21 @@ public class addusercontroller implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+    @FXML
+    void goToAddFavoris(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajouterfavoris.fxml")); // Vérifie ce chemin
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Ajouter Favoris");
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible de charger la page Ajouter Favoris: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
 
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
@@ -107,4 +125,5 @@ public class addusercontroller implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }

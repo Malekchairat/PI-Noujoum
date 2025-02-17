@@ -125,6 +125,16 @@ public class updateusercontroller {
             System.out.println("Erreur lors du chargement de show_user.fxml : " + e.getMessage());
         }
     }
+    public void setUserData(User user) {
+        id.setText(String.valueOf(user.getId())); // Stocke l'ID (même s'il est invisible)
+        nom.setText(user.getNom());
+        prenom.setText(user.getPrenom());
+        email.setText(user.getEmail());
+        mdp.setText(user.getMdp());
+        tel.setText(String.valueOf(user.getTel()));
+        rolee.setValue(user.getRole());
+    }
+
 
     // Helper method to show alerts
     private void showAlert(String title, String message, Alert.AlertType type) {
