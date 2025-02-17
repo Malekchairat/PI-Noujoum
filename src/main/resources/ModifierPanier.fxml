@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ModifierPanier" style="-fx-background-color: #000000;">
+    <children>
+        <GridPane hgap="10.0" layoutX="50.0" layoutY="20.0" vgap="10.0" style="-fx-text-fill: white;">
+            <Label text="ID panier:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label text="ID Produit:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label text="ID User:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label text="nbrproduit" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+            <TextField fx:id="idpanier" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-background-color: #333333; -fx-text-fill: white;"/>
+            <TextField fx:id="idproduit" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-background-color: #333333; -fx-text-fill: white;"/>
+            <TextField fx:id="iduser" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-background-color: #333333; -fx-text-fill: white;"/>
+            <TextField fx:id="nbrproduit" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-background-color: #333333; -fx-text-fill: white;"/>
+
+            <Button onAction="#enregistrerModification" text="Modifier" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-background-color: #FFEB3B; -fx-text-fill: black;"/>
+            <Button onAction="#fermer" text="Annuler" GridPane.columnIndex="1" GridPane.rowIndex="4" style="-fx-background-color: #FFEB3B; -fx-text-fill: black;"/>
+        </GridPane>
+    </children>
+</AnchorPane>
