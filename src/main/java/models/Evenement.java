@@ -46,6 +46,10 @@ public class Evenement {
         this.type = type;
         this.ticketCount = ticketCount;
     }
+    public String getArtiste() {
+        return this.artist;
+    }
+
 
     public int getIdEvenement() {
         return this.idEvenement;

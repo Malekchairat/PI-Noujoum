@@ -7,6 +7,7 @@ import models.Evenement;
 import models.Type_e;
 import services.EvenementService;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class modifierEvenement {
@@ -33,13 +34,16 @@ public class modifierEvenement {
     public void loadEvent(int eventId) {
         this.eventId = eventId;
         try {
-            Evenement event = service.recupererParId(eventId); // Fetch event by ID
+            Evenement event = service.recupererParId(eventId);
             if (event != null) {
                 locationField.setText(event.getLocation());
                 artistField.setText(event.getArtist());
                 descriptionField.setText(event.getDescription());
+
+                // ✅ Correction : Convertir java.util.Date en LocalDate proprement
                 startDatePicker.setValue(event.getStartDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate());
                 endDatePicker.setValue(event.getEndDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate());
+
                 timeField.setText(String.valueOf(event.getTime()));
                 priceField.setText(String.valueOf(event.getPrice()));
                 ticketCountField.setText(String.valueOf(event.getTicketCount()));
@@ -52,6 +56,7 @@ public class modifierEvenement {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger l'événement.");
         }
     }
+
 
     @FXML
     private void saveEvent(ActionEvent event) {
@@ -66,23 +71,34 @@ public class modifierEvenement {
             int ticketCount = Integer.parseInt(ticketCountField.getText());
             Type_e type = eventTypeComboBox.getValue();
 
-            // Créer un nouvel événement avec les champs mis à jour
+            if (location.isEmpty() || artist.isEmpty() || description.isEmpty() ||
+                    startDate == null || endDate == null || type == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs doivent être remplis!");
+                return;
+            }
+
+            if (endDate.isBefore(startDate)) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "La date de fin ne peut pas être avant la date de début!");
+                return;
+            }
+
             Evenement updatedEvent = new Evenement(
                     eventId,
                     location,
                     artist,
                     description,
-                    java.sql.Date.valueOf(startDate),
-                    java.sql.Date.valueOf(endDate),
+                    Date.valueOf(startDate),
+                    Date.valueOf(endDate),
                     time,
                     price,
                     type,
                     ticketCount
             );
 
-            // Appeler la méthode "modifier" en passant l'ancien ID
             service.modifier(updatedEvent, eventId);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "L'événement a été modifié avec succès.");
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez saisir des valeurs numériques valides.");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la modification de l'événement.");

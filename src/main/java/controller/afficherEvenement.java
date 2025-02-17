@@ -17,7 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
-
+import java.io.IOException;
 import java.util.List;
 
 public class afficherEvenement {
@@ -29,6 +29,7 @@ public class afficherEvenement {
     private TilePane tilePane;
 
     private EvenementService serviceEvenement;
+
     @FXML
     public void initialize() {
         serviceEvenement = new EvenementService();
@@ -68,14 +69,16 @@ public class afficherEvenement {
         lblPrice.setStyle("-fx-text-fill: white;");
         lblType.setStyle("-fx-text-fill: white;");
 
-        // Buttons for Modify and Delete
+        // Boutons : Modifier, Supprimer et Réserver Ticket
         Button btnModify = new Button("Modifier");
         Button btnDelete = new Button("Supprimer");
+        Button btnReserver = new Button("Réserver Ticket");
 
         btnModify.setOnAction(e -> handleModifyEvent(evenement.getIdEvenement()));
         btnDelete.setOnAction(e -> handleDeleteEvent(evenement.getIdEvenement()));
+        btnReserver.setOnAction(e -> handleReserverTicket(evenement));
 
-        HBox buttonBox = new HBox(10, btnModify, btnDelete);
+        HBox buttonBox = new HBox(10, btnModify, btnDelete, btnReserver);
         buttonBox.setStyle("-fx-alignment: center;");
 
         card.getChildren().addAll(lblLocation, lblArtist, lblDate, lblPrice, lblType, buttonBox);
@@ -88,17 +91,15 @@ public class afficherEvenement {
         alert.setHeaderText(null); // Optionnel : pas de texte d'en-tête
         alert.showAndWait();
     }
+
     private void handleModifyEvent(int eventId) {
         try {
-            // Charger le fichier FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierEvenement.fxml"));
             Parent root = loader.load();
 
-            // Récupérer le contrôleur et passer l'ID de l'événement
             modifierEvenement controller = loader.getController();
-            controller.loadEvent(eventId); // Charger les données de l'événement
+            controller.loadEvent(eventId);
 
-            // Créer une nouvelle fenêtre pour l'interface de modification
             Stage stage = new Stage();
             stage.setTitle("Modifier Événement");
             stage.setScene(new Scene(root));
@@ -115,26 +116,43 @@ public class afficherEvenement {
         try {
             System.out.println("Supprimer clicked for Event ID: " + eventId);
 
-            // Créer une instance du service pour supprimer l'événement
             EvenementService service = new EvenementService();
-            service.supprimer(eventId); // Suppression de l'événement
+            service.supprimer(eventId);
 
-            // Afficher un message de confirmation
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "L'événement a été supprimé avec succès.");
             alert.setTitle("Succès");
             alert.setHeaderText(null);
             alert.showAndWait();
 
-            // Actualiser la liste des événements après suppression
-            afficherEvenements(); // Méthode pour recharger la liste des événements affichés
+            afficherEvenements(); // Rafraîchir la liste
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la suppression de l'événement.");
+        }
+    }
 
-            // Afficher un message d'erreur en cas d'échec
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Une erreur est survenue lors de la suppression de l'événement.");
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.showAndWait();
+    private void handleReserverTicket(Evenement evenement) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajouterTicket.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur et vérifier l'objet événement
+            ajouterTicket controller = loader.getController();
+            if (evenement != null) {
+                controller.initData(evenement);
+            } else {
+                throw new NullPointerException("L'objet Evenement est null.");
+            }
+
+            // Ouvrir la fenêtre
+            Stage stage = new Stage();
+            stage.setTitle("Réserver un Ticket");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de réservation.");
         }
     }
 
