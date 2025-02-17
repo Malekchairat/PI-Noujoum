@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package services;
 
 import models.Evenement;
@@ -15,45 +10,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketService implements ITicketService {
-    private Connection cnx = MyDataBase.getInstance().getCnx();
+    private final Connection cnx = MyDataBase.getInstance().getCnx();
 
-    public TicketService() {
-    }
-
+    // ✅ Correction : Ajout de la colonne "quantite" dans l'insertion
     public void ajouter(Evenement evenement, Ticket ticket) throws SQLException {
-        String checkEventSql = "SELECT COUNT(*) FROM evenement WHERE id_evenement = ?";
-        PreparedStatement checkEventStmt = this.cnx.prepareStatement(checkEventSql);
-        checkEventStmt.setInt(1, evenement.getIdEvenement());
-        ResultSet resultSet = checkEventStmt.executeQuery();
-        resultSet.next();
-        if (resultSet.getInt(1) == 0) {
-            System.out.println("L'événement avec l'ID " + evenement.getIdEvenement() + " n'existe pas.");
-        } else {
-            String sql = "INSERT INTO ticket (id_evenement, id_utilisateur, prix, qr_code, methode_paiement) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement st = this.cnx.prepareStatement(sql, 1);
-            st.setInt(1, evenement.getIdEvenement());
-            st.setInt(2, ticket.getIdUtilisateur());
-            st.setFloat(3, ticket.getPrix());
-            st.setString(4, ticket.getQrCode());
-            st.setString(5, ticket.getMethodePaiement().name());
-            st.executeUpdate();
-            ResultSet generatedKeys = st.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                ticket.setIdTicket(generatedKeys.getInt(1));
-            }
+        String sql = "INSERT INTO ticket (id_evenement, id_utilisateur, prix, quantite, qr_code, methode_paiement) VALUES (?, ?, ?, ?, ?, ?)";
 
-            System.out.println("✅ Ticket ajouté avec succès ! ID: " + ticket.getIdTicket());
+        try (PreparedStatement st = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            st.setInt(1, evenement.getIdEvenement());  // ✅ Correct
+            st.setInt(2, ticket.getIdUtilisateur());   // ✅ Correct
+            st.setFloat(3, ticket.getPrix());          // ✅ Correction ici
+            st.setInt(4, ticket.getQuantite());        // ✅ Ajout de la quantité
+            st.setString(5, ticket.getQrCode());       // ✅ Correct
+            st.setString(6, ticket.getMethodePaiement().name()); // ✅ Correct
+
+            st.executeUpdate();
+
+            try (ResultSet generatedKeys = st.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    ticket.setIdTicket(generatedKeys.getInt(1));
+                    System.out.println("✅ Ticket ajouté avec succès ! ID: " + ticket.getIdTicket() + ", Quantité: " + ticket.getQuantite());
+                }
+            }
         }
     }
 
-    public void supprimer(Ticket t) throws SQLException {
-        int id = t.getIdTicket();
-        System.out.println("\ud83d\udd04 Tentative de suppression du ticket avec ID: " + id);
+    // ✅ Correction : Suppression d'un ticket
+    public void supprimer(int id) throws SQLException {
         if (id <= 0) {
             System.out.println("❌ Erreur : ID de ticket invalide.");
-        } else {
-            String sql = "DELETE FROM ticket WHERE id_ticket = ?";
-            PreparedStatement statement = this.cnx.prepareStatement(sql);
+            return;
+        }
+
+        String sql = "DELETE FROM ticket WHERE id_ticket = ?";
+        try (PreparedStatement statement = cnx.prepareStatement(sql)) {
             statement.setInt(1, id);
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
@@ -61,58 +51,50 @@ public class TicketService implements ITicketService {
             } else {
                 System.out.println("❌ Aucun ticket trouvé avec cet ID.");
             }
-
         }
     }
 
+    // ✅ Correction : Modification de la quantité possible
     public void modifier(Ticket t) throws SQLException {
-        int id = t.getIdTicket();
-        System.out.println("\ud83d\udd04 Tentative de modification du ticket avec ID: " + id);
-        if (id <= 0) {
+        if (t.getIdTicket() <= 0) {
             System.out.println("❌ Erreur : ID de ticket invalide.");
-        } else {
-            String checkSql = "SELECT COUNT(*) FROM ticket WHERE id_ticket = ?";
-            PreparedStatement checkStatement = this.cnx.prepareStatement(checkSql);
-            checkStatement.setInt(1, id);
-            ResultSet checkResult = checkStatement.executeQuery();
-            checkResult.next();
-            if (checkResult.getInt(1) == 0) {
-                System.out.println("❌ Aucun ticket trouvé avec cet ID.");
-            } else {
-                String sql = "UPDATE ticket SET prix = ?, methode_paiement = ? WHERE id_ticket = ?";
-                PreparedStatement st = this.cnx.prepareStatement(sql);
-                st.setFloat(1, t.getPrix());
-                st.setString(2, t.getMethodePaiement().name());
-                st.setInt(3, id);
-                int rowsUpdated = st.executeUpdate();
-                if (rowsUpdated > 0) {
-                    System.out.println("✅ Ticket modifié avec succès !");
-                } else {
-                    System.out.println("❌ La modification a échoué.");
-                }
+            return;
+        }
 
+        String sql = "UPDATE ticket SET prix = ?, quantite = ?, methode_paiement = ? WHERE id_ticket = ?";
+        try (PreparedStatement st = cnx.prepareStatement(sql)) {
+            st.setFloat(1, t.getPrix());
+            st.setInt(2, t.getQuantite()); // ✅ Ajout de la quantité dans la modification
+            st.setString(3, t.getMethodePaiement().name());
+            st.setInt(4, t.getIdTicket());
+
+            int rowsUpdated = st.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("✅ Ticket modifié avec succès !");
+            } else {
+                System.out.println("❌ La modification a échoué.");
             }
         }
     }
 
+    // ✅ Correction : Récupération de la quantité
     public List<Ticket> recuperer() throws SQLException {
         String sql = "SELECT * FROM ticket";
-        Statement statement = this.cnx.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-        List<Ticket> tickets = new ArrayList();
+        List<Ticket> tickets = new ArrayList<>();
 
-        while(resultSet.next()) {
-            Ticket ticket = new Ticket();
-            ticket.setIdTicket(resultSet.getInt("id_ticket"));
-            ticket.setIdEvenement(resultSet.getInt("id_evenement"));
-            Evenement evenement = new Evenement();
-            evenement.setIdEvenement(resultSet.getInt("id_evenement"));
-            ticket.setEvenement(evenement);
-            ticket.setIdUtilisateur(resultSet.getInt("id_utilisateur"));
-            ticket.setPrix(resultSet.getFloat("prix"));
-            ticket.setQrCode(resultSet.getString("qr_code"));
-            ticket.setMethodePaiement(Type_P.valueOf(resultSet.getString("methode_paiement")));
-            tickets.add(ticket);
+        try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                Ticket ticket = new Ticket();
+                ticket.setIdTicket(resultSet.getInt("id_ticket"));
+                ticket.setIdEvenement(resultSet.getInt("id_evenement"));
+                ticket.setIdUtilisateur(resultSet.getInt("id_utilisateur"));
+                ticket.setPrix(resultSet.getFloat("prix"));
+                ticket.setQuantite(resultSet.getInt("quantite")); // ✅ Ajout de la récupération de la quantité
+                ticket.setQrCode(resultSet.getString("qr_code"));
+                ticket.setMethodePaiement(Type_P.valueOf(resultSet.getString("methode_paiement")));
+
+                tickets.add(ticket);
+            }
         }
 
         return tickets;

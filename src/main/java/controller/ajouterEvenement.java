@@ -3,21 +3,17 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Evenement;
 import models.Type_e;
-import tools.MyDataBase;
+import services.EvenementService;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.sql.Date;
 
 public class ajouterEvenement {
 
@@ -31,68 +27,125 @@ public class ajouterEvenement {
     @FXML private TextField ticketCount;
     @FXML private ComboBox<Type_e> eventType;
 
+    private EvenementService service;
+    private Evenement selectedEvent;
+
     @FXML
     public void initialize() {
+        service = new EvenementService();
         eventType.getItems().setAll(Type_e.values());
     }
 
     @FXML
-    public void ajout(ActionEvent actionEvent) {
-        String location = locationField.getText();
-        String artistName = artist.getText();
-        String desc = description.getText();
+    private void ajout(ActionEvent event) {
+        String location = locationField.getText().trim();
+        String artistName = artist.getText().trim();
+        String desc = description.getText().trim();
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
-        int eventTime = Integer.parseInt(time.getText());
-        float eventPrice = Float.parseFloat(price.getText());
-        int tickets = Integer.parseInt(ticketCount.getText());
+        String timeText = time.getText().trim();
+        String priceText = price.getText().trim();
+        String ticketCountText = ticketCount.getText().trim();
         Type_e type = eventType.getValue();
 
-        try (Connection cnx = MyDataBase.getInstance().getCnx()) {
-            String sql = "INSERT INTO evenement (location, artist, description, StartDate, EndDate, time, price, type, ticketCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = cnx.prepareStatement(sql);
-            stmt.setString(1, location);
-            stmt.setString(2, artistName);
-            stmt.setString(3, desc);
-            stmt.setDate(4, Date.valueOf(start));
-            stmt.setDate(5, Date.valueOf(end));
-            stmt.setInt(6, eventTime);
-            stmt.setFloat(7, eventPrice);
-            stmt.setString(8, type.name());
-            stmt.setInt(9, tickets);
-            stmt.executeUpdate();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Événement ajouté avec succès !", ButtonType.OK);
-            alert.showAndWait();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ajout de l'événement.", ButtonType.OK);
-            alert.showAndWait();
+        // ✅ Vérification des champs obligatoires
+        if (location.isEmpty() || artistName.isEmpty() || desc.isEmpty() || start == null || end == null
+                || timeText.isEmpty() || priceText.isEmpty() || ticketCountText.isEmpty() || type == null) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs doivent être remplis !");
+            return;
         }
 
+        // ✅ Vérification du format de l'heure (doit être un nombre à 4 chiffres)
+        if (!timeText.matches("^\\d{4}$")) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "L'heure doit être au format HHMM (ex: 1400 pour 14h00)");
+            return;
+        }
 
+        // ✅ Vérification du format du prix (nombre positif)
+        float priceValue;
+        try {
+            priceValue = Float.parseFloat(priceText);
+            if (priceValue <= 0) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Le prix doit être un nombre positif !");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le prix doit être un nombre valide !");
+            return;
+        }
+
+        // ✅ Vérification du nombre de tickets (entier positif)
+        int ticketCountValue;
+        try {
+            ticketCountValue = Integer.parseInt(ticketCountText);
+            if (ticketCountValue <= 0) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Le nombre de tickets doit être un entier positif !");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le nombre de tickets doit être un entier valide !");
+            return;
+        }
+
+        // ✅ Vérification que la date de début est avant la date de fin
+        if (start.isAfter(end)) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "La date de début ne peut pas être après la date de fin !");
+            return;
+        }
+
+        // ✅ Création de l'objet événement
+        Evenement newEvent = new Evenement(location, artistName, desc,
+                Date.valueOf(start), Date.valueOf(end),
+                Integer.parseInt(timeText), priceValue, type, ticketCountValue);
+
+        // ✅ Ajout de l'événement à la base de données avec gestion des exceptions
+        try {
+            service.ajouter(newEvent);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "L'événement a été ajouté avec succès !");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout de l'événement : " + e.getMessage());
+        }
     }
+
+    @FXML
+    private void update(ActionEvent event) {
+        // Logique pour mettre à jour un événement
+    }
+
     @FXML
     private void Afficher(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherEvenement.fxml"));
-            Parent root = loader.load();
-
-            // Optionnel : Récupérer le contrôleur et passer des données si nécessaire
-            afficherEvenement controller = loader.getController();
-            // controller.setSomeData(someData); // Si tu veux envoyer des données
-
-            // Récupérer la scène actuelle et la changer
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Liste des événements");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            System.err.println("Erreur lors du chargement de afficherEvenement.fxml : " + e.getMessage());
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'interface d'affichage des événements.");
         }
     }
 
-    public void update(ActionEvent actionEvent) {
+    @FXML
+    private void afficherTickets(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherTicket.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Liste des Tickets");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir l'interface d'affichage des tickets.");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.showAndWait();
     }
 }

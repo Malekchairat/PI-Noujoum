@@ -35,5 +35,6 @@
         <Button fx:id="ajout" layoutX="450.0" layoutY="380.0" mnemonicParsing="false" onAction="#ajout" text="Ajouter" />
         <Button fx:id="show" layoutX="350.0" layoutY="380.0" mnemonicParsing="false" onAction="#Afficher" text="Afficher" />
         <Button fx:id="update" layoutX="250.0" layoutY="380.0" mnemonicParsing="false" onAction="#update" text="Mettre à jour" />
+        <Button fx:id="afficherTicketsButton" layoutX="150.0" layoutY="380.0" mnemonicParsing="false" onAction="#afficherTickets" text="Afficher Tickets" />
     </children>
 </AnchorPane>
