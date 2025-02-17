@@ -5,6 +5,8 @@ import entity.Produit.Categorie;
 import controller.ServicesCrud;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +14,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -40,6 +43,8 @@ public class addproduitcontroller {
 
     @FXML
     private Button ajout;
+    @FXML
+    private Button affich;
 
     @FXML
     private Button browseImage;
@@ -149,5 +154,20 @@ public class addproduitcontroller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    void Afficher(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheProduit.fxml"));
+            Parent root = loader.load();
+            afficheproduitcontroller controller = loader.getController();
+            controller.loadProduits();
+            affich.getScene().setRoot(root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur chargement afficherpromotion.fxml : " + e.getMessage());
+        }
     }
 }

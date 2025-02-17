@@ -41,24 +41,32 @@ public class ServicesCrud implements InterfaceServices<Produit> {
 
     @Override
     public void update(Produit produit) {
-        // String concatenation for SQL update query
-        String q1 = "UPDATE produit SET nom = '"
-                + produit.getNom() + "', description = '"
-                + produit.getDescription() + "', categorie = '"
-                + produit.getCategorie() + "', prix = "
-                + produit.getPrix() + ", disponibilite = "
-                + produit.getDisponibilite() + ", image = '"
-                + produit.getImage() + "', promotionid = "
-                + produit.getIdproduit();
+        String query = "UPDATE produit SET nom=?, description=?, categorie=?, prix=?, disponibilite=?, image=? WHERE idproduit=?";
 
-        try {
-            Statement stmt = cnx.createStatement();
-            int x = stmt.executeUpdate(q1);  // Execute the insert statement
-            System.out.println("Rows affected: " + x);
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setString(1, produit.getNom());
+            pst.setString(2, produit.getDescription());
+            pst.setString(3, produit.getCategorie().toString());
+            pst.setFloat(4, produit.getPrix());
+            pst.setInt(5, produit.getDisponibilite());
+
+            Blob imageBlob = produit.getImage();
+            if (imageBlob != null) {
+                pst.setBlob(6, imageBlob);
+            } else {
+                pst.setNull(6, java.sql.Types.BLOB);
+            }
+
+            pst.setInt(7, produit.getIdproduit());
+
+            int rows = pst.executeUpdate();
+            System.out.println("Produit mis à jour. Lignes affectées : " + rows);
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erreur lors de la mise à jour du produit : " + e.getMessage());
         }
     }
+
 
 
     @Override
