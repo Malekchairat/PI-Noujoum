@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.modifierEvenement">
+    <children>
+        <VBox spacing="10" layoutX="50" layoutY="50" style="-fx-padding: 20px; -fx-background-color: #333; -fx-border-color: gold; -fx-border-width: 2px;">
+            <Label text="Modifier Événement" style="-fx-font-size: 18px; -fx-text-fill: white;" />
+            <TextField fx:id="locationField" promptText="Lieu" />
+            <TextField fx:id="artistField" promptText="Artiste" />
+            <TextField fx:id="descriptionField" promptText="Description" />
+            <DatePicker fx:id="startDatePicker" promptText="Date de début" />
+            <DatePicker fx:id="endDatePicker" promptText="Date de fin" />
+            <TextField fx:id="timeField" promptText="Heure (en heures)" />
+            <TextField fx:id="priceField" promptText="Prix (TND)" />
+            <TextField fx:id="ticketCountField" promptText="Nombre de billets" />
+            <ComboBox fx:id="eventTypeComboBox" promptText="Type d'événement" />
+            <Button text="Enregistrer" onAction="#saveEvent" style="-fx-background-color: green; -fx-text-fill: white;" />
+        </VBox>
+    </children>
+</AnchorPane>

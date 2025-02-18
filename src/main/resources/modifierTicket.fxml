@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.modifierTicket"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <VBox spacing="20" alignment="CENTER" layoutX="50" layoutY="50">
+        <Label text="Modifier Ticket" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+        <!-- Prix Field -->
+        <HBox spacing="10">
+            <Label text="Prix:"/>
+            <TextField fx:id="prixField" promptText="Entrez le prix" />
+        </HBox>
+
+        <!-- Methode Paiement ComboBox -->
+        <HBox spacing="10">
+            <Label text="Méthode de Paiement:"/>
+            <ComboBox fx:id="methodePaiementField"/>
+        </HBox>
+
+        <!-- Buttons -->
+        <HBox spacing="20">
+            <Button text="Modifier" onAction="#modifier" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <Button text="Annuler" onAction="#annuler" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+
+</AnchorPane>
