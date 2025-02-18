@@ -1,11 +1,17 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> GestionCommande
 //
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
 
+<<<<<<< HEAD
 >>>>>>> GestionEvenements
+=======
+>>>>>>> GestionCommande
 package tools;
 
 import java.sql.Connection;
@@ -13,6 +19,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyDataBase {
+<<<<<<< HEAD
 <<<<<<< HEAD
     public final String URL="jdbc:mysql://localhost:3306/noujoum";
     public final String USER="root";
@@ -32,6 +39,8 @@ public class MyDataBase {
         if(instance==null)
             instance= new MyDataBase();
 =======
+=======
+>>>>>>> GestionCommande
     public final String URL = "jdbc:mysql://localhost:3306/noujoum";
     public final String USER = "root";
     public final String PWD = "";
@@ -54,15 +63,22 @@ public class MyDataBase {
             instance = new MyDataBase();
         }
 
+<<<<<<< HEAD
 >>>>>>> GestionEvenements
+=======
+>>>>>>> GestionCommande
         return instance;
     }
 
     public Connection getCnx() {
 <<<<<<< HEAD
+<<<<<<< HEAD
         return cnx;
 =======
         return this.cnx;
 >>>>>>> GestionEvenements
+=======
+        return this.cnx;
+>>>>>>> GestionCommande
     }
 }
