@@ -29,14 +29,14 @@ public class AfficherCommande {
     }
 
     public void refreshGrid() {
-        gridCommandes.getChildren().clear(); // Supprime les anciennes données
+        gridCommandes.getChildren().clear(); // Supprimer les anciennes données
 
         try {
-            // Ajouter les en-têtes de colonne
+            // Ajouter les en-têtes de colonne avec texte blanc
             String[] headers = {"ID", "ID User", "ID Panier", "Rue", "Ville", "Code Postal", "État", "Montant", "Paiement", "Actions"};
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
-                headerLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5px;");
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
                 gridCommandes.add(headerLabel, i, 0);
             }
 
@@ -45,34 +45,41 @@ public class AfficherCommande {
 
             int row = 1;
             for (Commande cmd : commandes) {
-                gridCommandes.add(new Label(String.valueOf(cmd.getCommande_id())), 0, row);
-                gridCommandes.add(new Label(String.valueOf(cmd.getId_user())), 1, row);
-                gridCommandes.add(new Label(String.valueOf(cmd.getId_panier())), 2, row);
-                gridCommandes.add(new Label(cmd.getRue()), 3, row);
-                gridCommandes.add(new Label(cmd.getVille()), 4, row);
-                gridCommandes.add(new Label(cmd.getCode_postal()), 5, row);
-                gridCommandes.add(new Label(cmd.getEtat()), 6, row);
-                gridCommandes.add(new Label(String.valueOf(cmd.getMontant_total())), 7, row);
-                gridCommandes.add(new Label(cmd.getMethodePaiment()), 8, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getCommande_id())), 0, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_user())), 1, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_panier())), 2, row);
+                gridCommandes.add(createStyledLabel(cmd.getRue()), 3, row);
+                gridCommandes.add(createStyledLabel(cmd.getVille()), 4, row);
+                gridCommandes.add(createStyledLabel(cmd.getCode_postal()), 5, row);
+                gridCommandes.add(createStyledLabel(cmd.getEtat()), 6, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getMontant_total())), 7, row);
+                gridCommandes.add(createStyledLabel(cmd.getMethodePaiment()), 8, row);
 
                 // Bouton Modifier
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(cmd));
+                btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
                 gridCommandes.add(btnModifier, 9, row);
 
                 // Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
                 btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                btnSupprimer.setOnAction(event -> supprimerCommande(cmd.getCommande_id()));
+                btnSupprimer.setOnAction(event -> supprimerCommande(cmd.getCommande_id())); // Correction ici
                 gridCommandes.add(btnSupprimer, 10, row);
 
                 row++;
             }
 
-        } catch (Exception e) {  // Gestion d'erreur plus large
-            System.err.println("❌ Erreur lors du chargement des commandes : " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement des commandes : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: white;"); // Applique la couleur blanche à chaque label
+        return label;
     }
 
     private void ouvrirFenetreModification(Commande commande) {
@@ -89,18 +96,16 @@ public class AfficherCommande {
             stage.setTitle("Modifier Commande");
             stage.show();
         } catch (IOException e) {
-            System.err.println("❌ Erreur lors de l'ouverture de la fenêtre de modification : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void supprimerCommande(int commandeId) {
+    private void supprimerCommande(int commandeId) { // Correction ici
         try {
             commandeService.supprimer(commandeId);
             refreshGrid(); // Rafraîchir après suppression
         } catch (Exception e) {
-            System.err.println("❌ Erreur lors de la suppression : " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Erreur lors de la suppression : " + e.getMessage());
         }
     }
 

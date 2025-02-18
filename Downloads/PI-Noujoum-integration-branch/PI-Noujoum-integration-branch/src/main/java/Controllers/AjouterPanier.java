@@ -18,52 +18,54 @@ public class AjouterPanier {
     @FXML
     private TextField idProduit, nbrProduit, idUser;
 
-    private int idProduitInt, nbrProduitInt, idUserInt;
-
     @FXML
     private void ajout(ActionEvent event) {
-        if (idProduit == null || nbrProduit == null || idUser == null) {
-            System.err.println("Un ou plusieurs champs ne sont pas initialisés !");
-            return;
-        }
-
         if (!validateAndConvertFields()) {
-            return; // Arrêter si la validation échoue
+            return; // Stopper si la validation échoue
         }
 
+        try {
+            int idProduitInt = Integer.parseInt(idProduit.getText());
+            int nbrProduitInt = Integer.parseInt(nbrProduit.getText());
+            int idUserInt = Integer.parseInt(idUser.getText());
 
             PanierService panierService = new PanierService();
-            Panier panier = new Panier(idProduitInt, idUserInt, nbrProduitInt);
-
-            panier.setId_user(idUserInt);
+            Panier panier = new Panier(idProduitInt, idUserInt, nbrProduitInt); // Correction ici
 
             panierService.ajouter(panier);
             showAlert("Succès", "Panier ajouté avec succès !", Alert.AlertType.INFORMATION);
 
+            // Effacer les champs après ajout
+            idProduit.clear();
+            nbrProduit.clear();
+            idUser.clear();
+
+        } catch (Exception e) {  // Bloc catch pour toutes autres erreurs
+            showAlert("Erreur", "Une erreur inattendue est survenue : " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     private boolean validateAndConvertFields() {
+        // Vérifier que les champs ne sont pas vides
+        if (idProduit.getText().isEmpty() || nbrProduit.getText().isEmpty() || idUser.getText().isEmpty()) {
+            showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
+            return false;
+        }
+
         try {
-            // Vérification des champs
-            if (idProduit.getText().isEmpty() || nbrProduit.getText().isEmpty() || idUser.getText().isEmpty()) {
-                showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
-                return false;
-            }
+            int idProduitInt = Integer.parseInt(idProduit.getText());
+            int nbrProduitInt = Integer.parseInt(nbrProduit.getText());
+            int idUserInt = Integer.parseInt(idUser.getText());
 
-            // Conversion des champs en entiers
-            idProduitInt = Integer.parseInt(idProduit.getText());
-            nbrProduitInt = Integer.parseInt(nbrProduit.getText());
-            idUserInt = Integer.parseInt(idUser.getText());
-
-            // Validation des valeurs numériques
+            // Vérifier que les nombres sont positifs
             if (idProduitInt <= 0 || nbrProduitInt <= 0 || idUserInt <= 0) {
-                showAlert("Erreur", "Les valeurs numériques doivent être positives.", Alert.AlertType.ERROR);
+                showAlert("Erreur", "Les valeurs numériques doivent être strictement positives.", Alert.AlertType.ERROR);
                 return false;
             }
 
             return true;
         } catch (NumberFormatException e) {
-            showAlert("Erreur", "Format invalide pour les champs numériques : " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Erreur", "Tous les champs doivent contenir uniquement des nombres entiers valides.", Alert.AlertType.ERROR);
             return false;
         }
     }
@@ -77,11 +79,9 @@ public class AjouterPanier {
             stage.setTitle("Liste des Paniers");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AfficherPanier.", Alert.AlertType.ERROR);
         }
     }
-
 
     @FXML
     void revenirAjouterCommande(ActionEvent event) {
@@ -92,10 +92,10 @@ public class AjouterPanier {
             stage.setTitle("Ajouter Commande");
             stage.show();
 
+            // Fermer la fenêtre actuelle
             Stage currentStage = (Stage) idProduit.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
-            e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AjouterCommande.", Alert.AlertType.ERROR);
         }
     }
