@@ -1,8 +1,8 @@
-package controllers;
+package Controllers;
 
-import entity.Produit;
-import entity.Produit.Categorie;
-import controller.ServicesCrud;
+import models.Produit;
+import models.Produit.Categorie;
+import services.ServicesCrud;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.Arrays;
 import javax.sql.rowset.serial.SerialBlob;
 
 public class addproduitcontroller {

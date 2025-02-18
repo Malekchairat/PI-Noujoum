@@ -1,4 +1,4 @@
-package controllers;
+package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 
-import entity.Promotion;
-import controller.PromotionCrud;
+import models.Promotion;
+import services.PromotionCrud;
 
 public class addpromotioncontroller {
 

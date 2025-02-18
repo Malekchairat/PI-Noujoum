@@ -1,6 +1,6 @@
-package controller;
+package services;
 
-import entity.Promotion;
+import models.Promotion;
 import tools.DataSource;
 
 import java.sql.*;

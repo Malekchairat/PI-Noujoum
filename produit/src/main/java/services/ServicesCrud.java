@@ -1,6 +1,6 @@
-package controller;
+package services;
 
-import entity.Produit;
+import models.Produit;
 import tools.DataSource;
 
 import java.sql.*;

@@ -1,4 +1,4 @@
-package controllers;
+package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,9 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
-import entity.Produit;
-import entity.Produit.Categorie;
-import controller.ServicesCrud;
+import models.Produit;
+import models.Produit.Categorie;
+import services.ServicesCrud;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
@@ -19,8 +19,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.time.LocalDate;
-import java.util.Objects;
 
 public class updateproduitcontroller {
 

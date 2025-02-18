@@ -1,7 +1,7 @@
-package controllers;
+package Controllers;
 
-import controller.ServicesCrud;
-import entity.Produit;
+import services.ServicesCrud;
+import models.Produit;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.TilePane;

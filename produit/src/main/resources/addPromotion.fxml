@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addpromotioncontroller">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addpromotioncontroller">
    <children>
       <Button fx:id="ajout" layoutX="430.0" layoutY="287.0" mnemonicParsing="false" onAction="#ajout" text="ajouter" />
       <TextField fx:id="code" layoutX="89.0" layoutY="80.0" />

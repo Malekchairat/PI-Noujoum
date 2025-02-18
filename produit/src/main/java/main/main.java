@@ -1,9 +1,9 @@
 package main;
 
-import controller.ServicesCrud;
-import controller.PromotionCrud;
-import entity.Promotion;
-import entity.Produit;
+import services.ServicesCrud;
+import services.PromotionCrud;
+import models.Promotion;
+import models.Produit;
 import tools.DataSource;
 
 import java.sql.SQLException;
