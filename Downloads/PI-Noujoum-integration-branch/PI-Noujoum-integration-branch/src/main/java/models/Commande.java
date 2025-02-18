@@ -9,7 +9,7 @@ public class Commande {
     private String code_postal;
     private String etat;
     private float montant_total;
-    private String methodePaiment; // Correction du nom de l'attribut
+    private String methodePaiment; // Corrected the attribute name
 
     public Commande() {}
 
@@ -24,6 +24,7 @@ public class Commande {
         this.methodePaiment = methodePaiement;
         this.id_user = id_user;
     }
+
     public Commande(int commande_id, int id_user, int id_panier, String rue, String ville, String code_postal, String etat, float montant_total, String methodePaiment) {
         this.commande_id = commande_id;
         this.id_user = id_user;
@@ -36,7 +37,7 @@ public class Commande {
         this.methodePaiment = methodePaiment;
     }
 
-    // Getters et Setters corrigés
+    // Getters and Setters
     public int getCommande_id() { return commande_id; }
     public void setCommande_id(int commande_id) { this.commande_id = commande_id; }
 
@@ -59,7 +60,7 @@ public class Commande {
     public void setEtat(String etat) { this.etat = etat; }
 
     public float getMontant_total() { return montant_total; }
-    public void setMontant_total(float montant_total) { this.montant_total = montant_total; } // Correction ici
+    public void setMontant_total(float montant_total) { this.montant_total = montant_total; }
 
     public String getMethodePaiment() { return methodePaiment; }
     public void setMethodePaiment(String methodePaiement) { this.methodePaiment = methodePaiement; }

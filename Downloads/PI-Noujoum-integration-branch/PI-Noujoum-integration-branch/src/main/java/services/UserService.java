@@ -90,4 +90,20 @@ public class UserService {
 
         return users;
     }
+
+    // Méthode pour vérifier si un utilisateur existe par son ID
+    public boolean exists(int idUser) {
+        String sql = "SELECT COUNT(*) FROM users WHERE id_user = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, idUser);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0; // Retourne true si l'utilisateur existe
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Erreur lors de la vérification de l'utilisateur : " + e.getMessage());
+        }
+        return false; // Retourne false si l'utilisateur n'existe pas
+    }
 }

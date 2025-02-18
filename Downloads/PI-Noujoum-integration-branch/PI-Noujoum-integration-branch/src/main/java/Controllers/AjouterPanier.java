@@ -11,7 +11,6 @@ import models.Panier;
 import services.PanierService;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class AjouterPanier {
 
@@ -30,7 +29,19 @@ public class AjouterPanier {
             int idUserInt = Integer.parseInt(idUser.getText());
 
             PanierService panierService = new PanierService();
-            Panier panier = new Panier(idProduitInt, idUserInt, nbrProduitInt); // Correction ici
+            Panier panier = new Panier(idProduitInt, idUserInt, nbrProduitInt);
+
+            // Vérifier si le produit existe avant d'ajouter le panier
+            if (!panierService.produitExiste(idProduitInt)) {
+                showAlert("Erreur", "Le produit avec l'ID " + idProduitInt + " n'existe pas.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Vérifier si l'utilisateur existe avant d'ajouter le panier
+            if (!panierService.userExiste(idUserInt)) {
+                showAlert("Erreur", "L'utilisateur avec l'ID " + idUserInt + " n'existe pas.", Alert.AlertType.ERROR);
+                return;
+            }
 
             panierService.ajouter(panier);
             showAlert("Succès", "Panier ajouté avec succès !", Alert.AlertType.INFORMATION);

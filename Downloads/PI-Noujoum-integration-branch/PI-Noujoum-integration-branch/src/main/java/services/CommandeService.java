@@ -7,9 +7,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 
 public class CommandeService implements IService<Commande> {
     Connection cnx = MyDataBase.getInstance().getCnx();
@@ -20,8 +20,19 @@ public class CommandeService implements IService<Commande> {
     // ✅ Correction : Suppression de "throws SQLException" pour respecter IService<T>
     @Override
     public void ajouter(Commande t) {
-        String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, methodePaiment, id_user) " +
+        String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, paiment, id_user) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Debugging: Log the values being inserted
+        System.out.println("Inserting Commande with values:");
+        System.out.println("id_panier: " + t.getId_panier());
+        System.out.println("rue: " + t.getRue());
+        System.out.println("ville: " + t.getVille());
+        System.out.println("code_postal: " + t.getCode_postal());
+        System.out.println("etat: " + t.getEtat());
+        System.out.println("montant_total: " + t.getMontant_total());
+        System.out.println("methodePaiment: " + t.getMethodePaiment());
+        System.out.println("id_user: " + t.getId_user());
 
         try (PreparedStatement stm = cnx.prepareStatement(sql)) {
             stm.setInt(1, t.getId_panier());
@@ -33,10 +44,20 @@ public class CommandeService implements IService<Commande> {
             stm.setString(7, t.getMethodePaiment());
             stm.setInt(8, t.getId_user());
 
-            stm.executeUpdate();
-            System.out.println("✅ Commande ajoutée avec succès !");
+            // Ensure commit if auto-commit is off
+            if (!cnx.getAutoCommit()) {
+                cnx.commit(); // Commit manually if necessary
+            }
+
+            int rowsAffected = stm.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Commande ajoutée avec succès !");
+            } else {
+                System.out.println("❌ Aucun enregistrement ajouté.");
+            }
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'ajout : " + ex.getMessage());
+            ex.printStackTrace();  // Print the stack trace to get more detailed error information
         }
     }
 
@@ -99,7 +120,7 @@ public class CommandeService implements IService<Commande> {
                 c.setCode_postal(rs.getString("code_postal"));
                 c.setEtat(rs.getString("etat"));
                 c.setMontant_total(rs.getFloat("montant_total"));
-                c.setMethodePaiment(rs.getString("methodePaiment"));
+                c.setMethodePaiment(rs.getString("paiment"));
                 c.setId_user(rs.getInt("id_user"));
                 commandes.add(c);
             }

@@ -23,10 +23,16 @@ public class Acceuil {
     }
 
     // Method to load an FXML file in a new window
-    private void loadPage(String fxmlPath) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void loadPage(String fxmlPath) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace(); // Log the exception for better debugging
+            // Optionally, display an alert to the user if loading fails
+        }
     }
+
 }
