@@ -3,6 +3,7 @@ package Controllers;
 import models.Panier;
 import services.PanierService;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -13,70 +14,84 @@ public class ModifierPanier {
     @FXML
     private TextField idpanier, idproduit, iduser, nbrproduit;
 
-    private Panier panier; // Le panier à modifier
-    private final PanierService panierService = new PanierService(); // Service pour interagir avec la base de données
-    private AfficherPanier afficherPanierController; // Référence au contrôleur principal
+    private Panier panier;
+    private final PanierService panierService = new PanierService();
+    private AfficherPanier afficherPanierController;
 
-    /**
-     * Initialise les champs avec les données du panier.
-     *
-     * @param panier Le panier à modifier.
-     */
     public void setPanier(Panier panier) {
         this.panier = panier;
 
-        // Remplir les champs avec les données du panier
         idpanier.setText(String.valueOf(panier.getId_panier()));
         idproduit.setText(String.valueOf(panier.getId_produit()));
         iduser.setText(String.valueOf(panier.getId_user()));
         nbrproduit.setText(String.valueOf(panier.getNbr_produit()));
     }
 
-    /**
-     * Définit le contrôleur AfficherPanier pour rafraîchir la liste après modification.
-     *
-     * @param afficherPanierController Le contrôleur AfficherPanier.
-     */
     public void setAfficherPanierController(AfficherPanier afficherPanierController) {
         this.afficherPanierController = afficherPanierController;
     }
 
-    /**
-     * Enregistre les modifications du panier dans la base de données.
-     */
     @FXML
     private void enregistrerModification() {
+        if (!validateAndConvertFields()) {
+            return; // Arrêter si la validation échoue
+        }
+
         try {
-            // Mettre à jour les attributs du panier
             panier.setId_produit(Integer.parseInt(idproduit.getText()));
             panier.setId_user(Integer.parseInt(iduser.getText()));
             panier.setNbr_produit(Integer.parseInt(nbrproduit.getText()));
 
-            // Mettre à jour le panier dans la base de données
-            panierService.modifier(panier, "ignored_param"); // Utilisation du deuxième paramètre
+            panierService.modifier(panier, "ignored_param");
 
-            // Rafraîchir la liste des paniers dans AfficherPanier
             if (afficherPanierController != null) {
                 afficherPanierController.refreshGrid();
             }
 
-            // Fermer la fenêtre de modification
+            showAlert("Succès", "Modification réussie !", Alert.AlertType.INFORMATION);
+
             Stage stage = (Stage) idpanier.getScene().getWindow();
             stage.close();
 
-        } catch (NumberFormatException e) {
-            System.err.println("Erreur de format : les champs doivent être des nombres valides.");
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour : " + e.getMessage());
+            showAlert("Erreur SQL", "Erreur lors de la mise à jour : " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-    /**
-     * Ferme la fenêtre de modification.
-     */
+    private boolean validateAndConvertFields() {
+        if (idproduit.getText().isEmpty() || iduser.getText().isEmpty() || nbrproduit.getText().isEmpty()) {
+            showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
+            return false;
+        }
+
+        try {
+            int idProduitInt = Integer.parseInt(idproduit.getText());
+            int idUserInt = Integer.parseInt(iduser.getText());
+            int nbrProduitInt = Integer.parseInt(nbrproduit.getText());
+
+            if (idProduitInt <= 0 || idUserInt <= 0 || nbrProduitInt <= 0) {
+                showAlert("Erreur", "Les valeurs numériques doivent être strictement positives.", Alert.AlertType.ERROR);
+                return false;
+            }
+
+            return true;
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Les champs doivent contenir uniquement des nombres valides.", Alert.AlertType.ERROR);
+            return false;
+        }
+    }
+
     @FXML
     private void fermer() {
         Stage stage = (Stage) idpanier.getScene().getWindow();
         stage.close();
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

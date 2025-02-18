@@ -30,14 +30,14 @@ public class AfficherCommande {
     }
 
     public void refreshGrid() {
-        gridCommandes.getChildren().clear(); // Supprime les anciennes données
+        gridCommandes.getChildren().clear(); // Supprimer les anciennes données
 
         try {
-            // Ajouter les en-têtes de colonne
+            // Ajouter les en-têtes de colonne avec texte blanc
             String[] headers = {"ID", "ID User", "ID Panier", "Rue", "Ville", "Code Postal", "État", "Montant", "Paiement", "Actions"};
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
-                headerLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5px;");
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
                 gridCommandes.add(headerLabel, i, 0);
             }
 
@@ -46,19 +46,20 @@ public class AfficherCommande {
 
             int row = 1;
             for (Commande cmd : commandes) {
-                gridCommandes.add(new Label(String.valueOf(cmd.getCommande_id())), 0, row);
-                gridCommandes.add(new Label(String.valueOf(cmd.getId_user())), 1, row);
-                gridCommandes.add(new Label(String.valueOf(cmd.getId_panier())), 2, row);
-                gridCommandes.add(new Label(cmd.getRue()), 3, row);
-                gridCommandes.add(new Label(cmd.getVille()), 4, row);
-                gridCommandes.add(new Label(cmd.getCode_postal()), 5, row);
-                gridCommandes.add(new Label(cmd.getEtat()), 6, row);
-                gridCommandes.add(new Label(String.valueOf(cmd.getMontant_total())), 7, row);
-                gridCommandes.add(new Label(cmd.getMethodePaiment()), 8, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getCommande_id())), 0, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_user())), 1, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_panier())), 2, row);
+                gridCommandes.add(createStyledLabel(cmd.getRue()), 3, row);
+                gridCommandes.add(createStyledLabel(cmd.getVille()), 4, row);
+                gridCommandes.add(createStyledLabel(cmd.getCode_postal()), 5, row);
+                gridCommandes.add(createStyledLabel(cmd.getEtat()), 6, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getMontant_total())), 7, row);
+                gridCommandes.add(createStyledLabel(cmd.getMethodePaiment()), 8, row);
 
                 // Bouton Modifier
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(cmd));
+                btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
                 gridCommandes.add(btnModifier, 9, row);
 
                 // Bouton Supprimer
@@ -74,6 +75,12 @@ public class AfficherCommande {
             System.err.println("Erreur lors du chargement des commandes : " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: white;"); // Applique la couleur blanche à chaque label
+        return label;
     }
 
     private void ouvrirFenetreModification(Commande commande) {
@@ -108,4 +115,3 @@ public class AfficherCommande {
         btnFermer.getScene().getWindow().hide();
     }
 }
-

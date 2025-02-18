@@ -34,11 +34,11 @@ public class AfficherPanier {
         gridPaniers.getChildren().clear(); // Supprime les anciennes données
 
         try {
-            // Ajouter les en-têtes de colonne
+            // Ajouter les en-têtes de colonne avec texte blanc
             String[] headers = {"ID Panier", "ID Produit", "ID User", "Nombre de Produits", "Actions"};
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
-                headerLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5px;");
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
                 gridPaniers.add(headerLabel, i, 0);
             }
 
@@ -47,20 +47,22 @@ public class AfficherPanier {
 
             int row = 1;
             for (Panier panier : paniers) {
-                gridPaniers.add(new Label(String.valueOf(panier.getId_panier())), 0, row);
-                gridPaniers.add(new Label(String.valueOf(panier.getId_produit())), 1, row);
-                gridPaniers.add(new Label(String.valueOf(panier.getId_user())), 2, row);
-                gridPaniers.add(new Label(String.valueOf(panier.getNbr_produit())), 3, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getId_panier())), 0, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getId_produit())), 1, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getId_user())), 2, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getNbr_produit())), 3, row);
 
                 // Bouton Modifier
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(panier));
+                btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
                 gridPaniers.add(btnModifier, 4, row);
 
+                // Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
+                btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 btnSupprimer.setOnAction(event -> supprimerPanier(panier));
                 gridPaniers.add(btnSupprimer, 5, row);
-
 
                 row++;
             }
@@ -70,6 +72,13 @@ public class AfficherPanier {
             e.printStackTrace();
         }
     }
+
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: white;"); // Applique la couleur blanche à chaque label
+        return label;
+    }
+
     private void supprimerPanier(Panier panier) {
         try {
             panierService.supprimer(panier);
@@ -79,8 +88,6 @@ public class AfficherPanier {
             System.err.println("Erreur lors de la suppression du panier : " + e.getMessage());
         }
     }
-
-
 
     private void ouvrirFenetreModification(Panier panier) {
         try {
@@ -97,6 +104,5 @@ public class AfficherPanier {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-}
+        } } }
+

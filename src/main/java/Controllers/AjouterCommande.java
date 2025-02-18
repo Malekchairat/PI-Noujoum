@@ -24,11 +24,7 @@ public class AjouterCommande {
         try {
             CommandeService commandeCrud = new CommandeService();
 
-            if (idPanier.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() ||
-                    codePostal.getText().isEmpty() || etat.getText().isEmpty() || montantTotal.getText().isEmpty() ||
-                    methodePaiment.getText().isEmpty() || idUser.getText().isEmpty()) {
-
-                showAlert("Erreur", "Tous les champs doivent être remplis.", AlertType.ERROR);
+            if (!isValidInput()) {
                 return;
             }
 
@@ -37,26 +33,70 @@ public class AjouterCommande {
             int idUserInt = Integer.parseInt(idUser.getText());
 
             Commande commande = new Commande(
-                    0, // ID auto-généré (car souvent géré par la BD)
-                    Integer.parseInt(idPanier.getText()), // id_panier
-                    rue.getText(),                         // rue
-                    ville.getText(),                       // ville
-                    codePostal.getText(),                   // code_postal
-                    etat.getText(),                         // etat
-                    Float.parseFloat(montantTotal.getText()), // montant_total
-                    methodePaiment.getText(),               // methodePaiement
-                    Integer.parseInt(idUser.getText())       // id_user
+                    0, // ID auto-généré
+                    idPanierInt,
+                    rue.getText(),
+                    ville.getText(),
+                    codePostal.getText(),
+                    etat.getText(),
+                    montantTotalFloat,
+                    methodePaiment.getText(),
+                    idUserInt
             );
 
-
             commandeCrud.ajouter(commande);
-
             showAlert("Succès", "Commande ajoutée avec succès !", AlertType.INFORMATION);
+            clearFields();
         } catch (NumberFormatException e) {
-            showAlert("Erreur", "Format invalide pour les champs numériques : " + e.getMessage(), AlertType.ERROR);
+            showAlert("Erreur", "Format invalide pour les champs numériques.", AlertType.ERROR);
         } catch (SQLException e) {
             showAlert("Erreur SQL", "Une erreur s'est produite : " + e.getMessage(), AlertType.ERROR);
         }
+    }
+
+    private boolean isValidInput() {
+        if (idPanier.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() ||
+                codePostal.getText().isEmpty() || etat.getText().isEmpty() || montantTotal.getText().isEmpty() ||
+                methodePaiment.getText().isEmpty() || idUser.getText().isEmpty()) {
+            showAlert("Erreur", "Tous les champs doivent être remplis.", AlertType.ERROR);
+            return false;
+        }
+
+        if (!codePostal.getText().matches("\\d{4,5}")) {
+            showAlert("Erreur", "Le code postal doit être composé de 4 ou 5 chiffres.", AlertType.ERROR);
+            return false;
+        }
+
+        if (!isAlphabetic(rue.getText()) || !isAlphabetic(ville.getText()) || !isAlphabetic(etat.getText()) || !isAlphabetic(methodePaiment.getText())) {
+            showAlert("Erreur", "Les champs rue, ville, état et méthode de paiement ne doivent contenir que des lettres.", AlertType.ERROR);
+            return false;
+        }
+
+        try {
+            Integer.parseInt(idPanier.getText());
+            Float.parseFloat(montantTotal.getText());
+            Integer.parseInt(idUser.getText());
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Les champs ID Panier, Montant Total et ID User doivent être numériques.", AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isAlphabetic(String text) {
+        return text.matches("[a-zA-Z\u00C0-\u017F ]+"); // Accepte les lettres + accents + espaces
+    }
+
+    private void clearFields() {
+        idPanier.clear();
+        rue.clear();
+        ville.clear();
+        codePostal.clear();
+        etat.clear();
+        montantTotal.clear();
+        methodePaiment.clear();
+        idUser.clear();
     }
 
     @FXML
@@ -65,10 +105,9 @@ public class AjouterCommande {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherCommande.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Liste   des Commandes");
+            stage.setTitle("Liste des Commandes");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AfficherCommande.", AlertType.ERROR);
         }
     }
@@ -80,22 +119,16 @@ public class AjouterCommande {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     private void ajouterPanier(ActionEvent event) {
         try {
-            // Charger la fenêtre AjouterPanier
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterPanier.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Ajouter un Panier");
-
-            // Afficher la fenêtre
             stage.show();
         } catch (IOException e) {
-            // Afficher une alerte si l'ouverture de la fenêtre échoue
-            e.printStackTrace();
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AjouterPanier.", Alert.AlertType.ERROR);
-        }
-    }
+        } } }
 
-}
