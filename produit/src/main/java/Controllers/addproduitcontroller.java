@@ -44,7 +44,8 @@ public class addproduitcontroller {
     private Button ajout;
     @FXML
     private Button affich;
-
+    @FXML
+    private Button ajoutPromotion;
     @FXML
     private Button browseImage;
 
@@ -123,7 +124,7 @@ public class addproduitcontroller {
             );
 
             ServicesCrud service = new ServicesCrud();
-            service.add(produit);
+            service.ajouter(produit);
             showAlert("Succès", "Produit ajouté avec succès!", Alert.AlertType.INFORMATION);
 
             // Réinitialiser les champs
@@ -169,4 +170,17 @@ public class addproduitcontroller {
             System.out.println("Erreur chargement afficherpromotion.fxml : " + e.getMessage());
         }
     }
+    @FXML
+    void ajoutPromotion(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPromotion.fxml"));
+            Parent root = loader.load();
+            ajoutPromotion.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur chargement addPromotion.fxml : " + e.getMessage());
+        }
+    }
+
+
 }

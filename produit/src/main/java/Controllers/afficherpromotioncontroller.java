@@ -1,4 +1,5 @@
 package Controllers;
+
 import services.PromotionCrud;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -9,6 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import models.Promotion;
 
 import java.io.IOException;
@@ -31,15 +35,15 @@ public class afficherpromotioncontroller {
     private PromotionCrud cc = new PromotionCrud();
 
     @FXML
-    public void loadUsers() {
+    public void loadPromotions() {
         promoTilePane.getChildren().clear();
         promoTilePane.setHgap(50);
         promoTilePane.setVgap(120);
 
         try {
-            List<Promotion> promotions = cc.findAll();
+            List<Promotion> promotions = cc.recupererTous();
             if (promotions.isEmpty()) {
-                System.out.println("Aucune promotion trouvée.");
+                showAlert("Information", "Aucune promotion trouvée.", AlertType.INFORMATION);
                 return;
             }
 
@@ -48,19 +52,21 @@ public class afficherpromotioncontroller {
                 couponCard.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-background-color: #f4f4f4; -fx-border-radius: 10px;");
                 couponCard.setPrefSize(200, 250);
 
+                // Ajouter les informations de la promotion et le produit associé
                 couponCard.getChildren().addAll(
                         new Label("ID: " + promo.getIdpromotion()),
                         new Label("Code: " + promo.getCode()),
                         new Label("Réduction: " + promo.getPourcentage() + "%"),
-                        new Label("Expiration: " + promo.getExpiration())
+                        new Label("Expiration: " + promo.getExpiration()),
+                        new Label("Produit: " + promo.getProduit())  // Nouvelle ligne pour afficher le produit
                 );
 
-                // Bouton de suppression
+                // Bouton de suppression avec confirmation
                 Button deleteButton = new Button("Supprimer");
                 deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 deleteButton.setOnAction(event -> {
-                    cc.delete(promo.getIdpromotion());
-                    loadUsers();
+                    // Demander une confirmation avant de supprimer
+                    showConfirmationAlert(promo);
                 });
 
                 couponCard.getChildren().add(deleteButton);
@@ -71,15 +77,41 @@ public class afficherpromotioncontroller {
 
         } catch (Exception e) {
             System.out.println("Erreur lors du chargement des promotions : " + e.getMessage());
+            showAlert("Erreur", "Une erreur est survenue lors du chargement des promotions.", AlertType.ERROR);
         }
     }
 
+    // Méthode pour afficher une alerte
+    private void showAlert(String title, String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
+    // Méthode pour afficher une alerte de confirmation
+    private void showConfirmationAlert(Promotion promo) {
+        Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation de suppression");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Êtes-vous sûr de vouloir supprimer cette promotion ?");
+        confirmationAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                deleteCoupon(promo);
+            }
+        });
+    }
 
-    private void deleteCoupon(Promotion prom) {
-        PromotionCrud cc = new PromotionCrud(); // Create an instance of CouponCrud
-        cc.delete(prom.getIdpromotion()); // Call the delete method on the instance
-        loadUsers(); // Refresh the data after deletion
+    // Méthode pour supprimer la promotion après confirmation
+    private void deleteCoupon(Promotion promo) {
+        try {
+            cc.supprimer(promo.getIdpromotion());  // Suppression de la promotion
+            loadPromotions(); // Recharge les promotions après suppression
+            showAlert("Succès", "Promotion supprimée avec succès.", AlertType.INFORMATION);
+        } catch (Exception e) {
+            showAlert("Erreur", "Une erreur est survenue lors de la suppression de la promotion.", AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -89,7 +121,7 @@ public class afficherpromotioncontroller {
             Parent root = loader.load();
             ajout.getScene().setRoot(root);
         } catch (IOException e) {
-            System.out.println("Error loading the FXML: " + e.getMessage());
+            showAlert("Erreur", "Erreur lors du chargement de l'interface d'ajout.", AlertType.ERROR);
         }
     }
 
@@ -100,7 +132,7 @@ public class afficherpromotioncontroller {
             Parent root = loader.load();
             update.getScene().setRoot(root);
         } catch (IOException e) {
-            System.out.println("Error loading the FXML: " + e.getMessage());
+            showAlert("Erreur", "Erreur lors du chargement de l'interface de mise à jour.", AlertType.ERROR);
         }
-
-}}
+    }
+}

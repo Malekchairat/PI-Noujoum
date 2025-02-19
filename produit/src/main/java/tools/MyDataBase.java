@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DataSource {
+public class MyDataBase {
     String url ="jdbc:mysql://localhost:3306/gestionproduits";
     String user = "root";
     String pwd = "";
     Connection con ;
     Statement stmt ;
-    private static DataSource instance;
-    public DataSource() {
+    private static MyDataBase instance;
+    public MyDataBase() {
         try {
             // Load MySQL JDBC Driver explicitly
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -29,9 +29,9 @@ public class DataSource {
     }
 
 
-    public static DataSource getInstance() {
+    public static MyDataBase getInstance() {
         if(instance == null){
-            instance = new DataSource();
+            instance = new MyDataBase();
         }
         return instance;
     }

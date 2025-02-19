@@ -1,5 +1,5 @@
 package models;
-import tools.DataSource;
+import tools.MyDataBase;
 
 import java.sql.Blob;
 import java.sql.Connection;
@@ -29,7 +29,7 @@ public class Produit {
         this.disponibilite = disponibilite;
         this.image = image;
 
-        this.cnx = DataSource.getInstance().getConnection();
+        this.cnx = MyDataBase.getInstance().getConnection();
     }
 
     // Constructeur avec connexion

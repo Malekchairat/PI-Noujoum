@@ -42,7 +42,7 @@ public class afficheproduitcontroller {
         promoTilePane.setVgap(120);
 
         try {
-            List<Produit> produits = service.findAll();
+            List<Produit> produits = service.recupererTous();
             if (produits.isEmpty()) {
                 System.out.println("Aucun produit trouvé.");
                 return;
@@ -81,7 +81,7 @@ public class afficheproduitcontroller {
                 Button deleteButton = new Button("Supprimer");
                 deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 deleteButton.setOnAction(event -> {
-                    service.delete(produit);
+                    service.supprimer(produit.getIdproduit());
                     loadProduits();
                 });
 

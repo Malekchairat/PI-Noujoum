@@ -100,7 +100,7 @@ public class updateproduitcontroller {
             Produit produit = new Produit(id, nomProduit, desc, selectedCategorie, productPrix, disponibiliteInt, imageBlob);
 
             ServicesCrud service = new ServicesCrud();
-            service.update(produit);
+            service.modifier(produit);
             showAlert("Succès", "Produit mis à jour avec succès!", Alert.AlertType.INFORMATION);
 
         } catch (Exception e) {
