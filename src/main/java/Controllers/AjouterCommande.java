@@ -1,11 +1,13 @@
 package Controllers;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.Commande;
@@ -17,7 +19,10 @@ import java.sql.SQLException;
 public class AjouterCommande {
 
     @FXML
-    private TextField idPanier, rue, ville, codePostal, etat, montantTotal, methodePaiment, idUser;
+    private TextField idPanier, rue, ville, codePostal, etat, montantTotal, idUser;
+
+    @FXML
+    private ComboBox<String> methodePaiment;
 
     @FXML
     void ajout(ActionEvent event) {
@@ -40,7 +45,7 @@ public class AjouterCommande {
                     codePostal.getText(),
                     etat.getText(),
                     montantTotalFloat,
-                    methodePaiment.getText(),
+                    methodePaiment.getValue(), // Récupère la valeur sélectionnée du ComboBox
                     idUserInt
             );
 
@@ -57,7 +62,7 @@ public class AjouterCommande {
     private boolean isValidInput() {
         if (idPanier.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() ||
                 codePostal.getText().isEmpty() || etat.getText().isEmpty() || montantTotal.getText().isEmpty() ||
-                methodePaiment.getText().isEmpty() || idUser.getText().isEmpty()) {
+                methodePaiment.getValue() == null || idUser.getText().isEmpty()) { // Vérifie si une méthode de paiement est sélectionnée
             showAlert("Erreur", "Tous les champs doivent être remplis.", AlertType.ERROR);
             return false;
         }
@@ -67,8 +72,8 @@ public class AjouterCommande {
             return false;
         }
 
-        if (!isAlphabetic(rue.getText()) || !isAlphabetic(ville.getText()) || !isAlphabetic(etat.getText()) || !isAlphabetic(methodePaiment.getText())) {
-            showAlert("Erreur", "Les champs rue, ville, état et méthode de paiement ne doivent contenir que des lettres.", AlertType.ERROR);
+        if (!isAlphabetic(rue.getText()) || !isAlphabetic(ville.getText()) || !isAlphabetic(etat.getText())) {
+            showAlert("Erreur", "Les champs rue, ville et état ne doivent contenir que des lettres.", AlertType.ERROR);
             return false;
         }
 
@@ -95,7 +100,7 @@ public class AjouterCommande {
         codePostal.clear();
         etat.clear();
         montantTotal.clear();
-        methodePaiment.clear();
+        methodePaiment.getSelectionModel().clearSelection(); // Efface la sélection du ComboBox
         idUser.clear();
     }
 
@@ -130,5 +135,6 @@ public class AjouterCommande {
             stage.show();
         } catch (IOException e) {
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AjouterPanier.", Alert.AlertType.ERROR);
-        } } }
-
+        }
+    }
+}

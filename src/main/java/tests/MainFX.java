@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainFX extends Application {
 
@@ -20,6 +21,8 @@ public class MainFX extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCommande.fxml"));
             Parent root = loader.load();
             Scene sc = new Scene(root);
+            sc.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
+
             stage.setTitle("Ajouter");
             stage.setScene(sc);
             stage.show();

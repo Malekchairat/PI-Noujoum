@@ -56,12 +56,17 @@ public class AfficherPanier {
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(panier));
                 btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
+                btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
+                btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
+
                 gridPaniers.add(btnModifier, 4, row);
 
                 // Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
                 btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 btnSupprimer.setOnAction(event -> supprimerPanier(panier));
+                btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
+                btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
                 gridPaniers.add(btnSupprimer, 5, row);
 
                 row++;

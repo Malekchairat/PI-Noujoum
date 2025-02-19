@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="351.0" prefWidth="597.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ModifierCommande">
+<AnchorPane prefHeight="406.0" prefWidth="597.0" style="-fx-background-color: #000000;" stylesheets="@styles/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ModifierCommande">
     <children>
         <GridPane hgap="10.0" layoutX="50.0" layoutY="20.0" style="-fx-text-fill: white;" vgap="10.0">
             <Label text="ID Commande:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -29,10 +32,34 @@
             <TextField fx:id="txtCodePostal" style="-fx-background-color: #333333; -fx-text-fill: white;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="txtEtat" style="-fx-background-color: #333333; -fx-text-fill: white;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <TextField fx:id="txtMontant" style="-fx-background-color: #333333; -fx-text-fill: white;" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField fx:id="txtMethodePaiement" style="-fx-background-color: #333333; -fx-text-fill: white;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+            <ComboBox fx:id="txtMethodePaiement" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Credit Card" />
+                        <String fx:value="PayPal" />
+                        <String fx:value="Cash" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
         </GridPane>
 
-        <Button layoutX="360.0" layoutY="306.0" onAction="#enregistrerModification" prefHeight="26.0" prefWidth="91.0" style="-fx-background-color: #FFEB3B; -fx-text-fill: black;" text="Modifier" />
-        <Button layoutX="473.0" layoutY="306.0" onAction="#fermer" prefHeight="26.0" prefWidth="91.0" style="-fx-background-color: #FFEB3B; -fx-text-fill: black;" text="Annuler" />
+        <Button layoutX="454.0" layoutY="278.0" onAction="#enregistrerModification" prefHeight="41.0" prefWidth="104.0" styleClass="custom-button" text="Modifier" />
+        <Button layoutX="454.0" layoutY="345.0" onAction="#fermer" prefHeight="41.0" prefWidth="104.0" styleClass="custom-button" text="Annuler" />
     </children>
 </AnchorPane>

@@ -60,13 +60,24 @@ public class AfficherCommande {
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(cmd));
                 btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
+
+// Effet hover pour Modifier
+                btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
+                btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
+
                 gridCommandes.add(btnModifier, 9, row);
 
-                // Bouton Supprimer
+// Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
                 btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 btnSupprimer.setOnAction(event -> supprimerCommande(cmd));
+
+// Effet hover pour Supprimer
+                btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
+                btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+
                 gridCommandes.add(btnSupprimer, 10, row);
+
 
                 row++;
             }
