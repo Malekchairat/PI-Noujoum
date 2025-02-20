@@ -12,6 +12,16 @@ public class PanierService implements IService<Panier> {
 
     @Override
     public void ajouter(Panier t) {
+        if (!userExists(t.getId_user())) {
+            System.err.println("Erreur : L'utilisateur avec l'ID " + t.getId_user() + " n'existe pas.");
+            return;
+        }
+
+        if (!produitExists(t.getId_produit())) {
+            System.err.println("Erreur : Le produit avec l'ID " + t.getId_produit() + " n'existe pas.");
+            return;
+        }
+
         String req = "INSERT INTO panier (id_produit, id_user, nbr_produit) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = cnx.prepareStatement(req)) {
             pstmt.setInt(1, t.getId_produit());
@@ -65,5 +75,35 @@ public class PanierService implements IService<Panier> {
             System.err.println("Erreur lors de la récupération : " + e.getMessage());
         }
         return paniers;
+    }
+
+    // Vérifie si l'utilisateur existe dans la base de données
+    public boolean userExists(int idUser) {
+        String query = "SELECT COUNT(*) FROM user WHERE id_user = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, idUser);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la vérification de l'utilisateur : " + e.getMessage());
+        }
+        return false;
+    }
+
+    // Vérifie si le produit existe dans la base de données
+    public boolean produitExists(int idProduit) {
+        String query = "SELECT COUNT(*) FROM produit WHERE id_produit = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, idProduit);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la vérification du produit : " + e.getMessage());
+        }
+        return false;
     }
 }

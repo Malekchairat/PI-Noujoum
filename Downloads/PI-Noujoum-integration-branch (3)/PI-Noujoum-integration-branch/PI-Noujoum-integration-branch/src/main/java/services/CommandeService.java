@@ -7,9 +7,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 
 public class CommandeService implements IService<Commande> {
     Connection cnx = MyDataBase.getInstance().getCnx();
@@ -17,12 +17,15 @@ public class CommandeService implements IService<Commande> {
     public CommandeService() {
     }
 
-    // ✅ Correction : Suppression de "throws SQLException" pour respecter IService<T>
     @Override
     public void ajouter(Commande t) {
+        if (!isUserExists(t.getId_user())) {  // Check if the user exists
+            System.out.println("❌ L'utilisateur avec l'ID " + t.getId_user() + " n'existe pas.");
+            return;  // Exit the method if user does not exist
+        }
+
         String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, methodePaiment, id_user) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
         try (PreparedStatement stm = cnx.prepareStatement(sql)) {
             stm.setInt(1, t.getId_panier());
             stm.setString(2, t.getRue());
@@ -40,7 +43,35 @@ public class CommandeService implements IService<Commande> {
         }
     }
 
-    // ✅ Correction : IService<T> attend "supprimer(int id)", pas un objet Commande
+    public boolean isPanierExists(int idPanier) {
+        String sql = "SELECT COUNT(*) FROM panier WHERE id_panier = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, idPanier);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Panier ID exists
+            }
+        } catch (SQLException ex) {
+            System.err.println("❌ Erreur lors de la vérification du panier ID : " + ex.getMessage());
+        }
+        return false; // Panier ID does not exist
+    }
+
+    public boolean isUserExists(int idUser) {
+        String sql = "SELECT COUNT(*) FROM user WHERE id_user = ?"; // Updated to use the correct table name
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, idUser);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // User ID exists
+            }
+        } catch (SQLException ex) {
+            System.err.println("❌ Erreur lors de la vérification du user ID : " + ex.getMessage());
+        }
+        return false; // User ID does not exist
+    }
+
+
     @Override
     public void supprimer(int id) {
         String sql = "DELETE FROM commande WHERE commande_id = ?";
@@ -57,7 +88,6 @@ public class CommandeService implements IService<Commande> {
         }
     }
 
-    // ✅ Correction : Enlever "throws SQLException" et gérer exceptions en interne
     @Override
     public void modifier(Commande commande) {
         String sql = "UPDATE commande SET id_panier = ?, rue = ?, ville = ?, code_postal = ?, etat = ?, montant_total = ?, methodePaiment = ?, id_user = ? WHERE commande_id = ?";
@@ -83,7 +113,6 @@ public class CommandeService implements IService<Commande> {
         }
     }
 
-    // ✅ Correction : Enlever "throws SQLException" et gérer exceptions en interne
     @Override
     public List<Commande> recuperer() {
         List<Commande> commandes = new ArrayList<>();

@@ -6,13 +6,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.ComboBox; // Importer ComboBox
+
 
 import java.sql.SQLException;
 
 public class ModifierCommande {
 
     @FXML
-    private TextField txtIdCommande, txtIdUser, txtIdPanier, txtRue, txtVille, txtCodePostal, txtEtat, txtMontant, txtMethodePaiement;
+    private TextField txtIdCommande, txtIdUser, txtIdPanier, txtRue, txtVille, txtCodePostal, txtEtat, txtMontant;
+
+    @FXML
+    private ComboBox<String> txtMethodePaiement; // Changer ici
 
     private Commande commande;
     private final CommandeService commandeService = new CommandeService();
@@ -25,7 +30,7 @@ public class ModifierCommande {
         txtCodePostal.setText(commande.getCode_postal());
         txtEtat.setText(commande.getEtat());
         txtMontant.setText(String.valueOf(commande.getMontant_total()));
-        txtMethodePaiement.setText(commande.getMethodePaiment());
+        txtMethodePaiement.setValue(commande.getMethodePaiment()); // Modifier ici pour utiliser ComboBox
     }
 
     public void setAfficherCommandeController(AfficherCommande controller) {
@@ -37,7 +42,7 @@ public class ModifierCommande {
         try {
             // Vérification des champs obligatoires
             if (txtRue.getText().isEmpty() || txtVille.getText().isEmpty() || txtCodePostal.getText().isEmpty() ||
-                    txtEtat.getText().isEmpty() || txtMontant.getText().isEmpty() || txtMethodePaiement.getText().isEmpty()) {
+                    txtEtat.getText().isEmpty() || txtMontant.getText().isEmpty() || txtMethodePaiement.getValue() == null) { // Modifier ici
                 showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
                 return;
             }
@@ -50,8 +55,8 @@ public class ModifierCommande {
 
             // Vérification des champs texte (seulement des lettres et espaces)
             if (!txtRue.getText().matches("[a-zA-ZÀ-ÿ\\s]+") || !txtVille.getText().matches("[a-zA-ZÀ-ÿ\\s]+") ||
-                    !txtEtat.getText().matches("[a-zA-ZÀ-ÿ\\s]+") || !txtMethodePaiement.getText().matches("[a-zA-ZÀ-ÿ\\s]+")) {
-                showAlert("Erreur", "Les champs Rue, Ville, État et Méthode de paiement ne doivent contenir que des lettres.", Alert.AlertType.ERROR);
+                    !txtEtat.getText().matches("[a-zA-ZÀ-ÿ\\s]+")) { // Supprimer txtMethodePaiement de la vérification
+                showAlert("Erreur", "Les champs Rue, Ville et État ne doivent contenir que des lettres.", Alert.AlertType.ERROR);
                 return;
             }
 
@@ -74,10 +79,10 @@ public class ModifierCommande {
             commande.setCode_postal(txtCodePostal.getText());
             commande.setEtat(txtEtat.getText());
             commande.setMontant_total(montantTotal);
-            commande.setMethodePaiment(txtMethodePaiement.getText());
+            commande.setMethodePaiment(txtMethodePaiement.getValue()); // Modifier ici pour utiliser ComboBox
 
             // Mise à jour dans la base de données
-            commandeService.modifier(commande);  // Appel à la méthode modifier avec un seul paramètre (commande)
+            commandeService.modifier(commande);
 
             // Rafraîchir la liste des commandes
             if (afficherCommandeController != null) {

@@ -1,10 +1,10 @@
 package Controllers;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 
 public class Acceuil {
@@ -12,14 +12,17 @@ public class Acceuil {
         loadPage("/ajouteruser.fxml");
     }
 
-    // Load AjouterEvenement.fxml
     public void handleAjouterEvenement() throws IOException {
         loadPage("/ajouterEvenement.fxml");
     }
 
-    // Load AjouterCommande.fxml
     public void handleAjouterPanier() throws IOException {
         loadPage("/AjouterCommande.fxml");
+    }
+
+    // Load AjouterProduit.fxml
+    public void handleAjouterProduit() throws IOException {
+        loadPage("/addProduit.fxml");
     }
 
     // Method to load an FXML file in a new window

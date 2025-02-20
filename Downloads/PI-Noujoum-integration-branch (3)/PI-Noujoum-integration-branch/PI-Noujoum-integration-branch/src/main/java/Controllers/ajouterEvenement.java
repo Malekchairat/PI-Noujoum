@@ -5,12 +5,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Evenement;
 import models.Type_e;
 import services.EvenementService;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -26,14 +31,35 @@ public class ajouterEvenement {
     @FXML private TextField price;
     @FXML private TextField ticketCount;
     @FXML private ComboBox<Type_e> eventType;
+    @FXML private Label imageLabel; // Label pour afficher le nom de l'image sélectionnée
+    private Blob eventImage; // Attribut pour stocker l'image au format Blob
 
     private EvenementService service;
-    private Evenement selectedEvent;
 
     @FXML
     public void initialize() {
         service = new EvenementService();
         eventType.getItems().setAll(Type_e.values());
+    }
+
+    @FXML
+    private void uploadImage(ActionEvent event) {
+        // Ouvrir un FileChooser pour permettre à l'utilisateur de sélectionner une image
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            imageLabel.setText(selectedFile.getName()); // Afficher le nom de l'image sélectionnée
+            try (FileInputStream fileInputStream = new FileInputStream(selectedFile)) {
+                byte[] imageBytes = fileInputStream.readAllBytes();
+                // Créer un SerialBlob à partir du tableau de bytes
+                eventImage = new SerialBlob(imageBytes);
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger l'image.");
+            }
+        }
     }
 
     @FXML
@@ -50,7 +76,7 @@ public class ajouterEvenement {
 
         // ✅ Vérification des champs obligatoires
         if (location.isEmpty() || artistName.isEmpty() || desc.isEmpty() || start == null || end == null
-                || timeText.isEmpty() || priceText.isEmpty() || ticketCountText.isEmpty() || type == null) {
+                || timeText.isEmpty() || priceText.isEmpty() || ticketCountText.isEmpty() || type == null || eventImage == null) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs doivent être remplis !");
             return;
         }
@@ -93,10 +119,10 @@ public class ajouterEvenement {
             return;
         }
 
-        // ✅ Création de l'objet événement
+        // ✅ Création de l'objet événement avec l'image au format Blob
         Evenement newEvent = new Evenement(location, artistName, desc,
                 Date.valueOf(start), Date.valueOf(end),
-                Integer.parseInt(timeText), priceValue, type, ticketCountValue);
+                Integer.parseInt(timeText), priceValue, type, ticketCountValue, eventImage);
 
         // ✅ Ajout de l'événement à la base de données avec gestion des exceptions
         try {
@@ -110,7 +136,7 @@ public class ajouterEvenement {
 
     @FXML
     private void update(ActionEvent event) {
-        // Logique pour mettre à jour un événement
+        // Logique pour mettre à jour un événement (si nécessaire)
     }
 
     @FXML

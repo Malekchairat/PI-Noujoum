@@ -12,6 +12,7 @@ import models.Panier;
 import services.PanierService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AfficherPanier {
@@ -55,12 +56,17 @@ public class AfficherPanier {
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(panier));
                 btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
+                btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
+                btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
+
                 gridPaniers.add(btnModifier, 4, row);
 
                 // Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
                 btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                btnSupprimer.setOnAction(event -> supprimerPanier(panier.getId_panier())); // Correction ici
+                btnSupprimer.setOnAction(event -> supprimerPanier(panier));
+                btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
+                btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
                 gridPaniers.add(btnSupprimer, 5, row);
 
                 row++;
@@ -72,21 +78,15 @@ public class AfficherPanier {
         }
     }
 
-    /**
-     * Crée un Label avec un style appliqué.
-     */
     private Label createStyledLabel(String text) {
         Label label = new Label(text);
         label.setStyle("-fx-text-fill: white;"); // Applique la couleur blanche à chaque label
         return label;
     }
 
-    /**
-     * Supprime un panier de la base de données.
-     */
-    private void supprimerPanier(int idPanier) {
+    private void supprimerPanier(Panier panier) {
         try {
-            panierService.supprimer(idPanier); // Passer l'ID du panier au lieu de l'objet entier
+            panierService.supprimer(panier.getId_panier());
             refreshGrid(); // Rafraîchir après suppression
             System.out.println("Panier supprimé avec succès !");
         } catch (Exception e) {
@@ -94,9 +94,6 @@ public class AfficherPanier {
         }
     }
 
-    /**
-     * Ouvre la fenêtre de modification d'un panier.
-     */
     private void ouvrirFenetreModification(Panier panier) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierPanier.fxml"));
@@ -112,6 +109,4 @@ public class AfficherPanier {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-}
+        } } }

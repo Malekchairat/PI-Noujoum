@@ -1,5 +1,7 @@
 package services;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Evenement;
-import tools.MyDataBase;
 import models.Type_e;
+import tools.MyDataBase;
 
 public class EvenementService implements IService<Evenement> {
 
@@ -29,6 +31,7 @@ public class EvenementService implements IService<Evenement> {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
+                Blob imageBlob = resultSet.getBlob("imageE");
                 evenement = new Evenement(
                         resultSet.getInt("id_evenement"),
                         resultSet.getString("location"),
@@ -39,7 +42,8 @@ public class EvenementService implements IService<Evenement> {
                         resultSet.getInt("time"),
                         resultSet.getFloat("price"),
                         Type_e.valueOf(resultSet.getString("type")),
-                        resultSet.getInt("ticketCount")
+                        resultSet.getInt("ticketCount"),
+                        imageBlob
                 );
             }
         } catch (SQLException e) {
@@ -51,7 +55,7 @@ public class EvenementService implements IService<Evenement> {
 
     @Override
     public void ajouter(Evenement evenement) {
-        String sql = "INSERT INTO evenement (location, artist, description, startDate, endDate, time, price, type, ticketCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO evenement (location, artist, description, startDate, endDate, time, price, type, ticketCount, imageE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -64,6 +68,10 @@ public class EvenementService implements IService<Evenement> {
             statement.setFloat(7, evenement.getPrice());
             statement.setString(8, evenement.getType().toString());
             statement.setInt(9, evenement.getTicketCount());
+
+            // Ajout de l'image
+            InputStream imageStream = evenement.getImageE().getBinaryStream();
+            statement.setBinaryStream(10, imageStream);
 
             statement.executeUpdate();
             System.out.println("Événement ajouté avec succès !");
@@ -82,6 +90,7 @@ public class EvenementService implements IService<Evenement> {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
+                Blob imageBlob = resultSet.getBlob("imageE");
                 Evenement evenement = new Evenement(
                         resultSet.getInt("id_evenement"),
                         resultSet.getString("location"),
@@ -92,7 +101,8 @@ public class EvenementService implements IService<Evenement> {
                         resultSet.getInt("time"),
                         resultSet.getFloat("price"),
                         Type_e.valueOf(resultSet.getString("type")),
-                        resultSet.getInt("ticketCount")
+                        resultSet.getInt("ticketCount"),
+                        imageBlob
                 );
                 evenements.add(evenement);
             }
@@ -121,15 +131,13 @@ public class EvenementService implements IService<Evenement> {
         }
     }
 
-    // Implémentation de la méthode de l'interface (mais inutilisable dans ce cas)
     @Override
     public void modifier(Evenement evenement) {
         System.out.println("Utilisez modifier(Evenement evenement, int id) au lieu de cette méthode.");
     }
 
-    // Surcharge avec l'ID de l'événement pour la modification
     public void modifier(Evenement evenement, int id) {
-        String sql = "UPDATE evenement SET location = ?, artist = ?, description = ?, startDate = ?, endDate = ?, time = ?, price = ?, type = ?, ticketCount = ? WHERE id_evenement = ?";
+        String sql = "UPDATE evenement SET location = ?, artist = ?, description = ?, startDate = ?, endDate = ?, time = ?, price = ?, type = ?, ticketCount = ?, imageE = ? WHERE id_evenement = ?";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -142,7 +150,11 @@ public class EvenementService implements IService<Evenement> {
             statement.setFloat(7, evenement.getPrice());
             statement.setString(8, evenement.getType().toString());
             statement.setInt(9, evenement.getTicketCount());
-            statement.setInt(10, id);
+
+            // Mise à jour de l'image
+            InputStream imageStream = evenement.getImageE().getBinaryStream();
+            statement.setBinaryStream(10, imageStream);
+            statement.setInt(11, id);
 
             int rowsUpdated = statement.executeUpdate();
 
@@ -155,18 +167,4 @@ public class EvenementService implements IService<Evenement> {
             e.printStackTrace();
         }
     }
-    public boolean existeEvenement(int id) {
-        String sql = "SELECT COUNT(*) FROM evenement WHERE id_evenement = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 }

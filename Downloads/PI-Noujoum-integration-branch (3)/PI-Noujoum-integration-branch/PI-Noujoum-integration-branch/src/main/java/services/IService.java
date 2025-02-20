@@ -16,7 +16,8 @@ import java.util.List;
 public interface IService<T> {
     void ajouter(T t);
     List<T> recuperer(); // Remplace "afficher"
+
     void supprimer(int id);
     void modifier(T t);
-     //void ajouter(Evenement  Ticket);// Suppression du second paramètre
+    //void ajouter(Evenement  Ticket);// Suppression du second paramètre
 }

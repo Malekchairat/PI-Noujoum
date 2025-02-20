@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier" style="-fx-background-color: #000000;">
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier" style="-fx-background-color: #000000;" stylesheets="@styles/styles.css">
     <children>
         <GridPane fx:id="gridPaniers" hgap="10" vgap="10" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;">
             <!-- Les entêtes et les données du panier seront ajoutés ici -->

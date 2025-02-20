@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AfficherCommande {
@@ -59,13 +60,24 @@ public class AfficherCommande {
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(cmd));
                 btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
+
+// Effet hover pour Modifier
+                btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
+                btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
+
                 gridCommandes.add(btnModifier, 9, row);
 
-                // Bouton Supprimer
+// Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
                 btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                btnSupprimer.setOnAction(event -> supprimerCommande(cmd.getCommande_id())); // Correction ici
+                btnSupprimer.setOnAction(event -> supprimerCommande(cmd));
+
+// Effet hover pour Supprimer
+                btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
+                btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+
                 gridCommandes.add(btnSupprimer, 10, row);
+
 
                 row++;
             }
@@ -100,9 +112,9 @@ public class AfficherCommande {
         }
     }
 
-    private void supprimerCommande(int commandeId) { // Correction ici
+    private void supprimerCommande(Commande commande) {
         try {
-            commandeService.supprimer(commandeId);
+            commandeService.supprimer(commande.getCommande_id());
             refreshGrid(); // Rafraîchir après suppression
         } catch (Exception e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());

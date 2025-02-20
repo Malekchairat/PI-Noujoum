@@ -52,7 +52,7 @@ public class ajouterTicket {
             }
 
             // Création du ticket avec un id_utilisateur fictif (Remplacez par un utilisateur réel)
-            int idUtilisateur = 0;
+            int idUtilisateur = 27;
             Type_P typePaiement = Type_P.valueOf(paiementCombo.getValue().toUpperCase());
 
             Ticket ticket = new Ticket(0, evenement.getIdEvenement(), idUtilisateur, prix, quantite, null, typePaiement);

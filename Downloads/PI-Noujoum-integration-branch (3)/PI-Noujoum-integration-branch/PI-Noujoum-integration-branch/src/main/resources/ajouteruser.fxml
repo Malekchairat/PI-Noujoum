@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addusercontroller">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addusercontroller"
+            stylesheets="@styles.css">
    <children>
-      <Accordion layoutX="186.0" layoutY="138.0" />
-      <Pane layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <Pane layoutX="50.0" layoutY="30.0" prefHeight="500.0" prefWidth="800.0"
+            style="-fx-background-color: black; -fx-border-color: gold; -fx-border-width: 2px; -fx-border-radius: 10px;">
          <children>
-            <TextField fx:id="id_nom" layoutX="88.0" layoutY="69.0" promptText="entrez nom" />
-            <TextField fx:id="id_prenom" layoutX="88.0" layoutY="109.0" promptText="entrez prenom" />
-            <TextField fx:id="id_mail" layoutX="88.0" layoutY="140.0" promptText="entrez mail" />
-            <TextField fx:id="id_mdp" layoutX="88.0" layoutY="182.0" promptText="entrez mdp " />
-            <TextField fx:id="id_tel" layoutX="88.0" layoutY="224.0" promptText="entrez tel" />
+            <!-- Labels stylisés -->
+            <Label layoutX="50.0" layoutY="50.0" text="Nom :" styleClass="label"/>
+            <Label layoutX="50.0" layoutY="100.0" text="Prénom :" styleClass="label"/>
+            <Label layoutX="50.0" layoutY="150.0" text="Email :" styleClass="label"/>
+            <Label layoutX="50.0" layoutY="200.0" text="Mot de passe :" styleClass="label"/>
+            <Label layoutX="50.0" layoutY="250.0" text="Téléphone :" styleClass="label"/>
+            <Label layoutX="50.0" layoutY="300.0" text="Rôle :" styleClass="label"/>
 
-            <!-- Liste déroulante pour le rôle -->
-            <ComboBox fx:id="idrole" layoutX="88.0" layoutY="260.0" promptText="Sélectionnez un rôle" />
+            <!-- Champs de texte stylisés -->
+            <TextField fx:id="id_nom" layoutX="160.0" layoutY="45.0" promptText="Entrez votre nom" styleClass="text-field"/>
+            <TextField fx:id="id_prenom" layoutX="160.0" layoutY="95.0" promptText="Entrez votre prénom" styleClass="text-field"/>
+            <TextField fx:id="id_mail" layoutX="160.0" layoutY="145.0" promptText="Entrez votre email" styleClass="text-field"/>
+            <TextField fx:id="id_mdp" layoutX="160.0" layoutY="195.0" promptText="Entrez votre mot de passe" styleClass="text-field"/>
+            <TextField fx:id="id_tel" layoutX="160.0" layoutY="245.0" promptText="Entrez votre téléphone" styleClass="text-field"/>
+            <ComboBox fx:id="idrole" layoutX="160.0" layoutY="295.0" promptText="Sélectionnez un rôle" styleClass="combo-box"/>
 
-            <Button fx:id="id_ajout" layoutX="103.0" layoutY="344.0" mnemonicParsing="false" onAction="#addUser" text="ajouteruser" />
-            <Button fx:id="show" layoutX="251.0" layoutY="344.0" mnemonicParsing="false" onAction="#Afficher" text="afficherusers" />
+            <!-- ImageView et Bouton pour choisir une image -->
+            <Label layoutX="400.0" layoutY="30.0" text="Photo de profil :" styleClass="label"/>
+            <ImageView fx:id="profileImage" layoutX="400.0" layoutY="60.0" fitWidth="120.0" fitHeight="120.0"/>
+            <Button fx:id="browseImage" layoutX="400.0" layoutY="190.0" mnemonicParsing="false"
+                    onAction="#browseImageAction" text="Choisir une image" styleClass="button"/>
 
-            <!-- Nouveau bouton pour accéder à la page d'ajout des favoris -->
-            <Button fx:id="goToAddFavoris" layoutX="400.0" layoutY="344.0" mnemonicParsing="false" onAction="#goToAddFavoris" text="Ajouter Favoris" />
-
-            <Label layoutX="36.0" layoutY="73.0" text="nom" />
-            <Label layoutX="36.0" layoutY="113.0" text="prenom" />
-            <Label layoutX="36.0" layoutY="144.0" text="email" />
-            <Label layoutX="36.0" layoutY="186.0" text="mdp" />
-            <Label layoutX="36.0" layoutY="228.0" text="tel" />
-            <Label layoutX="36.0" layoutY="264.0" text="role" />
+            <!-- Boutons stylisés avec espacement -->
+            <Button fx:id="id_ajout" layoutX="160.0" layoutY="370.0" mnemonicParsing="false"
+                    onAction="#addUser" text="Ajouter utilisateur" styleClass="button"/>
+            <Button fx:id="show" layoutX="330.0" layoutY="370.0" mnemonicParsing="false"
+                    onAction="#Afficher" text="Afficher utilisateurs" styleClass="button"/>
+            <Button fx:id="goToAddFavoris" layoutX="500.0" layoutY="370.0" mnemonicParsing="false"
+                    onAction="#goToAddFavoris" text="Ajouter Favoris" styleClass="button"/>
          </children>
       </Pane>
    </children>

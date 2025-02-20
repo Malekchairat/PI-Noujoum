@@ -9,11 +9,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import models.User;
 import services.UserService;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 
 public class updateusercontroller {
@@ -39,17 +45,23 @@ public class updateusercontroller {
     @FXML
     private ComboBox<String> rolee;
 
-
     @FXML
     private Button show;
 
     @FXML
     private Button ajout;
 
+    @FXML
+    private Button uploadImageBtn; // Button to upload an image
+
+    @FXML
+    private ImageView imagePreview; // Image preview
+
+    private File selectedFile;
 
     @FXML
     public void initialize() {
-        rolee.getItems().addAll("Admin", "Fan"); // Ajoute les rôles possibles
+        rolee.getItems().addAll("Admin", "Fan"); // Add possible roles
     }
 
     @FXML
@@ -66,7 +78,6 @@ public class updateusercontroller {
             showAlert("Erreur", "Veuillez sélectionner un rôle !", Alert.AlertType.ERROR);
             return;
         }
-
 
         // Validate empty fields
         if (idUserStr.isEmpty() || userNom.isEmpty() || userPrenom.isEmpty() ||
@@ -106,8 +117,19 @@ public class updateusercontroller {
             return;
         }
 
+        // Handle image
+        Blob userImage = null;
+        if (selectedFile != null) {
+            try (FileInputStream fis = new FileInputStream(selectedFile)) {
+                userImage = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
+            } catch (IOException e) {
+                showAlert("Erreur", "Erreur lors de l'envoi de l'image !", Alert.AlertType.ERROR);
+                return;
+            }
+        }
+
         // Create User object
-        User user = new User(userId, userNom, userPrenom, userEmail, userMdp, Integer.parseInt(userTel), userRole,null);
+        User user = new User(userId, userNom, userPrenom, userEmail, userMdp, Integer.parseInt(userTel), userRole, userImage);
         UserService userService = new UserService();
         userService.modifier(user);
 
@@ -125,16 +147,40 @@ public class updateusercontroller {
             System.out.println("Erreur lors du chargement de show_user.fxml : " + e.getMessage());
         }
     }
+
+    @FXML
+    void uploadImage(ActionEvent event) {
+        // Open a file chooser to select an image file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png"));
+        selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            // Show image preview
+            Image image = new Image(selectedFile.toURI().toString());
+            imagePreview.setImage(image);
+        }
+    }
+
     public void setUserData(User user) {
-        id.setText(String.valueOf(user.getId())); // Stocke l'ID (même s'il est invisible)
+        id.setText(String.valueOf(user.getId())); // Store the ID (even though it's invisible)
         nom.setText(user.getNom());
         prenom.setText(user.getPrenom());
         email.setText(user.getEmail());
         mdp.setText(user.getMdp());
         tel.setText(String.valueOf(user.getTel()));
         rolee.setValue(user.getRole());
-    }
 
+        // Optionally, set image preview
+        if (user.getImage() != null) {
+            try {
+                Image image = new Image(user.getImage().getBinaryStream());
+                imagePreview.setImage(image);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Helper method to show alerts
     private void showAlert(String title, String message, Alert.AlertType type) {

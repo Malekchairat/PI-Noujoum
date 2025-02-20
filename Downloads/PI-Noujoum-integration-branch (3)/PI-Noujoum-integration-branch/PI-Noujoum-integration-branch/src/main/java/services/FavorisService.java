@@ -4,6 +4,7 @@ import models.Favoris;
 import tools.MyDataBase;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class FavorisService implements IService<Favoris> {
     Connection cnx = MyDataBase.getInstance().getCnx();
 
     @Override
+
     public void ajouter(Favoris f) {
         // Vérifier si le favori existe déjà pour le même user et produit
         if (favoriExiste(f.getIdUser(), f.getIdProduit())) {
@@ -18,17 +20,23 @@ public class FavorisService implements IService<Favoris> {
             return;
         }
 
+        // Set the current date automatically
+        if (f.getDate() == null) {
+            f.setDate(LocalDate.now());  // Set current date if not already set
+        }
+
         String req = "INSERT INTO favoris (id_user, id_produit, date) VALUES (?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setInt(1, f.getIdUser());
             pst.setInt(2, f.getIdProduit());
-            pst.setDate(3, java.sql.Date.valueOf(f.getDate()));
+            pst.setDate(3, java.sql.Date.valueOf(f.getDate()));  // Use the current date if not provided
             pst.executeUpdate();
             System.out.println("✅ Favoris ajouté avec succès !");
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'ajout du favori : " + ex.getMessage());
         }
     }
+
 
     @Override
     public List<Favoris> recuperer() {
@@ -37,18 +45,21 @@ public class FavorisService implements IService<Favoris> {
         try (PreparedStatement pst = cnx.prepareStatement(req);
              ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
+                LocalDate date = (rs.getDate("date") != null) ? rs.getDate("date").toLocalDate() : null;
                 list.add(new Favoris(
                         rs.getInt("id_favoris"),
                         rs.getInt("id_produit"),
                         rs.getInt("id_user"),
-                        rs.getDate("date").toLocalDate()
+                        date
                 ));
             }
+            System.out.println("✅ Nombre de favoris récupérés : " + list.size());
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'affichage des favoris : " + ex.getMessage());
         }
         return list;
     }
+
 
     @Override
     public void supprimer(int id) {
@@ -97,7 +108,7 @@ public class FavorisService implements IService<Favoris> {
 
     // Vérifier si un produit existe
     public boolean produitExiste(int idProduit) {
-        String req = "SELECT COUNT(*) FROM produits WHERE id_produit = ?";
+        String req = "SELECT COUNT(*) FROM produit WHERE id_produit = ?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setInt(1, idProduit);
             ResultSet rs = pst.executeQuery();

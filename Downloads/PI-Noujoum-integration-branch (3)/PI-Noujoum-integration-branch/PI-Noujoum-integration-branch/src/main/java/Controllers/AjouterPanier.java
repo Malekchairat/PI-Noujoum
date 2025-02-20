@@ -11,7 +11,6 @@ import models.Panier;
 import services.PanierService;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class AjouterPanier {
 
@@ -30,8 +29,30 @@ public class AjouterPanier {
             int idUserInt = Integer.parseInt(idUser.getText());
 
             PanierService panierService = new PanierService();
-            Panier panier = new Panier(idProduitInt, idUserInt, nbrProduitInt); // Correction ici
 
+            // Debugging: Afficher les valeurs récupérées
+            System.out.println("ID Utilisateur saisi : " + idUserInt);
+            System.out.println("ID Produit saisi : " + idProduitInt);
+
+            // Vérification si l'utilisateur et le produit existent
+            if (!panierService.userExists(idUserInt)) {
+                System.out.println("Utilisateur non trouvé !");
+                showAlert("Erreur", "L'utilisateur avec ID " + idUserInt + " n'existe pas.", Alert.AlertType.ERROR);
+                return;
+            } else {
+                System.out.println("Utilisateur trouvé !");
+            }
+
+            if (!panierService.produitExists(idProduitInt)) {
+                System.out.println("Produit non trouvé !");
+                showAlert("Erreur", "Le produit avec ID " + idProduitInt + " n'existe pas.", Alert.AlertType.ERROR);
+                return;
+            } else {
+                System.out.println("Produit trouvé !");
+            }
+
+            // Ajout du panier
+            Panier panier = new Panier(idProduitInt, idUserInt, nbrProduitInt);
             panierService.ajouter(panier);
             showAlert("Succès", "Panier ajouté avec succès !", Alert.AlertType.INFORMATION);
 
@@ -40,13 +61,12 @@ public class AjouterPanier {
             nbrProduit.clear();
             idUser.clear();
 
-        } catch (Exception e) {  // Bloc catch pour toutes autres erreurs
-            showAlert("Erreur", "Une erreur inattendue est survenue : " + e.getMessage(), Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            showAlert("Erreur", "Une erreur est survenue : " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private boolean validateAndConvertFields() {
-        // Vérifier que les champs ne sont pas vides
         if (idProduit.getText().isEmpty() || nbrProduit.getText().isEmpty() || idUser.getText().isEmpty()) {
             showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
             return false;
@@ -57,7 +77,6 @@ public class AjouterPanier {
             int nbrProduitInt = Integer.parseInt(nbrProduit.getText());
             int idUserInt = Integer.parseInt(idUser.getText());
 
-            // Vérifier que les nombres sont positifs
             if (idProduitInt <= 0 || nbrProduitInt <= 0 || idUserInt <= 0) {
                 showAlert("Erreur", "Les valeurs numériques doivent être strictement positives.", Alert.AlertType.ERROR);
                 return false;

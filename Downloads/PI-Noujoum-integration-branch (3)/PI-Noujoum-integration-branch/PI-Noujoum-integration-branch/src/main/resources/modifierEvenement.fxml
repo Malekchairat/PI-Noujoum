@@ -1,27 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefWidth="800" prefHeight="700"
+            style="-fx-background-color: #1E1E1E;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.modifierEvenement">
+
     <children>
-        <VBox spacing="10" layoutX="50" layoutY="50" style="-fx-padding: 20px; -fx-background-color: #333; -fx-border-color: gold; -fx-border-width: 2px;">
-            <Label text="Modifier Événement" style="-fx-font-size: 18px; -fx-text-fill: white;" />
-            <TextField fx:id="locationField" promptText="Lieu" />
-            <TextField fx:id="artistField" promptText="Artiste" />
-            <TextField fx:id="descriptionField" promptText="Description" />
-            <DatePicker fx:id="startDatePicker" promptText="Date de début" />
-            <DatePicker fx:id="endDatePicker" promptText="Date de fin" />
-            <TextField fx:id="timeField" promptText="Heure (en heures)" />
-            <TextField fx:id="priceField" promptText="Prix (TND)" />
-            <TextField fx:id="ticketCountField" promptText="Nombre de billets" />
-            <ComboBox fx:id="eventTypeComboBox" promptText="Type d'événement" />
-            <Button text="Enregistrer" onAction="#saveEvent" style="-fx-background-color: green; -fx-text-fill: white;" />
+        <!-- Conteneur principal -->
+        <VBox layoutX="200" layoutY="50" spacing="12"
+              style="-fx-padding: 20px; -fx-background-color: #000000;
+                     -fx-border-color: gold; -fx-border-width: 2px;
+                     -fx-border-radius: 15px; -fx-background-radius: 15px;
+                     -fx-pref-width: 400px; -fx-alignment: CENTER;">
+
+            <Label text="Modifier Événement"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: gold;"/>
+
+            <TextField fx:id="locationField" promptText="Lieu" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <TextField fx:id="artistField" promptText="Artiste" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <TextField fx:id="descriptionField" promptText="Description" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <DatePicker fx:id="startDatePicker" promptText="Date de début" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <DatePicker fx:id="endDatePicker" promptText="Date de fin" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <TextField fx:id="timeField" promptText="Heure (en heures)" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <TextField fx:id="priceField" promptText="Prix (TND)" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <TextField fx:id="ticketCountField" promptText="Nombre de billets" style="-fx-background-radius: 10px;" maxWidth="400"/>
+            <ComboBox fx:id="eventTypeComboBox" promptText="Type d'événement" style="-fx-background-radius: 10px;" maxWidth="400"/>
+
+            <!-- Section pour le téléchargement d'image -->
+            <VBox alignment="CENTER" spacing="8">
+                <Button fx:id="uploadImageButton" text="Ajouter une image"
+                        onAction="#uploadImage"
+                        style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
+
+                <ImageView fx:id="imagePreview" fitWidth="80" fitHeight="80"
+                           style="-fx-border-color: gold; -fx-border-radius: 10px;"/>
+
+                <Label fx:id="imageLabel" text="Aucune image sélectionnée" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Bouton d'enregistrement -->
+            <Button fx:id="saveEventBtn" text="Enregistrer"
+                    onAction="#saveEvent"
+                    style="-fx-background-color: green; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
         </VBox>
     </children>
 </AnchorPane>

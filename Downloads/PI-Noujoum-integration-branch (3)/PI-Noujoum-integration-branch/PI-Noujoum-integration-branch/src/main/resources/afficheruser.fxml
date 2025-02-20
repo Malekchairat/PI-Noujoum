@@ -5,21 +5,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.TilePane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
+<AnchorPane prefHeight="500.0" prefWidth="700.0"
+            style="-fx-background-color: #1E1E1E;"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.showusercontroller">
     <children>
-        <Button fx:id="affich" layoutX="250.0" layoutY="350.0"
+        <Button fx:id="affich" layoutX="280.0" layoutY="420.0"
+                prefWidth="150" prefHeight="40"
                 mnemonicParsing="false"
                 onAction="#loadUsers"
-                text="Afficher" />
+                text="🎭 Afficher les utilisateurs"
+                style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 10px;"/>
 
-        <ScrollPane layoutX="14.0" layoutY="48.0" prefHeight="230.0" prefWidth="500.0" fitToWidth="true">
-            <content>
-                <TilePane fx:id="userTilePane" prefWidth="500.0" prefTileWidth="220.0" prefTileHeight="250.0" hgap="20.0" vgap="20.0" />
-            </content>
+        <ScrollPane fx:id="scrollPane" layoutX="20.0" layoutY="50.0" prefHeight="340.0" prefWidth="660.0"
+                    fitToWidth="true"
+                    style="-fx-background: transparent; -fx-border-color: gold; -fx-border-radius: 10px;">
+            <TilePane fx:id="userTilePane" prefWidth="660.0" prefTileWidth="220.0" prefTileHeight="250.0"
+                      hgap="20.0" vgap="20.0"
+                      style="-fx-padding: 10px;"/>
         </ScrollPane>
-
     </children>
 </AnchorPane>

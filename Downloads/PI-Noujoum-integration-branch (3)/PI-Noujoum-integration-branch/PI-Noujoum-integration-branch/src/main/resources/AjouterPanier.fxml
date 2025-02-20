@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="311.0" prefWidth="399.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPanier">
+<AnchorPane prefHeight="311.0" prefWidth="399.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterPanier" stylesheets="@styles/styles.css">
     <children>
         <VBox layoutX="50.0" layoutY="20.0" spacing="20.0">
             <children>
@@ -27,21 +27,10 @@
             </children>
         </VBox>
 
-        <Button fx:id="ajoutPanier" layoutX="63.0" layoutY="253.0" onAction="#ajout" prefHeight="26.0" prefWidth="100.0" style="-fx-background-color: #FFEB3B; -fx-text-fill: black; -fx-font-weight: bold;" text="Ajouter Panier">
-            <style>
-                .button:hover {
-                -fx-background-color: #000000;
-                -fx-text-fill: #FFEB3B;
-                }
-            </style>
+        <Button fx:id="ajoutPanier" layoutX="63.0" layoutY="253.0" onAction="#ajout" text="Ajouter Panier"  styleClass="custom-button">
         </Button>
-        <Button fx:id="afficherPaniers" layoutX="218.0" layoutY="253.0" onAction="#afficherPaniers" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: #FFEB3B; -fx-text-fill: black; -fx-font-weight: bold;" text="Afficher Paniers">
-            <style>
-                .button:hover {
-                -fx-background-color: #000000;
-                -fx-text-fill: #FFEB3B;
-                }
-            </style>
+        <Button fx:id="afficherPaniers" layoutX="218.0" layoutY="253.0" onAction="#afficherPaniers" text="Afficher Paniers"  styleClass="custom-button">
+
         </Button>
     </children>
 </AnchorPane>
