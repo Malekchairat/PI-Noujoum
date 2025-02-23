@@ -1,19 +1,23 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package services;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import models.Evenement;
+import models.Ticket;
+import tools.MyDataBase;
+
+import models.Favoris;
+
+import java.util.List;
+
 public interface IService<T> {
-    void ajouter(T var1) throws SQLException;
+    void ajouter(T t);
+    List<T> recuperer(); // Remplace "afficher"
 
-    void supprimer(T var1);
-
-    void modifier(T var1, String var2);
-
-    List<T> recuperer() throws SQLException;
+    void supprimer(int id);
+    void modifier(T t);
+    //void ajouter(Evenement  Ticket);// Suppression du second paramètre
 }

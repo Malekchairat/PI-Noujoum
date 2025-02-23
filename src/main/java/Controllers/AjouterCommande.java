@@ -37,6 +37,18 @@ public class AjouterCommande {
             float montantTotalFloat = Float.parseFloat(montantTotal.getText());
             int idUserInt = Integer.parseInt(idUser.getText());
 
+            // Check if the Panier and User exist
+            if (!commandeCrud.isPanierExists(idPanierInt)) {
+                showAlert("Erreur", "Le panier avec l'ID " + idPanierInt + " n'existe pas.", AlertType.ERROR);
+                return;
+            }
+
+            if (!commandeCrud.isUserExists(idUserInt)) {
+                showAlert("Erreur", "L'utilisateur avec l'ID " + idUserInt + " n'existe pas.", AlertType.ERROR);
+                return;
+            }
+
+            // Proceed with adding the order
             Commande commande = new Commande(
                     0, // ID auto-généré
                     idPanierInt,
@@ -54,10 +66,11 @@ public class AjouterCommande {
             clearFields();
         } catch (NumberFormatException e) {
             showAlert("Erreur", "Format invalide pour les champs numériques.", AlertType.ERROR);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             showAlert("Erreur SQL", "Une erreur s'est produite : " + e.getMessage(), AlertType.ERROR);
         }
     }
+
 
     private boolean isValidInput() {
         if (idPanier.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() ||

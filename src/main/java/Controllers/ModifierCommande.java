@@ -82,7 +82,7 @@ public class ModifierCommande {
             commande.setMethodePaiment(txtMethodePaiement.getValue()); // Modifier ici pour utiliser ComboBox
 
             // Mise à jour dans la base de données
-            commandeService.modifier(commande, "ignored_param");
+            commandeService.modifier(commande);
 
             // Rafraîchir la liste des commandes
             if (afficherCommandeController != null) {
@@ -93,7 +93,7 @@ public class ModifierCommande {
             Stage stage = (Stage) txtRue.getScene().getWindow();
             stage.close();
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             showAlert("Erreur SQL", "Une erreur s'est produite : " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }

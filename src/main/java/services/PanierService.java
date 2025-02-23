@@ -1,123 +1,141 @@
 package services;
 
+import models.Panier;
+import models.Produit;
 import tools.MyDataBase;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import models.Panier;
-import java.sql.PreparedStatement;
 
+public class PanierService {
 
-public class PanierService implements IPanierservice<Panier> {
-
-    Connection cnx = MyDataBase.getInstance().getCnx();
+    private Connection cnx;
 
     public PanierService() {
+        // Assuming you have a method to initialize your DB connection
+        cnx = MyDataBase.getInstance().getCnx();
     }
 
-    public void ajouter(Panier t) throws SQLException {
-        try {
-            String req = "INSERT INTO `panier`(`id_produit`, `id_user`, `nbr_produit`) VALUES ('" + t.getId_produit() + "','" + t.getId_user() + "','" + t.getNbr_produit() + "')";
-            Statement stm = this.cnx.createStatement();
-            stm.executeUpdate(req);
-        } catch (SQLException var4) {
-            SQLException ex = var4;
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void modifier(Panier panier, String var2) throws SQLException {
-        String sql = "UPDATE panier SET id_produit = ?, id_user = ?, nbr_produit = ? WHERE id_panier = ?";
-        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
-            stmt.setInt(1, panier.getId_produit());
-            stmt.setInt(2, panier.getId_user()); // Ajout de id_user
-            stmt.setInt(3, panier.getNbr_produit());
-            stmt.setInt(4, panier.getId_panier()); // id_panier reste dans WHERE pour identifier la ligne
-
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Panier mis à jour avec succès.");
-            } else {
-                System.out.println("Aucun panier trouvé avec cet ID.");
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erreur lors de la mise à jour du panier : " + ex.getMessage());
-            throw ex;
-        }
-    }
-
-
-    @Override
-    public void supprimer(Panier panier) {
-        String sql = "DELETE FROM panier WHERE id_panier = ?";
-        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
-            stmt.setInt(1, panier.getId_panier());
-            int rowsDeleted = stmt.executeUpdate();
-            if (rowsDeleted > 0) {
-                System.out.println("Panier supprimé avec succès.");
-            } else {
-                System.out.println("Aucun panier trouvé avec cet ID.");
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erreur lors de la suppression du panier : " + ex.getMessage());
-        }
-    }
-
-
-    @Override
-    public List<Panier> recuperer() throws SQLException {
+    // Fetch all items in the cart
+    public List<Panier> getCartItems() {
         List<Panier> paniers = new ArrayList<>();
-        String req = "SELECT * FROM panier";
+        String query = "SELECT * FROM panier";
 
-        try {
-            Statement stm = cnx.createStatement();
-            ResultSet rs = stm.executeQuery(req);
+        try (Statement stmt = cnx.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                Panier p = new Panier();
-                p.setId_panier(rs.getInt("id_panier"));
-                p.setId_produit(rs.getInt("id_produit"));
-                p.setId_user(rs.getInt("id_user"));
-                p.setNbr_produit(rs.getInt("nbr_produit"));
-                paniers.add(p);
+                Panier panier = new Panier();
+                panier.setId_produit(rs.getInt("id_produit"));
+                panier.setNbr_produit(rs.getInt("nbr_produit"));
+                paniers.add(panier);
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return paniers;
     }
 
-    public Panier getOne(Panier t) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    // Fetch product details by ID
+    public Produit getProductById(int id_produit) {
+        Produit produit = null;
+        String query = "SELECT * FROM produit WHERE id_produit = ?";
 
-    public List<Panier> getAll(Panier t) {
-        String req = "SELECT * FROM `panier`";
-        ArrayList<Panier> paniers = new ArrayList();
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, id_produit);
+            ResultSet rs = stmt.executeQuery();
 
-        try {
-            Statement stm = this.cnx.createStatement();
-            ResultSet rs = stm.executeQuery(req);
-
-            while (rs.next()) {
-                Panier p = new Panier();
-                p.setId_panier(rs.getInt("id_panier"));
-                p.setId_produit(rs.getInt("id_produit"));
-                p.setId_user(rs.getInt("id_user"));
-                p.setNbr_produit(rs.getInt("nbr_produit"));
-                paniers.add(p);
+            if (rs.next()) {
+                produit = new Produit();
+                produit.setIdproduit(rs.getInt("id_produit"));
+                produit.setNom(rs.getString("nom"));
+                produit.setDescription(rs.getString("description"));
+                produit.setCategorie(rs.getString("categorie"));  // Assuming categorie is stored as string
+                produit.setPrix(rs.getFloat("prix"));
+                produit.setImage(rs.getBlob("image"));
             }
-        } catch (SQLException var7) {
-            SQLException ex = var7;
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error getting product by ID: " + e.getMessage());
         }
 
-        return paniers;
+        return produit;
+    }
+
+    // Fetch product price by ID
+    public double getProductPrice(int id_produit) {
+        double price = 0;
+        String query = "SELECT prix FROM produit WHERE id_produit = ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, id_produit);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                price = rs.getDouble("prix");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching product price: " + e.getMessage());
+        }
+
+        return price;
+    }
+
+    // Update or insert item in the cart
+    public void addOrUpdateCartItem(int id_produit, int newQuantity, int id_user) {
+        String checkQuery = "SELECT nbr_produit FROM panier WHERE id_produit = ? AND id_user = ?";
+        String insertQuery = "INSERT INTO panier (id_produit, nbr_produit, id_user) VALUES (?, ?, ?)";
+        String updateQuery = "UPDATE panier SET nbr_produit = ? WHERE id_produit = ? AND id_user = ?";
+
+        try (PreparedStatement checkStmt = cnx.prepareStatement(checkQuery)) {
+            checkStmt.setInt(1, id_produit);
+            checkStmt.setInt(2, id_user);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                int currentQuantity = rs.getInt("nbr_produit");
+                int newQuantityFinal = currentQuantity + newQuantity;
+
+                try (PreparedStatement updateStmt = cnx.prepareStatement(updateQuery)) {
+                    updateStmt.setInt(1, newQuantityFinal);
+                    updateStmt.setInt(2, id_produit);
+                    updateStmt.setInt(3, id_user);
+                    updateStmt.executeUpdate();
+                }
+            } else {
+                try (PreparedStatement insertStmt = cnx.prepareStatement(insertQuery)) {
+                    insertStmt.setInt(1, id_produit);
+                    insertStmt.setInt(2, newQuantity);
+                    insertStmt.setInt(3, id_user);
+                    insertStmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding/updating cart item: " + e.getMessage());
+        }
+    }
+
+    // Remove product from cart
+    public void removeProductFromCart(int id_produit) {
+        String query = "DELETE FROM panier WHERE id_produit = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, id_produit);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error removing product from cart: " + e.getMessage());
+        }
+    }
+
+    public void updateCartQuantity(int id_produit, int newQuantity) {
+        String query = "UPDATE panier SET nbr_produit = ? WHERE id_produit = ?";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, newQuantity);
+            stmt.setInt(2, id_produit);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error updating cart quantity: " + e.getMessage());
+        }
     }
 }

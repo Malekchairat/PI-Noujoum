@@ -7,34 +7,89 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 
-
-public class CommandeService implements ICommandeService<Commande> {
-
+public class CommandeService implements IService<Commande> {
     Connection cnx = MyDataBase.getInstance().getCnx();
 
     public CommandeService() {
     }
 
     @Override
-    public void ajouter(Commande t) throws SQLException{
-        try {
-            String req = "INSERT INTO `commande`(`id_panier`, `rue`, `ville`, `code_postal`, `etat`, `montant_total`, `methodePaiment`, `id_user`) " +
-                    "VALUES ('" + t.getId_panier() + "', '" + t.getRue() + "', '" + t.getVille() + "', '" + t.getCode_postal() + "', '"
-                    + t.getEtat() + "', '" + t.getMontant_total() + "', '" + t.getMethodePaiment() + "', '" + t.getId_user() + "')";
-            Statement stm = cnx.createStatement();
-            stm.executeUpdate(req);
+    public void ajouter(Commande t) {
+        if (!isUserExists(t.getId_user())) {  // Check if the user exists
+            System.out.println("❌ L'utilisateur avec l'ID " + t.getId_user() + " n'existe pas.");
+            return;  // Exit the method if user does not exist
+        }
+
+        String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, methodePaiment, id_user) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stm = cnx.prepareStatement(sql)) {
+            stm.setInt(1, t.getId_panier());
+            stm.setString(2, t.getRue());
+            stm.setString(3, t.getVille());
+            stm.setString(4, t.getCode_postal());
+            stm.setString(5, t.getEtat());
+            stm.setFloat(6, t.getMontant_total());
+            stm.setString(7, t.getMethodePaiment());
+            stm.setInt(8, t.getId_user());
+
+            stm.executeUpdate();
             System.out.println("✅ Commande ajoutée avec succès !");
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'ajout : " + ex.getMessage());
         }
     }
 
+    public boolean isPanierExists(int idPanier) {
+        String sql = "SELECT COUNT(*) FROM panier WHERE id_panier = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, idPanier);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Panier ID exists
+            }
+        } catch (SQLException ex) {
+            System.err.println("❌ Erreur lors de la vérification du panier ID : " + ex.getMessage());
+        }
+        return false; // Panier ID does not exist
+    }
+
+    public boolean isUserExists(int idUser) {
+        String sql = "SELECT COUNT(*) FROM user WHERE id_user = ?"; // Updated to use the correct table name
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, idUser);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // User ID exists
+            }
+        } catch (SQLException ex) {
+            System.err.println("❌ Erreur lors de la vérification du user ID : " + ex.getMessage());
+        }
+        return false; // User ID does not exist
+    }
+
+
     @Override
-    public void modifier(Commande commande, String var2) throws SQLException {
+    public void supprimer(int id) {
+        String sql = "DELETE FROM commande WHERE commande_id = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int rowsDeleted = stmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("✅ Commande supprimée avec succès.");
+            } else {
+                System.out.println("❌ Aucune commande trouvée avec cet ID.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("❌ Erreur lors de la suppression de la commande : " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void modifier(Commande commande) {
         String sql = "UPDATE commande SET id_panier = ?, rue = ?, ville = ?, code_postal = ?, etat = ?, montant_total = ?, methodePaiment = ?, id_user = ? WHERE commande_id = ?";
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
             stmt.setInt(1, commande.getId_panier());
@@ -46,45 +101,24 @@ public class CommandeService implements ICommandeService<Commande> {
             stmt.setString(7, commande.getMethodePaiment());
             stmt.setInt(8, commande.getId_user());
             stmt.setInt(9, commande.getCommande_id());
+
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Commande mise à jour avec succès.");
+                System.out.println("✅ Commande mise à jour avec succès.");
             } else {
-                System.out.println("Aucune commande trouvée avec cet ID.");
+                System.out.println("❌ Aucune commande trouvée avec cet ID.");
             }
         } catch (SQLException ex) {
-            System.err.println("Erreur lors de la mise à jour de la commande : " + ex.getMessage());
-            throw ex;
-        }
-    }
-
-
-    @Override
-
-    public void supprimer(Commande commande) {
-        String sql = "DELETE FROM commande WHERE commande_id = ?";
-        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
-            stmt.setInt(1, commande.getCommande_id());
-            int rowsDeleted = stmt.executeUpdate();
-            if (rowsDeleted > 0) {
-                System.out.println("Commande supprimée avec succès.");
-            } else {
-                System.out.println("Aucune commande trouvée avec cet ID.");
-            }
-        } catch (SQLException ex) {
-            System.err.println("Erreur lors de la suppression de la commande : " + ex.getMessage());
+            System.err.println("❌ Erreur lors de la mise à jour de la commande : " + ex.getMessage());
         }
     }
 
     @Override
-    public List<Commande> recuperer() throws SQLException {
+    public List<Commande> recuperer() {
         List<Commande> commandes = new ArrayList<>();
-        String req = "SELECT * FROM commande";
+        String sql = "SELECT * FROM commande";
 
-        try {
-            Statement stm = cnx.createStatement();
-            ResultSet rs = stm.executeQuery(req);
-
+        try (Statement stm = cnx.createStatement(); ResultSet rs = stm.executeQuery(sql)) {
             while (rs.next()) {
                 Commande c = new Commande();
                 c.setCommande_id(rs.getInt("commande_id"));
@@ -93,13 +127,13 @@ public class CommandeService implements ICommandeService<Commande> {
                 c.setVille(rs.getString("ville"));
                 c.setCode_postal(rs.getString("code_postal"));
                 c.setEtat(rs.getString("etat"));
-                c.setMontant_total((float) rs.getDouble("montant_total"));
-                c.setMethodePaiment(rs.getString("MethodePaiment"));
+                c.setMontant_total(rs.getFloat("montant_total"));
+                c.setMethodePaiment(rs.getString("methodePaiment"));
                 c.setId_user(rs.getInt("id_user"));
                 commandes.add(c);
             }
         } catch (SQLException ex) {
-            System.out.println("❌ Erreur lors de la récupération : " + ex.getMessage());
+            System.out.println("❌ Erreur lors de la récupération des commandes : " + ex.getMessage());
         }
 
         return commandes;

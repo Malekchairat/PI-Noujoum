@@ -82,7 +82,7 @@ public class AfficherCommande {
                 row++;
             }
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Erreur lors du chargement des commandes : " + e.getMessage());
             e.printStackTrace();
         }
@@ -114,7 +114,7 @@ public class AfficherCommande {
 
     private void supprimerCommande(Commande commande) {
         try {
-            commandeService.supprimer(commande);
+            commandeService.supprimer(commande.getCommande_id());
             refreshGrid(); // Rafraîchir après suppression
         } catch (Exception e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());
