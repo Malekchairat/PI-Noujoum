@@ -18,7 +18,7 @@
 /* Style des champs de texte */
 .input-field {
     -fx-background-color: #444;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-border-color: #777;
     -fx-border-radius: 5px;
     -fx-padding: 8px;
@@ -32,7 +32,7 @@
 /* Style du titre */
 .text {
     -fx-font-size: 24px;
-    -fx-fill: gold;
+    -fx-fill: black;
     -fx-font-weight: bold;
 }
 
@@ -47,8 +47,16 @@
     -fx-background-radius: 10px;
     -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.5), 5, 0, 0, 2);
 }
-
-.button:hover {
-    -fx-background-color: white;
-    -fx-text-fill: gold;
+.text-area {
+    -fx-background-color: #1e1e1e;
+    -fx-control-inner-background: #1e1e1e; /* Background inside the TextArea */
+    -fx-text-fill: white; /* Text color */
+    -fx-highlight-fill: gray; /* Highlight color */
+    -fx-highlight-text-fill: white; /* Highlighted text color */
+    -fx-border-color: #444; /* Border color */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
+
+
+

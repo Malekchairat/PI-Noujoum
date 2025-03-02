@@ -1,5 +1,6 @@
 package services;
 
+import javafx.scene.control.TextField;
 import models.User;
 import tools.MyDataBase;
 
@@ -116,4 +117,34 @@ public class UserService implements IService<User> {
         }
         return image;
     }
+
+    // Function to get a user by ID
+    public User getById(int id) {
+        User utilisateur = null;
+        String req = "SELECT * FROM user WHERE id_user = ?";
+
+        try (PreparedStatement preparedStatement = cnx.prepareStatement(req)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    utilisateur = new User();
+                    utilisateur.setId(resultSet.getInt("id_user"));
+                    utilisateur.setNom(resultSet.getString("nom"));
+                    utilisateur.setPrenom(resultSet.getString("prenom"));
+                    utilisateur.setEmail(resultSet.getString("email"));
+                    utilisateur.setMdp(resultSet.getString("mdp"));
+                    utilisateur.setTel(resultSet.getInt("tel"));
+                    utilisateur.setRole(resultSet.getString("role"));
+                    utilisateur.setImage(resultSet.getBlob("image"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateur;
+    }
+
+
+
+
 }

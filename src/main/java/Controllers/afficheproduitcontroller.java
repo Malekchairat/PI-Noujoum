@@ -55,6 +55,7 @@ public class afficheproduitcontroller {
         loadProduits();
     }
 
+
     @FXML
     public void loadProduits() {
         promoTilePane.getChildren().clear();
@@ -98,7 +99,7 @@ public class afficheproduitcontroller {
                 productCard.getChildren().add(new Label("🛍️ Nom: " + produit.getNom()));
                 productCard.getChildren().add(new Label("📜 Description: " + produit.getDescription()));
                 productCard.getChildren().add(new Label("💡 Catégorie: " + produit.getCategorie()));
-                productCard.getChildren().add(new Label("💵 Prix: " + produit.getPrix() + " €"));
+                productCard.getChildren().add(new Label("💵 Prix: " + produit.getPrix() + " DT"));
                 productCard.getChildren().add(new Label("📅 Disponibilité: " + produit.getDisponibilite()));
 
                 // Style pour les Labels

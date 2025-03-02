@@ -138,4 +138,18 @@ public class PanierService {
             System.out.println("Error updating cart quantity: " + e.getMessage());
         }
     }
+    public int getNewIdPanier() {
+        // Assuming you have a database connection and a query to get the next id_panier value
+        // This is a simplified example and may need to be adjusted based on your actual database schema
+        String query = "SELECT id_panier FROM panier";
+        try (Statement statement = cnx.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            } else {
+                return 1; // If no rows are found, start with id_panier = 1
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
@@ -12,8 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ComboBox?>
-<AnchorPane prefHeight="810.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier">
+<AnchorPane prefHeight="825.0" prefWidth="1339.0" style="-fx-background-color: black;" stylesheets="styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier">
     <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
             <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1292.0" spacing="20.0" styleClass="white-background" stylesheets="@styles/styles.css" BorderPane.alignment="CENTER">
@@ -21,42 +21,31 @@
                     <Insets left="20.0" />
                 </padding>
                 <children>
-                    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10px;">
-                        <ComboBox fx:id="searchCriteriaComboBox" promptText="Filtrer par" styleClass="combo-box"/>
-                        <TextField fx:id="searchTextField" promptText="Rechercher..." style="-fx-background-color: #444; -fx-text-fill: black;"/>
+                    <HBox alignment="CENTER" prefHeight="64.0" prefWidth="402.0" spacing="10" style="-fx-padding: 10px;">
+                        <ComboBox fx:id="searchCriteriaComboBox" prefHeight="4.0" prefWidth="162.0" promptText="Filtrer par" styleClass="combo-box" />
+                        <TextField fx:id="searchTextField" prefHeight="42.0" prefWidth="168.0" promptText="Rechercher..." style="-fx-background-color: #444; -fx-text-fill: black;" />
                     </HBox>
-                    <Button fx:id="home" mnemonicParsing="false"  styleClass="transparent" stylesheets="@styles/styles.css" text="SPORTIfy">
-                        <font>
-                            <Font name="Cyberway Riders" size="35.0" />
-                        </font>
-                    </Button>
                     <Separator maxHeight="-Infinity" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="38.0" prefWidth="26.0" />
-                    <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="36.0" prefWidth="290.0" styleClass="round-layout" stylesheets="@styles/styles.css">
-                        <children>
-                            <TextField prefHeight="21.0" prefWidth="257.0" promptText="Search" styleClass="transparent" stylesheets="@styles/styles.css" />
-                            <Label alignment="CENTER" prefHeight="29.0" prefWidth="40.0" text="">
-                                <font>
-                                    <Font name="dripicons-v2" size="21.0" />
-                                </font>
-                            </Label>
-                        </children>
+                    <HBox alignment="CENTER" spacing="10">
+                        <ComboBox fx:id="sortCriteriaComboBox" prefHeight="43.0" prefWidth="160.0" promptText="Trier par" />
+                        <Button fx:id="sortButton" onAction="#sortPanier" prefHeight="38.0" prefWidth="122.0" styleClass="custom-button" text="Trier">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font></Button>
                     </HBox>
                     <Pane prefHeight="200.0" prefWidth="442.0" HBox.hgrow="ALWAYS" />
-                    <Button fx:id="close" mnemonicParsing="false"  prefHeight="48.0" prefWidth="51.0" style="-fx-font-family: 'Cyberway Riders'; -fx-font-size: 16px;" styleClass="button-hover" stylesheets="@styles/styles.css" text="X" textFill="RED" />
                 </children>
             </HBox>
         </top>
         <center>
-
-            <!-- ListView for displaying user cards -->
             <ListView fx:id="panierListView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="678.0" prefWidth="1312.0" />
         </center>
         <bottom>
             <HBox prefHeight="58.0" prefWidth="1315.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Label prefHeight="58.0" prefWidth="127.0" text="Checkout :">
+                    <Label prefHeight="58.0" prefWidth="255.0" text="Checkout :" textFill="WHITE">
                         <font>
-                            <Font name="Berlin Sans FB" size="27.0" />
+                            <Font name="Berlin Sans FB" size="40.0" />
                         </font>
                     </Label>
                     <Label fx:id="price" layoutX="30.0" layoutY="10.0" prefHeight="58.0" prefWidth="127.0">
@@ -65,15 +54,12 @@
                         </font>
                     </Label>
                     <Pane prefHeight="58.0" prefWidth="846.0" />
-                    <Button fx:id="promo" mnemonicParsing="false" prefHeight="63.0" prefWidth="197.0" style="-fx-background-color: #ff5056;" text="Proceed To Checkout" textFill="WHITE">
-                        <font>
-                            <Font name="Berlin Sans FB" size="16.0" />
-                        </font>
-                    </Button>
+                    <Button fx:id="promo" onAction="#proceedToCheckout" prefHeight="58.0" prefWidth="214.0" styleClass="custom-button" text="Passer à la caisse">
+                  <font>
+                     <Font name="System Bold" size="17.0" />
+                  </font></Button>
+
                 </children>
-                <opaqueInsets>
-                    <Insets />
-                </opaqueInsets>
                 <padding>
                     <Insets left="20.0" />
                 </padding>

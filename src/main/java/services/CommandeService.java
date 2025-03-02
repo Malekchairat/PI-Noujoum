@@ -24,8 +24,8 @@ public class CommandeService implements IService<Commande> {
             return;  // Exit the method if user does not exist
         }
 
-        String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, methodePaiment, id_user) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, methodePaiment, id_user, produit) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stm = cnx.prepareStatement(sql)) {
             stm.setInt(1, t.getId_panier());
             stm.setString(2, t.getRue());
@@ -35,6 +35,7 @@ public class CommandeService implements IService<Commande> {
             stm.setFloat(6, t.getMontant_total());
             stm.setString(7, t.getMethodePaiment());
             stm.setInt(8, t.getId_user());
+            stm.setString(9, t.getProduit());
 
             stm.executeUpdate();
             System.out.println("✅ Commande ajoutée avec succès !");
@@ -90,7 +91,7 @@ public class CommandeService implements IService<Commande> {
 
     @Override
     public void modifier(Commande commande) {
-        String sql = "UPDATE commande SET id_panier = ?, rue = ?, ville = ?, code_postal = ?, etat = ?, montant_total = ?, methodePaiment = ?, id_user = ? WHERE commande_id = ?";
+        String sql = "UPDATE commande SET id_panier = ?, rue = ?, ville = ?, code_postal = ?, etat = ?, montant_total = ?, methodePaiment = ?, id_user = ?,produit = ? WHERE commande_id = ?";
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
             stmt.setInt(1, commande.getId_panier());
             stmt.setString(2, commande.getRue());
@@ -100,7 +101,9 @@ public class CommandeService implements IService<Commande> {
             stmt.setFloat(6, commande.getMontant_total());
             stmt.setString(7, commande.getMethodePaiment());
             stmt.setInt(8, commande.getId_user());
-            stmt.setInt(9, commande.getCommande_id());
+            stmt.setString(9, commande.getProduit());
+            stmt.setInt(10, commande.getCommande_id());
+
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -130,6 +133,7 @@ public class CommandeService implements IService<Commande> {
                 c.setMontant_total(rs.getFloat("montant_total"));
                 c.setMethodePaiment(rs.getString("methodePaiment"));
                 c.setId_user(rs.getInt("id_user"));
+                c.setProduit(rs.getString("produit"));
                 commandes.add(c);
             }
         } catch (SQLException ex) {

@@ -74,4 +74,5 @@ public class Panier {
     public double getSubtotal() {
         return getPrice() * nbr_produit;
     }
+
 }

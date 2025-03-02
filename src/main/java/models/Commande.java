@@ -9,11 +9,13 @@ public class Commande {
     private String code_postal;
     private String etat;
     private float montant_total;
-    private String methodePaiment; // Correction du nom de l'attribut
+    private String methodePaiment;
+    private String produit;// Correction du nom de l'attribut
 
-    public Commande() {}
+    public Commande() {
+    }
 
-    public Commande(int commande_id, int id_panier, String rue, String ville, String code_postal, String etat, float montant_total, String methodePaiement, int id_user) {
+    public Commande(int commande_id, int id_panier, String rue, String ville, String code_postal, String etat, float montant_total, String methodePaiement, int id_user, String produit) {
         this.commande_id = commande_id;
         this.id_panier = id_panier;
         this.rue = rue;
@@ -23,7 +25,9 @@ public class Commande {
         this.montant_total = montant_total;
         this.methodePaiment = methodePaiement;
         this.id_user = id_user;
+        this.produit = produit;
     }
+
     public Commande(int commande_id, int id_user, int id_panier, String rue, String ville, String code_postal, String etat, float montant_total, String methodePaiment) {
         this.commande_id = commande_id;
         this.id_user = id_user;
@@ -37,32 +41,86 @@ public class Commande {
     }
 
     // Getters et Setters corrigés
-    public int getCommande_id() { return commande_id; }
-    public void setCommande_id(int commande_id) { this.commande_id = commande_id; }
+    public int getCommande_id() {
+        return commande_id;
+    }
 
-    public int getId_user() { return id_user; }
-    public void setId_user(int id_user) { this.id_user = id_user; }
+    public void setCommande_id(int commande_id) {
+        this.commande_id = commande_id;
+    }
 
-    public int getId_panier() { return id_panier; }
-    public void setId_panier(int id_panier) { this.id_panier = id_panier; }
+    public int getId_user() {
+        return id_user;
+    }
 
-    public String getRue() { return rue; }
-    public void setRue(String rue) { this.rue = rue; }
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
 
-    public String getVille() { return ville; }
-    public void setVille(String ville) { this.ville = ville; }
+    public int getId_panier() {
+        return id_panier;
+    }
 
-    public String getCode_postal() { return code_postal; }
-    public void setCode_postal(String code_postal) { this.code_postal = code_postal; }
+    public void setId_panier(int id_panier) {
+        this.id_panier = id_panier;
+    }
 
-    public String getEtat() { return etat; }
-    public void setEtat(String etat) { this.etat = etat; }
+    public String getRue() {
+        return rue;
+    }
 
-    public float getMontant_total() { return montant_total; }
-    public void setMontant_total(float montant_total) { this.montant_total = montant_total; } // Correction ici
+    public void setRue(String rue) {
+        this.rue = rue;
+    }
 
-    public String getMethodePaiment() { return methodePaiment; }
-    public void setMethodePaiment(String methodePaiement) { this.methodePaiment = methodePaiement; }
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getCode_postal() {
+        return code_postal;
+    }
+
+    public void setCode_postal(String code_postal) {
+        this.code_postal = code_postal;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public float getMontant_total() {
+        return montant_total;
+    }
+
+    public void setMontant_total(float montant_total) {
+        this.montant_total = montant_total;
+    } // Correction ici
+
+    public String getMethodePaiment() {
+        return methodePaiment;
+    }
+
+    public void setMethodePaiment(String methodePaiement) {
+        this.methodePaiment = methodePaiement;
+    }
+
+    public String getProduit() {
+        return produit;
+    }
+
+    public void setProduit(String produit) {
+this.produit = produit;
+
+    }
 
     @Override
     public String toString() {
@@ -75,7 +133,8 @@ public class Commande {
                 ", code_postal='" + code_postal + '\'' +
                 ", etat='" + etat + '\'' +
                 ", montant_total=" + montant_total +
-                ", methodePaiement='" + methodePaiment + '\'' +
+                ", methodePaiment='" + methodePaiment + '\'' +
+                ", produit='" + produit + '\'' +
                 '}';
     }
 }

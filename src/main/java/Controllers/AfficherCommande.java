@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.scene.control.TextField;
 import models.Commande;
 import services.CommandeService;
 import javafx.fxml.FXML;
@@ -22,6 +23,7 @@ public class AfficherCommande {
     @FXML
     private Button btnFermer;
 
+
     private final CommandeService commandeService = new CommandeService();
 
     @FXML
@@ -34,7 +36,7 @@ public class AfficherCommande {
 
         try {
             // Ajouter les en-têtes de colonne avec texte blanc
-            String[] headers = {"ID", "ID User", "ID Panier", "Rue", "Ville", "Code Postal", "État", "Montant", "Paiement", "Actions"};
+            String[] headers = { "Montant", "Produits", "Actions"};
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
                 headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
@@ -46,15 +48,18 @@ public class AfficherCommande {
 
             int row = 1;
             for (Commande cmd : commandes) {
-                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getCommande_id())), 0, row);
-                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_user())), 1, row);
-                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_panier())), 2, row);
-                gridCommandes.add(createStyledLabel(cmd.getRue()), 3, row);
-                gridCommandes.add(createStyledLabel(cmd.getVille()), 4, row);
-                gridCommandes.add(createStyledLabel(cmd.getCode_postal()), 5, row);
-                gridCommandes.add(createStyledLabel(cmd.getEtat()), 6, row);
-                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getMontant_total())), 7, row);
-                gridCommandes.add(createStyledLabel(cmd.getMethodePaiment()), 8, row);
+              //  gridCommandes.add(createStyledLabel(String.valueOf(cmd.getCommande_id())), 0, row);
+              //  gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_user())), 1, row);
+               // gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_panier())), 2, row);
+               // gridCommandes.add(createStyledLabel(cmd.getRue()), 3, row);
+                //gridCommandes.add(createStyledLabel(cmd.getVille()), 4, row);
+                //gridCommandes.add(createStyledLabel(cmd.getCode_postal()), 5, row);
+               // gridCommandes.add(createStyledLabel(cmd.getEtat()), 6, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getMontant_total())), 0, row);
+                //gridCommandes.add(createStyledLabel(cmd.getMethodePaiment()), 8, row);
+                 gridCommandes.add(createStyledLabel(cmd.getProduit()), 1, row);
+
+
 
                 // Bouton Modifier
                 Button btnModifier = new Button("Modifier");
@@ -65,7 +70,7 @@ public class AfficherCommande {
                 btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
                 btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
 
-                gridCommandes.add(btnModifier, 9, row);
+                gridCommandes.add(btnModifier, 2, row);
 
 // Bouton Supprimer
                 Button btnSupprimer = new Button("Supprimer");
@@ -76,7 +81,7 @@ public class AfficherCommande {
                 btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
                 btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
 
-                gridCommandes.add(btnSupprimer, 10, row);
+                gridCommandes.add(btnSupprimer, 3, row);
 
 
                 row++;

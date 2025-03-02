@@ -1,5 +1,8 @@
 package Controllers;
 
+import javafx.scene.Node;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Scene;
 import models.Panier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,12 +23,20 @@ import java.io.InputStream;
 import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class AfficherPanier implements Initializable {
 
+    private int id_panier;
+
+    private double totalPrice;
+
+    public void setIdPanier(int id_panier) {
+        this.id_panier = id_panier;
+    }
     @FXML
     private ListView<HBox> panierListView;
     @FXML
@@ -40,6 +51,10 @@ public class AfficherPanier implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private Label price;
+    @FXML
+    private ComboBox<String> sortCriteriaComboBox;
+    @FXML
+    private Button sortButton;
 
     private PanierService panierCrud = new PanierService();
 
@@ -48,9 +63,38 @@ public class AfficherPanier implements Initializable {
         searchCriteriaComboBox.getItems().addAll("Nom", "Catégorie");
         searchCriteriaComboBox.setValue("Nom");
 
+        sortCriteriaComboBox.getItems().addAll("Prix Croissant", "Prix Décroissant", "Catégorie");
+
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> searchPaniers());
 
         loadUsers();
+
+    }
+
+    @FXML
+    private void sortPanier() {
+        String selectedSort = sortCriteriaComboBox.getValue();
+        if (selectedSort == null) return;
+
+        List<Panier> paniers = panierCrud.getCartItems();
+
+        switch (selectedSort) {
+            case "Prix Croissant":
+                paniers.sort(Comparator.comparing(p -> panierCrud.getProductById(p.getId_produit()).getPrix()));
+                break;
+            case "Prix Décroissant":
+                paniers.sort(Comparator.comparing((Panier p) -> panierCrud.getProductById(p.getId_produit()).getPrix()).reversed());
+                break;
+            case "Catégorie":
+                paniers.sort(Comparator.comparing(p -> panierCrud.getProductById(p.getId_produit()).getCategorie().name()));
+                break;
+        }
+
+        panierListView.getItems().clear();
+        for (Panier panier : paniers) {
+            Produit produit = panierCrud.getProductById(panier.getId_produit());
+            panierListView.getItems().add(createPanierItem(panier, produit));
+        }
     }
 
     @FXML
@@ -99,7 +143,7 @@ public class AfficherPanier implements Initializable {
     private HBox createPanierItem(Panier panier, Produit produit) {
         HBox itemContainer = new HBox(20);
         itemContainer.setStyle("-fx-border-bottom-color: black; -fx-border-bottom-width: 1px; " +
-                "-fx-border-style: solid; -fx-padding: 10px; -fx-background-color: #f4f4f4;");
+                "-fx-border-style: solid; -fx-padding: 10px; -fx-background-color: black;");
         itemContainer.setPrefSize(600, 100);
 
         VBox infoContainer = new VBox(5);
@@ -137,13 +181,13 @@ public class AfficherPanier implements Initializable {
             }
         });
 
-        Button deleteButton = new Button("Delete");
-        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-        deleteButton.setOnAction(event -> deletePanier(panier));
+        buttonContainer.getChildren().addAll(increaseQtyButton, decreaseQtyButton);
 
-        buttonContainer.getChildren().addAll(decreaseQtyButton, increaseQtyButton, deleteButton);
-        VBox labelsBox = new VBox(5, nameLabel, descriptionLabel, typeLabel, priceLabel, quantityLabel);
-        itemContainer.getChildren().addAll(imageView, labelsBox, buttonContainer);
+        infoContainer.getChildren().addAll(nameLabel, descriptionLabel, typeLabel, priceLabel, quantityLabel);
+        itemContainer.getChildren().addAll(imageView, infoContainer, buttonContainer);
+
+        itemContainer.setUserData(panier); // Store the Panier object as the user data of the HBox
+
         return itemContainer;
     }
 
@@ -160,9 +204,10 @@ public class AfficherPanier implements Initializable {
     }
 
     private void updateTotalPrice() {
-        double totalPrice = panierCrud.getCartItems().stream()
+        totalPrice = panierCrud.getCartItems().stream()
                 .mapToDouble(panier -> panierCrud.getProductPrice(panier.getId_produit()) * panier.getNbr_produit())
                 .sum();
+        System.out.println("Total Price: " + totalPrice); // Add this print statement
         price.setText(String.format("$%.2f", totalPrice));
     }
 
@@ -182,4 +227,43 @@ public class AfficherPanier implements Initializable {
         }
         updateTotalPrice();
     }
+
+    @FXML
+    private void proceedToCheckout(ActionEvent event) throws IOException {
+        // Get the id_panier value
+        int idPanier = this.id_panier;
+
+        // Get the cart items and total price
+        List<Panier> paniers = panierCrud.getCartItems();
+        List<Produit> produits = paniers.stream()
+                .map(panier -> panierCrud.getProductById(panier.getId_produit()))
+                .collect(Collectors.toList());
+
+        updateTotalPrice(); // Update the totalPrice value
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterCommande.fxml"));
+        Parent root = loader.load();
+        AjouterCommande controller = loader.getController();
+        // Set the id_panier value in the controller
+        controller.setIdPanier(idPanier);
+        controller.setMontantTotal(totalPrice); // Pass the totalPrice value to AjouterCommande
+
+        // Pass the cart items and their prices
+        controller.setCartItems(paniers, produits);
+
+        // Show the scene
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+
 }
