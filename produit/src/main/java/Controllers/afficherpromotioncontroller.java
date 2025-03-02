@@ -27,6 +27,9 @@ public class afficherpromotioncontroller {
     private Button ajout;
 
     @FXML
+    private Button affich;
+
+    @FXML
     private TilePane promoTilePane;
 
     @FXML
@@ -133,6 +136,18 @@ public class afficherpromotioncontroller {
             update.getScene().setRoot(root);
         } catch (IOException e) {
             showAlert("Erreur", "Erreur lors du chargement de l'interface de mise à jour.", AlertType.ERROR);
+        }
+    }
+    @FXML
+    void affich(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheProduit.fxml"));
+            Parent root = loader.load();
+            afficheproduitcontroller controller = loader.getController();
+            controller.loadProduits();
+            affich.getScene().setRoot(root);
+        } catch (IOException e) {
+            showAlert("Erreur", "Erreur lors du chargement de l'affichage des produit: " + e.getMessage(), AlertType.ERROR);
         }
     }
 }

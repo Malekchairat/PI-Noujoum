@@ -5,7 +5,7 @@ import tools.MyDataBase;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import services.NotificationServices;
 public class PromotionCrud implements IService<Promotion> {
     private final Connection cnx;
 
@@ -14,7 +14,6 @@ public class PromotionCrud implements IService<Promotion> {
     }
 
     // Ajouter une promotion
-    @Override
     public void ajouter(Promotion promotion) {
         String query = "INSERT INTO promotion (code, pourcentage, expiration, produitid) VALUES (?, ?, ?, ?)";
 
@@ -25,12 +24,42 @@ public class PromotionCrud implements IService<Promotion> {
             stmt.setInt(4, promotion.getProduitId());
 
             int rowsAffected = stmt.executeUpdate();
-            System.out.println(rowsAffected > 0 ? "Promotion ajoutée avec succès" : "Aucune ligne affectée");
+            if (rowsAffected > 0) {
+                System.out.println("Promotion ajoutée avec succès");
+
+                // Récupérer le nom du produit associé à cette promotion
+                String produitNom = getProduitName(promotion.getProduitId());
+
+                // Envoi de la notification par SMS après ajout
+                String message = "Nouvelle promotion : " + promotion.getCode() + " - "
+                        + promotion.getPourcentage() + "% de réduction sur le produit "
+                        + produitNom + " !";
+
+                // Appel direct de la méthode statique
+                NotificationServices.envoyerSMS(message, "+21652164756");
+            } else {
+                System.out.println("Aucune ligne affectée");
+            }
 
         } catch (SQLException e) {
             System.out.println("Erreur lors de l'ajout de la promotion : " + e.getMessage());
         }
     }
+
+    public String getProduitName(int produitId) {
+        String query = "SELECT nom FROM produit WHERE idproduit = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setInt(1, produitId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getString("nom");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération du nom du produit : " + e.getMessage());
+        }
+        return "Produit inconnu";
+    }
+
 
     // Modifier une promotion
     @Override
@@ -120,17 +149,5 @@ public class PromotionCrud implements IService<Promotion> {
     }
 
     // Méthode pour récupérer le nom d'un produit à partir de son ID
-    public String getProduitName(int produitId) {
-        String query = "SELECT nom FROM produit WHERE idproduit = ?";
-        try (PreparedStatement pst = cnx.prepareStatement(query)) {
-            pst.setInt(1, produitId);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                return rs.getString("nom");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de la récupération du nom du produit : " + e.getMessage());
-        }
-        return "Produit inconnu";
-    }
+
 }

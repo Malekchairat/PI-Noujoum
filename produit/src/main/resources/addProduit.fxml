@@ -8,7 +8,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addproduitcontroller">
+<?import javafx.scene.layout.HBox?>
+<AnchorPane prefHeight="665.0" prefWidth="1006.0" style="-fx-background-color: linear-gradient(to bottom, #2E2E2E, #000000);" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addproduitcontroller">
+   <!-- Barre de navigation -->
+   <HBox layoutX="0" layoutY="0" prefHeight="80.0" spacing="20" style="-fx-background-color: #1A1A1A; -fx-padding: 15; -fx-alignment: center-left;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <ImageView fx:id="logo" fitHeight="56.0" fitWidth="63.0" layoutX="20.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="homeBtn" onAction="#goToHome" prefHeight="37.0" prefWidth="158.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Accueil" />
+      <Button fx:id="productsBtn" onAction="#goToProducts" prefHeight="34.0" prefWidth="189.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;" text="Produits" />
+      <Button fx:id="claimsBtn" onAction="#goToReclamations" prefHeight="0.0" prefWidth="207.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Réclamations" />
+      <Button fx:id="eventsBtn" onAction="#goToEvents" prefHeight="30.0" prefWidth="195.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" text="Événements" />
+      <TextField fx:id="searchField" promptText="Rechercher..." style="-fx-background-radius: 10; -fx-padding: 5; -fx-pref-width: 200px;" />
+      <Button  prefHeight="29.0" prefWidth="89.0" style="-fx-background-color: black; -fx-text-fill: #FDD700; -fx-background-radius: 10;" text="🔍" textFill="#fdd700" />
+   </HBox>
    <children>
       <TextField fx:id="nom" layoutX="130.0" layoutY="75.0" />
       <TextField fx:id="disponibilite" layoutX="130.0" layoutY="299.0" />

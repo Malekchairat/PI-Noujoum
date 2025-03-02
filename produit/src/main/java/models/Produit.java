@@ -1,8 +1,7 @@
 package models;
 import tools.MyDataBase;
 
-import java.sql.Blob;
-import java.sql.Connection;
+import java.sql.*;
 
 
 public class Produit {
@@ -14,12 +13,13 @@ public class Produit {
     private int disponibilite;
     private Blob image;
     private Connection cnx;
-
+    private Promotion promotion;
     public enum Categorie {
         albums, vetements, accesoires, lightsticks
     }
 
     // Constructeur principal
+
     public Produit(int idproduit, String nom, String description, Categorie categorie, float prix, int disponibilite, Blob image) {
         this.idproduit = idproduit;
         this.nom = nom;
@@ -28,8 +28,8 @@ public class Produit {
         this.prix = prix;
         this.disponibilite = disponibilite;
         this.image = image;
-
         this.cnx = MyDataBase.getInstance().getConnection();
+        this.promotion = loadPromotion();  // 🔴 Charger la promo dès la création
     }
 
     // Constructeur avec connexion
@@ -45,6 +45,29 @@ public class Produit {
         this.cnx = cnx;
     }
 
+
+    private Promotion loadPromotion() {
+        Promotion promo = null;
+        try {
+            String query = "SELECT * FROM promotion WHERE produitId = ?";
+            PreparedStatement pst = cnx.prepareStatement(query);
+            pst.setInt(1, this.idproduit);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                promo = new Promotion(
+                        rs.getInt("idpromotion"),
+                        rs.getString("code"),
+                        rs.getFloat("pourcentage"),
+                        rs.getString("expiration"),
+                        this.idproduit
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return promo;
+    }
     // Getters
     public int getIdproduit() { return idproduit; }
     public String getNom() { return nom; }
@@ -78,5 +101,22 @@ public class Produit {
                // ", promotionid=" + promotionid +
                 ", cnx=" + cnx +
                 '}';
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
+    // ✅ Setter pour modifier la promotion
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
+    }
+
+    // ✅ Modifier le prix en fonction de la promo (si applicable)
+    public float getPrixAvecPromo() {
+        if (promotion != null) {
+            return prix - (prix * (promotion.getPourcentage() / 100));
+        }
+        return prix;
     }
 }

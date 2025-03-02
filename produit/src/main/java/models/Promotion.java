@@ -2,6 +2,9 @@ package models;
 
 import tools.MyDataBase;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Promotion {
     private int idpromotion;
@@ -70,5 +73,33 @@ public class Promotion {
                 ", produitId=" + produitid +
                 ", cnx=" + cnx +
                 '}';
+    }
+
+
+
+    public static Promotion getPromotionByProduitId(int produitId) {
+        Connection cnx = MyDataBase.getInstance().getConnection();
+        Promotion promo = null;
+
+        try {
+            String query = "SELECT * FROM promotion WHERE produitId = ?";
+            PreparedStatement pst = cnx.prepareStatement(query);
+            pst.setInt(1, produitId);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                promo = new Promotion(
+                        rs.getInt("idpromotion"),
+                        rs.getString("code"),
+                        rs.getFloat("pourcentage"),
+                        rs.getString("expiration"),
+                        produitId,
+                        rs.getString("produit") // Ajoutez le nom du produit si disponible dans la DB
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return promo;
     }
 }
