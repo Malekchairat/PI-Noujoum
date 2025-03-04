@@ -31,8 +31,13 @@
 
 /* Style du titre */
 .text {
-    -fx-font-size: 24px;
+    -fx-font-size: 14px;
     -fx-fill: black;
+    -fx-font-weight: bold;
+}
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 

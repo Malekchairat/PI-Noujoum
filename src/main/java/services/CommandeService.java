@@ -3,11 +3,7 @@ package services;
 import tools.MyDataBase;
 import models.Commande;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +15,21 @@ public class CommandeService implements IService<Commande> {
 
     @Override
     public void ajouter(Commande t) {
-        if (!isUserExists(t.getId_user())) {  // Check if the user exists
+        if (!isUserExists(t.getId_user())) {  // Vérifier si l'utilisateur existe
             System.out.println("❌ L'utilisateur avec l'ID " + t.getId_user() + " n'existe pas.");
-            return;  // Exit the method if user does not exist
+            return;  // Quitter la méthode si l'utilisateur n'existe pas
         }
 
         String sql = "INSERT INTO commande (id_panier, rue, ville, code_postal, etat, montant_total, methodePaiment, id_user, produit) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement stm = cnx.prepareStatement(sql)) {
+            // Assurez-vous que toutes les propriétés de t sont valides avant de les insérer
+            if (t.getId_panier() <= 0 || t.getMontant_total() <= 0 || t.getMethodePaiment() == null || t.getMethodePaiment().isEmpty()) {
+                System.out.println("❌ Données de commande invalides.");
+                return;  // Ne pas insérer si les données sont invalides
+            }
+
             stm.setInt(1, t.getId_panier());
             stm.setString(2, t.getRue());
             stm.setString(3, t.getVille());
@@ -39,10 +42,13 @@ public class CommandeService implements IService<Commande> {
 
             stm.executeUpdate();
             System.out.println("✅ Commande ajoutée avec succès !");
+        } catch (SQLIntegrityConstraintViolationException ex) {
+            System.out.println("❌ Erreur de contrainte d'intégrité : " + ex.getMessage());
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'ajout : " + ex.getMessage());
         }
     }
+
 
     public boolean isPanierExists(int idPanier) {
         String sql = "SELECT COUNT(*) FROM panier WHERE id_panier = ?";

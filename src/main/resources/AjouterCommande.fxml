@@ -72,7 +72,7 @@
 
         <Button fx:id="ajouterPanier" layoutX="375.8" layoutY="29.4" minWidth="140.0" onAction="#ajouterPanier" styleClass="custom-button" text="Gestion Paniers" />
 
-        <Button fx:id="afficher" layoutX="376.0" layoutY="124.0" onAction="#afficherCommandes" styleClass="custom-button" text="Afficher Commandes" />
+        <Button fx:id="afficher" layoutX="376.0" layoutY="124.0" onAction="#afficherCommandes" styleClass="custom-button" text="Historique des Commandes" />
 
 
         <Button fx:id="ajout" layoutX="400.0" layoutY="691.0" onAction="#ajout" styleClass="custom-button" text="Ajouter Commande" />
@@ -80,11 +80,11 @@
         <Button fx:id="email" disable="true" layoutX="337.0" layoutY="590.0" onAction="#sendBtnOnAction" styleClass="custom-button" text="Envoyer Email de confirmation" />
 
         <TextArea fx:id="produit" layoutX="377.0" layoutY="254.0" prefHeight="200.0" prefWidth="250.0" styleClass="text-area" />
-      <Label layoutX="49.0" layoutY="3.0" style="-fx-text-fill: white; -fx-font-size: 16px;" text="ID Panier" />
       <Label layoutX="367.0" layoutY="207.0" style="-fx-text-fill: white; -fx-font-size: 16px;" text="Liste des produits dans la commande :">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
+      <Button fx:id="pdf" layoutX="81.0" layoutY="691.0" onAction="#generateWelcomePdf" prefHeight="56.0" prefWidth="126.0" styleClass="custom-button" text="Facture" />
     </children>
 </AnchorPane>

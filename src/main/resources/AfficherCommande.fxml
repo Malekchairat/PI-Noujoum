@@ -11,7 +11,6 @@
             <!-- Les entêtes et les données de la commande seront ajoutés ici -->
         </GridPane>
 
-        <Button fx:id="btnFermer" layoutX="350.0" layoutY="350.0" text="Fermer" onAction="#fermer"
-                styleClass="custom-button"/>
+
     </children>
 </AnchorPane>

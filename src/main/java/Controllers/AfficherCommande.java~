@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import models.Commande;
@@ -14,6 +15,9 @@ public class AfficherCommande {
     @FXML
     private GridPane gridCommandes;
 
+    @FXML
+    private ScrollPane scrollPane;
+
     private final CommandeService commandeService = new CommandeService();
 
     @FXML
@@ -22,19 +26,25 @@ public class AfficherCommande {
         gridCommandes.setHgap(10); // Reduce horizontal spacing
         gridCommandes.setVgap(10); // Reduce vertical spacing
         gridCommandes.setStyle("-fx-background-color: #2c2f33; -fx-padding: 15px; -fx-border-radius: 10px;");
-        setupColumns();
+        setupScrollPane();
+        setupGridPane();
         refreshGrid();
     }
 
-    private void setupColumns() {
+    private void setupScrollPane() {
+        scrollPane.setFitToWidth(true); // Ensure the scroll pane resizes properly
+        scrollPane.setStyle("-fx-background: #2c2f33;"); // Match background color
+    }
+    private void setupGridPane() {
+        gridCommandes.setHgap(5); // Reduce unnecessary gaps
+        gridCommandes.setVgap(8);
+        gridCommandes.setStyle("-fx-background-color: #2c2f33; -fx-padding: 10px; -fx-border-radius: 10px;");
+
         gridCommandes.getColumnConstraints().clear();
-
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(30); // 30% for Montant
-
+        col1.setPercentWidth(25); // Adjusted for better balance
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(70); // 70% for Produits
-
+        col2.setPercentWidth(75);
         gridCommandes.getColumnConstraints().addAll(col1, col2);
     }
 

@@ -17,6 +17,8 @@ public class Acceuil {
     }
 
     public void handleAjouterPanier() throws IOException {
+        //loadPage("/BAfficherCommande.fxml");
+
         loadPage("/AjouterCommande.fxml");
     }
 
@@ -30,6 +32,7 @@ public class Acceuil {
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
+        stage.setFullScreen(true);  // Fenêtre en plein écran
         stage.show();
     }
 }
