@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.RecCellAdminController">
+
+    <!-- Left Side: Reclamation Info -->
+    <VBox>
+        <Label fx:id="titreLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+        <Label fx:id="descriptionLabel" style="-fx-font-size: 12px;" wrapText="true" maxWidth="350"/>
+        <Label fx:id="dateLabel" style="-fx-font-size: 11px; -fx-text-fill: gray;" />
+        <Label fx:id="statutLabel" style="-fx-font-size: 11px;" />
+        <Label fx:id="prioriteLabel" style="-fx-font-size: 11px; -fx-font-weight: bold;" />
+    </VBox>
+
+    <!-- Right Side: Buttons -->
+    <HBox>
+        <Button fx:id="treatButton" text="Traiter" onAction="#handleTreat" style="-fx-background-color: #008CBA; -fx-text-fill: white;" />
+        <Button fx:id="deleteButton" text="Supprimer" onAction="#handleDelete" style="-fx-background-color: #FF0000; -fx-text-fill: white;" />
+    </HBox>
+</HBox>

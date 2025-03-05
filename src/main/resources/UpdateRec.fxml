@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.UpdateRecController"
+            prefHeight="350.0" prefWidth="400.0">
+
+    <VBox alignment="CENTER" prefWidth="380" prefHeight="330">
+
+        <Label text="Modifier la Réclamation" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+        <!-- Titre -->
+        <TextField fx:id="titreField" promptText="Titre de la réclamation" />
+        <Label fx:id="titreError" text="" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+        <!-- Description -->
+        <TextArea fx:id="descriptionField" promptText="Description détaillée" wrapText="true" prefHeight="80"/>
+        <Label fx:id="descriptionError" text="" style="-fx-text-fill: red; -fx-font-size: 12px;" />
+
+        <!-- Date de Création (Non-Editable) -->
+        <TextField fx:id="dateField" promptText="Date de création" editable="false" />
+
+        <!-- Submit Button -->
+        <Button text="Modifier" fx:id="updateButton" onAction="#handleUpdate"
+                style="-fx-background-color: #FFA500; -fx-text-fill: white;" />
+
+    </VBox>
+</AnchorPane>
