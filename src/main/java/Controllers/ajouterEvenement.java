@@ -117,7 +117,7 @@ public class ajouterEvenement {
         Evenement newEvent = new Evenement(location, artistName, desc,
                 Date.valueOf(start), Date.valueOf(end),
                 Integer.parseInt(timeText), priceValue, type, ticketCountValue, eventImage);
-
+// i said push and commit 2
         try {
             service.ajouter(newEvent);
             CalenderEventAdder.addEvent(newEvent); // Synchronisation avec Google Calendar
