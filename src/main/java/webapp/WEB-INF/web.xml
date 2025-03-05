@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>PI-Noujoum-integrationbranch</display-name>
+
+    <servlet>
+        <servlet-name>EventDetailsServlet</servlet-name>
+        <servlet-class>Controllers.EventDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventDetailsServlet</servlet-name>
+        <url-pattern>/event</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EventImageServlet</servlet-name>
+        <servlet-class>Controllers.EventImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventImageServlet</servlet-name>
+        <url-pattern>/eventImage</url-pattern>
+    </servlet-mapping>
+
+</web-app>

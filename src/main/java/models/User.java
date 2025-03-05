@@ -1,5 +1,27 @@
 package models;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
+import java.sql.Blob;
+
+public class User {
+    private int id_user;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String mdp;
+    private int tel;
+    private String role;
+    private Blob image; // The image is of Blob type
+
+    // Default constructor
+    public User() {}
+
+    // Constructor with all fields
+<<<<<<< HEAD
+=======
 
 import java.sql.SQLException;
 
@@ -13,6 +35,9 @@ public class User {
     private String nom, prenom, email, mdp, role;
     private Blob image; // Utilise java.sql.Blob
 
+>>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
     public User(int id_user, String nom, String prenom, String email, String mdp, int tel, String role, Blob image) {
         this.id_user = id_user;
         this.nom = nom;
@@ -24,6 +49,10 @@ public class User {
         this.image = image;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    // Getters and setters
+=======
     public User(String nom, String prenom, String email, String mdp, int tel, String role, Blob image) {
         this.nom = nom;
         this.prenom = prenom;
@@ -36,10 +65,19 @@ public class User {
 
     public User() {}
 
+>>>>>>> origin/integration-branch
+=======
+    // Getters and setters
+>>>>>>> origin/GestionCommande
     public int getId() {
         return id_user;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    public void setId(int id) {
+        this.id_user = id;
+=======
     public void setId(int id_user) {
         this.id_user = id_user;
     }
@@ -50,6 +88,11 @@ public class User {
 
     public void setTel(int tel) {
         this.tel = tel;
+>>>>>>> origin/integration-branch
+=======
+    public void setId(int id) {
+        this.id_user = id;
+>>>>>>> origin/GestionCommande
     }
 
     public String getNom() {
@@ -84,6 +127,23 @@ public class User {
         this.mdp = mdp;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
+    public int getTel() {
+        return tel;
+    }
+
+    public void setTel(int tel) {
+        this.tel = tel;
+    }
+
+<<<<<<< HEAD
+=======
+>>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
     public String getRole() {
         return role;
     }
@@ -99,6 +159,9 @@ public class User {
     public void setImage(Blob image) {
         this.image = image;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 
     // Optionnel pour afficher l'image sous forme de String (si nécessaire)
     public String getImageAsString() throws SQLException {
@@ -152,4 +215,7 @@ public class User {
     public String toString() {
         return "User{" + "id=" + id_user + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", mdp=" + mdp + ", tel=" + tel + ", role=" + role + ", image=" + image + '}';
     }
+>>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
 }

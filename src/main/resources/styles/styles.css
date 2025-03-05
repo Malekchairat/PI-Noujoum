@@ -1,0 +1,84 @@
+/* Style des boutons */
+.custom-button {
+    -fx-background-color: #FFEB3B;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0.5, 0, 3);
+}
+
+.custom-button:hover {
+    -fx-background-color: black;
+    -fx-text-fill: #FFEB3B;
+}
+
+/* Style des champs de texte */
+.input-field {
+    -fx-background-color: #444;
+<<<<<<< HEAD
+    -fx-text-fill: white;
+=======
+    -fx-text-fill: black;
+>>>>>>> origin/GestionCommande
+    -fx-border-color: #777;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 3, 0.5, 0, 1);
+}
+/* Styles généraux */
+.root {
+    -fx-background-color: black;
+}
+
+/* Style du titre */
+.text {
+<<<<<<< HEAD
+    -fx-font-size: 24px;
+    -fx-fill: gold;
+=======
+    -fx-font-size: 14px;
+    -fx-fill: black;
+    -fx-font-weight: bold;
+}
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+>>>>>>> origin/GestionCommande
+    -fx-font-weight: bold;
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-color: gold;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.5), 5, 0, 0, 2);
+}
+<<<<<<< HEAD
+
+.button:hover {
+    -fx-background-color: white;
+    -fx-text-fill: gold;
+}
+=======
+.text-area {
+    -fx-background-color: #1e1e1e;
+    -fx-control-inner-background: #1e1e1e; /* Background inside the TextArea */
+    -fx-text-fill: white; /* Text color */
+    -fx-highlight-fill: gray; /* Highlight color */
+    -fx-highlight-text-fill: white; /* Highlighted text color */
+    -fx-border-color: #444; /* Border color */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+
+
+>>>>>>> origin/GestionCommande

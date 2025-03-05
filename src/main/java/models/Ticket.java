@@ -30,7 +30,18 @@ public class Ticket {
         this.qrCode = qrCode;
         this.methodePaiement = methodePaiement;
     }
+<<<<<<< HEAD
+    public String getEventName() {
+        return (evenement != null) ? evenement.getArtist() : "Événement inconnu";
+    }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/integration-branch
+=======
+
+>>>>>>> origin/GestionCommande
     public Ticket(Evenement evenement, int idUtilisateur, float prix, int quantite, String qrCode, Type_P methodePaiement) {
         this.evenement = evenement;
         this.idUtilisateur = idUtilisateur;
@@ -96,4 +107,15 @@ public class Ticket {
     public void setMethodePaiement(Type_P methodePaiement) {
         this.methodePaiement = methodePaiement;
     }
+<<<<<<< HEAD
+    public Evenement getEvenement() {
+        return this.evenement;
+    }
+
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
+    }
+
+=======
+>>>>>>> origin/GestionCommande
 }

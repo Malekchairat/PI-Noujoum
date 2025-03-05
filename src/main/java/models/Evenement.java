@@ -1,10 +1,6 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package models;
 
+import java.sql.Blob;
 import java.util.Date;
 
 public class Evenement {
@@ -18,23 +14,11 @@ public class Evenement {
     private float price;
     private Type_e type;
     private int ticketCount;
+    private Blob imageE;  // Nouveau champ pour l'image
 
     public Evenement() {
     }
-
-    public Evenement(String location, String artist, String description, Date startDate, Date endDate, int time, float price, Type_e type, int ticketCount) {
-        this.location = location;
-        this.artist = artist;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.time = time;
-        this.price = price;
-        this.type = type;
-        this.ticketCount = ticketCount;
-    }
-
-    public Evenement(int idEvenement, String location, String artist, String description, Date startDate, Date endDate, int time, float price, Type_e type, int ticketCount) {
+    public Evenement(int idEvenement, String location, String artist, String description, Date startDate, Date endDate, int time, float price, Type_e type, int ticketCount, Blob imageE) {
         this.idEvenement = idEvenement;
         this.location = location;
         this.artist = artist;
@@ -45,14 +29,32 @@ public class Evenement {
         this.price = price;
         this.type = type;
         this.ticketCount = ticketCount;
+        this.imageE = imageE;
     }
+<<<<<<< HEAD
     public String getArtiste() {
         return this.artist;
     }
 
+=======
+>>>>>>> origin/GestionCommande
 
+    public Evenement(String location, String artist, String description, Date startDate, Date endDate, int time, float price, Type_e type, int ticketCount, Blob imageE) {
+        this.location = location;
+        this.artist = artist;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.time = time;
+        this.price = price;
+        this.type = type;
+        this.ticketCount = ticketCount;
+        this.imageE = imageE;
+    }
+
+    // Getters and Setters
     public int getIdEvenement() {
-        return this.idEvenement;
+        return idEvenement;
     }
 
     public void setIdEvenement(int idEvenement) {
@@ -60,7 +62,7 @@ public class Evenement {
     }
 
     public String getLocation() {
-        return this.location;
+        return location;
     }
 
     public void setLocation(String location) {
@@ -68,7 +70,7 @@ public class Evenement {
     }
 
     public String getArtist() {
-        return this.artist;
+        return artist;
     }
 
     public void setArtist(String artist) {
@@ -76,7 +78,7 @@ public class Evenement {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -84,7 +86,7 @@ public class Evenement {
     }
 
     public Date getStartDate() {
-        return this.startDate;
+        return startDate;
     }
 
     public void setStartDate(Date startDate) {
@@ -92,7 +94,7 @@ public class Evenement {
     }
 
     public Date getEndDate() {
-        return this.endDate;
+        return endDate;
     }
 
     public void setEndDate(Date endDate) {
@@ -100,7 +102,7 @@ public class Evenement {
     }
 
     public int getTime() {
-        return this.time;
+        return time;
     }
 
     public void setTime(int time) {
@@ -108,7 +110,7 @@ public class Evenement {
     }
 
     public float getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(float price) {
@@ -116,7 +118,7 @@ public class Evenement {
     }
 
     public Type_e getType() {
-        return this.type;
+        return type;
     }
 
     public void setType(Type_e type) {
@@ -124,15 +126,58 @@ public class Evenement {
     }
 
     public int getTicketCount() {
-        return this.ticketCount;
+        return ticketCount;
     }
 
     public void setTicketCount(int ticketCount) {
         this.ticketCount = ticketCount;
     }
 
-    public String toString() {
-        int var10000 = this.idEvenement;
-        return "Evenement{idEvenement=" + var10000 + ", location='" + this.location + "', artist='" + this.artist + "', description='" + this.description + "', startDate=" + String.valueOf(this.startDate) + ", endDate=" + String.valueOf(this.endDate) + ", time=" + this.time + ", price=" + this.price + ", type=" + String.valueOf(this.type) + ", ticketCount=" + this.ticketCount + "}";
+    public Blob getImageE() {
+        return imageE;
     }
+
+    public void setImageE(Blob imageE) {
+        this.imageE = imageE;
+    }
+
+    @Override
+    public String toString() {
+        return "Evenement{idEvenement=" + idEvenement + ", location='" + location + "', artist='" + artist + "', description='" + description + "', startDate=" + startDate + ", endDate=" + endDate + ", time=" + time + ", price=" + price + ", type=" + type + ", ticketCount=" + ticketCount + "}";
+    }
+    public Blob getImage() {
+        return imageE;
+    }
+
+    public void setImage(Blob image) {
+        this.imageE = image;
+    }
+<<<<<<< HEAD
+    private String googleCalendarId; // Store the Google Calendar event ID
+
+    public String getGoogleCalendarId() {
+        return googleCalendarId;
+    }
+
+    public void setGoogleCalendarId(String googleCalendarId) {
+        this.googleCalendarId = googleCalendarId;
+    }
+
+    public Evenement( String location, String artist, String description, Date startDate, Date endDate,
+                     int time, float price, Type_e type, int ticketCount, String googleCalendarId) {
+
+        this.location = location;
+        this.artist = artist;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.time = time;
+        this.price = price;
+        this.type = type;
+        this.ticketCount = ticketCount;
+        this.googleCalendarId = googleCalendarId;
+    }
+
+=======
+>>>>>>> origin/GestionCommande
 }

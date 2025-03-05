@@ -6,7 +6,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.modifierfavoriscontroller">
+=======
 <AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.modifierfavoriscontroller">
+>>>>>>> origin/integration-branch
+=======
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.modifierfavoriscontroller">
+>>>>>>> origin/GestionCommande
     <children>
         <Label layoutX="50.0" layoutY="30.0" text="Modifier Favoris" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
