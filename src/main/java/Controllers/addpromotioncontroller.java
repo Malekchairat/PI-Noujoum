@@ -92,6 +92,8 @@ public class addpromotioncontroller {
         }
     }
 
+
+    //i said push
     @FXML
     void Afficher(ActionEvent event) {
         try {

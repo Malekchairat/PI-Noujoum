@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 
+
+
 public class Acceuil {
     public void handleAjouterUser() throws IOException {
         loadPage("/ajouteruser.fxml");
