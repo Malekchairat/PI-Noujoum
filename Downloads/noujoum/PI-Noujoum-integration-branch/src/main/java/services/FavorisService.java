@@ -1,5 +1,5 @@
 package services;
-
+import models.Produit;
 import models.Favoris;
 import tools.MyDataBase;
 
@@ -10,6 +10,53 @@ import java.util.List;
 
 public class FavorisService implements IService<Favoris> {
     Connection cnx = MyDataBase.getInstance().getCnx();
+    public void supprimerFavori(int userId, int produitId) {
+        String req = "DELETE FROM favoris WHERE id_user = ? AND id_produit = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, userId);
+            pst.setInt(2, produitId);
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("✅ Favori supprimé avec succès !");
+            } else {
+                System.out.println("⚠ Aucun favori trouvé pour cet utilisateur et produit.");
+            }
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de la suppression du favori : " + ex.getMessage());
+        }
+    }
+
+    public List<Produit> recupererFavoris(int userId) {
+        List<Produit> produits = new ArrayList<>();
+        String req = "SELECT p.* FROM produit p JOIN favoris f ON p.id_produit = f.id_produit WHERE f.id_user = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, userId);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Produit produit = new Produit(
+                        rs.getInt("id_produit"),
+                        rs.getString("nom"),
+                        rs.getString("description"), // Ajouter ce champ si nécessaire
+                        Produit.Categorie.valueOf(rs.getString("categorie")), // Conversion String → enum
+                        rs.getFloat("prix"), // Utiliser le type float ici
+                        rs.getInt("disponibilite"), // Utiliser int pour la disponibilité
+                        rs.getBlob("image")
+                );
+
+
+                produits.add(produit);
+            }
+            System.out.println("✅ Favoris récupérés pour l'utilisateur " + userId);
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de la récupération des favoris : " + ex.getMessage());
+        }
+
+        return produits;
+    }
 
     @Override
 

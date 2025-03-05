@@ -4,19 +4,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import models.Produit;
-import models.Promotion;
-import services.PromotionCrud;
-import services.ServicesCrud;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+
+import models.Promotion;
+import models.Produit;
+import services.PromotionCrud;
+import services.ServicesCrud;
 
 public class addpromotioncontroller {
 

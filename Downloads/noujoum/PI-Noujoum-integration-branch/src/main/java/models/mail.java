@@ -2,7 +2,7 @@ package models;
 
 import java.util.Properties;
 import javafx.scene.control.Alert;
-import javax.mail.Session;
+import javax.mail.Session;  // Use javax.mail
 import javax.mail.Message;
 import javax.mail.Transport;
 import javax.mail.Authenticator;
@@ -13,14 +13,9 @@ import javax.mail.internet.MimeMessage;
 
 public class mail {
     public static void send(String to, String sub, String msg) {
-        // Securely get email credentials from environment variables
-        String user = System.getenv("EMAIL_USER");
-        String pass = System.getenv("EMAIL_PASSWORD");
-
-        if (user == null || pass == null) {
-            System.out.println("Error: Email credentials not set in environment variables.");
-            return;
-        }
+        // Directly setting email credentials
+        String user = "troudijihen9@gmail.com";
+        String pass = "oreb xeso iyjs lysi";
 
         // Validate email format
         if (!to.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {

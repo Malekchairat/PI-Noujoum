@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Node;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -29,12 +30,14 @@ import java.net.http.HttpResponse;
 import org.json.JSONObject;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 //import javax.print.attribute.standard.Media;
 
-public class afficheproduitcontroller {
+public class afficherproduitfcontroller {
 
     @FXML
     private Button update, ajout;
@@ -63,11 +66,79 @@ public class afficheproduitcontroller {
     private ServicesCrud service = new ServicesCrud();
     @FXML
     private VBox menuLateral;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
+    private void goToWishlist(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/afficherfavoris.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void goToCart(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/AfficherPanier.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void goToHome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontoffice.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void goToReclamations(ActionEvent event) {
+        System.out.println("Aller à Réclamations");
+    }
+    @FXML
+    private void goToProducts(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheproduitf.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void goToEvents(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherEvenement.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+@FXML
     public void initialize() {
         setupMenu();
-        setupNavigationBar();
+
         loadProduits("");
         Image logoImage = new Image(getClass().getResource("/images/njm.png").toExternalForm());
         logo.setImage(logoImage);
@@ -167,7 +238,7 @@ public class afficheproduitcontroller {
             availabilityLabel.getStyleClass().add("product-availability");
 
 
-            Button deleteButton = new Button("🗑️ Supprimer");
+            Button deleteButton = new Button("add to cart");
             deleteButton.getStyleClass().add("delete-button");
             deleteButton.setOnAction(event -> {
                 service.supprimer(produit.getIdproduit());
@@ -185,25 +256,7 @@ public class afficheproduitcontroller {
         }
     }
 
-    @FXML
-    private void goToHome(ActionEvent event) {
-        System.out.println("Aller à Accueil");
-    }
 
-    @FXML
-    private void goToProducts(ActionEvent event) {
-        System.out.println("Aller à Produits");
-    }
-
-    @FXML
-    private void goToReclamations(ActionEvent event) {
-        System.out.println("Aller à Réclamations");
-    }
-
-    @FXML
-    private void goToEvents(ActionEvent event) {
-        System.out.println("Aller à Événements");
-    }
 
     @FXML
     private void searchAction(ActionEvent event) {
@@ -212,12 +265,7 @@ public class afficheproduitcontroller {
         searchProducts();
     }
 
-    private void setupNavigationBar() {
-        homeBtn.setOnAction(event -> navigateTo("/home.fxml"));
-        productsBtn.setOnAction(event -> navigateTo("/afficheproduit.fxml"));
-        claimsBtn.setOnAction(event -> navigateTo("/reclamations.fxml"));
-        eventsBtn.setOnAction(event -> navigateTo("/evenements.fxml"));
-    }
+
 
     private void navigateTo(String fxmlPath) {
         try {
@@ -235,6 +283,7 @@ public class afficheproduitcontroller {
     }
 
 
+    @FXML
     public void loadProduits(String filter) {
         promoTilePane.getChildren().clear();
         promoTilePane.setHgap(30);
@@ -253,7 +302,7 @@ public class afficheproduitcontroller {
                 productCard.getStyleClass().add("product-card");
                 productCard.setPrefSize(250, 350);
 
-                // Ajouter l'image, le titre, le prix, etc. (comme avant)
+                // Image, title, price, etc.
                 ImageView imageView = new ImageView();
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(200);
@@ -304,20 +353,19 @@ public class afficheproduitcontroller {
                 Label availability = new Label("Disponibilité: " + produit.getDisponibilite());
                 availability.getStyleClass().add("product-availability");
 
-
-
-
-                Button deleteButton = new Button("🗑️ Supprimer");
-                deleteButton.getStyleClass().add("delete-button");
-                deleteButton.setOnAction(event -> {
-                    service.supprimer(produit.getIdproduit());
-                    loadProduits("");
+                // Add the Favoris (Favorite) button
+                Button favorisButton = new Button("❤️Ajouter aux favoris");
+                favorisButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white;");
+                favorisButton.setOnAction(event -> {
+                    // Add or remove from favorites
+                    toggleFavorite(produit);
                 });
 
-                productCard.getChildren().addAll(imageView, title, priceContainer, category, availability, deleteButton);
+                // Add all elements to productCard
+                productCard.getChildren().addAll(imageView, title, priceContainer, category, availability, favorisButton);
 
                 if (promoTag != null) {
-                    productCard.getChildren().add(1, promoTag); // Affiche la promotion en haut
+                    productCard.getChildren().add(1, promoTag); // Display promo tag if available
                 }
 
                 promoTilePane.getChildren().add(productCard);
@@ -328,6 +376,33 @@ public class afficheproduitcontroller {
         }
     }
 
+    // Example method to toggle favorite status (you can use a favorite list or database to store favorites)
+    private void toggleFavorite(Produit produit) {
+        // This is where you can store the favorite product, e.g., in a database or a list
+        // For now, let's print a message to simulate adding to favorites
+        System.out.println(produit.getNom() + " has been added to the favorites.");
+        // You can add logic to handle favorites here, like updating the UI or saving to a list
+    }
+
+    private void playAudio(String audioUrl) {
+        if (audioUrl == null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Extrait non disponible");
+            alert.setHeaderText(null);
+            alert.setContentText("Désolé, aucun extrait audio n'est disponible pour cet album.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            Media media = new Media(audioUrl);
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de la lecture du fichier audio.");
+        }
+    }
     private void openWebPage(String url) {
         try {
             java.awt.Desktop.getDesktop().browse(new URI(url));
@@ -483,6 +558,8 @@ public class afficheproduitcontroller {
         }
         return null; // Aucune vidéo trouvée
     }
+
+
 
 }
 

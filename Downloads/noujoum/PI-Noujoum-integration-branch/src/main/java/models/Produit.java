@@ -1,6 +1,7 @@
 package models;
 
-import java.sql.Blob;
+import tools.MyDataBase;
+import java.sql.*;
 
 public class Produit {
     private int idproduit;
@@ -10,101 +11,81 @@ public class Produit {
     private float prix;
     private int disponibilite;
     private Blob image;
+    private Connection cnx;
+    private Promotion promotion;
 
-    // Variable statique pour stocker l'ID du produit sélectionné
-    private static int selectedProduitId;
-
-    // Enum pour les catégories
+    // Enum Categorie
     public enum Categorie {
-        ELECTRONIQUE, VETEMENTS, ALIMENTATION, AUTRE;
+        ELECTRONIQUE, VETEMENTS, ALIMENTATION, AUTRE, ALBUM;
 
+        // Method to convert String to Categorie enum
         public static Categorie fromString(String categorieStr) {
-            if (categorieStr == null) return Categorie.AUTRE;
+            if (categorieStr == null) return Categorie.AUTRE; // Default to AUTRE if the input is null
             try {
+                // Convert string to uppercase to handle case insensitivity
                 return Categorie.valueOf(categorieStr.toUpperCase());
             } catch (IllegalArgumentException e) {
-                return Categorie.AUTRE; // Valeur par défaut en cas d'erreur
+                // Log the error (optional) and return a default category (AUTRE)
+                System.out.println("Unknown category: " + categorieStr);
+                return Categorie.AUTRE; // Default category in case of an invalid string
             }
         }
     }
 
-    // Constructeur
-    public Produit(int idproduit, String nom, String description, String categorie, float prix, int disponibilite, Blob image) {
+    // Constructor with Categorie enum
+    public Produit(int idproduit, String nom, String description, Categorie categorie, float prix, int disponibilite, Blob image) {
         this.idproduit = idproduit;
         this.nom = nom;
         this.description = description;
-        this.categorie = Categorie.fromString(categorie); // Conversion sécurisée
+        this.categorie = categorie;
         this.prix = prix;
         this.disponibilite = disponibilite;
         this.image = image;
+        this.cnx = MyDataBase.getInstance().getCnx();
     }
 
-    // Getters et setters
-    public int getIdproduit() {
-        return idproduit;
+    // Getter and Setter methods
+    public int getIdproduit() { return idproduit; }
+    public String getNom() { return nom; }
+    public String getDescription() { return description; }
+    public Categorie getCategorie() { return categorie; }
+    public float getPrix() { return prix; }
+    public int getDisponibilite() { return disponibilite; }
+    public Blob getImage() { return image; }
+    public Connection getCnx() { return cnx; }
+
+    public void setNom(String nom) { this.nom = nom; }
+    public void setDescription(String description) { this.description = description; }
+    public void setCategorie(Categorie categorie) { this.categorie = categorie; }
+    public void setPrix(float prix) { this.prix = prix; }
+    public void setDisponibilite(int disponibilite) { this.disponibilite = disponibilite; }
+    public void setImage(Blob image) { this.image = image; }
+
+    @Override
+    public String toString() {
+        return "Produit{" +
+                "idproduit=" + idproduit +
+                ", nom='" + nom + '\'' +
+                ", description='" + description + '\'' +
+                ", categorie=" + categorie +
+                ", prix=" + prix +
+                ", disponibilite=" + disponibilite +
+                ", image=" + image +
+                '}';
     }
 
-    public void setIdproduit(int idproduit) {
-        this.idproduit = idproduit;
+    public Promotion getPromotion() {
+        return promotion;
     }
 
-    public String getNom() {
-        return nom;
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Categorie getCategorie() {
-        return categorie;
-    }
-
-    public void setCategorie(String categorie) {
-        this.categorie = Categorie.fromString(categorie);
-    }
-
-    public float getPrix() {
+    public float getPrixAvecPromo() {
+        if (promotion != null) {
+            return prix - (prix * (promotion.getPourcentage() / 100));
+        }
         return prix;
     }
-
-    public void setPrix(float prix) {
-        this.prix = prix;
-    }
-
-    public int getDisponibilite() {
-        return disponibilite;
-    }
-
-    public void setDisponibilite(int disponibilite) {
-        this.disponibilite = disponibilite;
-    }
-
-    public Blob getImage() {
-        return image;
-    }
-
-    public void setImage(Blob image) {
-        this.image = image;
-    }
-
-    // Méthodes pour stocker l'ID du produit sélectionné
-    public static void setProduitId(int id) {
-        selectedProduitId = id;
-    }
-
-    public static int getProduitId() {
-        return selectedProduitId;
-    } public static int produitId; // Variable statique pour stocker l'ID sélectionné
-
-
 }
-

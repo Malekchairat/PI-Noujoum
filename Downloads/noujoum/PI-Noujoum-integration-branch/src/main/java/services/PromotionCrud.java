@@ -33,7 +33,7 @@ public class PromotionCrud implements IService<Promotion> {
         }
     }
 
-    // Modifier une promotion
+
     @Override
     public void modifier(Promotion promotion) {
         String query = "UPDATE promotion SET code = ?, pourcentage = ?, expiration = ?, id_produit = ? WHERE id_promotion = ?";
@@ -46,12 +46,16 @@ public class PromotionCrud implements IService<Promotion> {
             pst.setInt(5, promotion.getIdpromotion());
 
             int rows = pst.executeUpdate();
-            System.out.println(rows > 0 ? "Promotion mise à jour avec succès" : "Aucune mise à jour effectuée");
-
+            if (rows > 0) {
+                System.out.println("Promotion mise à jour avec succès");
+            } else {
+                System.out.println("Aucune mise à jour effectuée");
+            }
         } catch (SQLException e) {
             System.out.println("Erreur lors de la mise à jour de la promotion : " + e.getMessage());
         }
     }
+
 
     // Supprimer une promotion
     @Override
@@ -70,7 +74,6 @@ public class PromotionCrud implements IService<Promotion> {
     }
 
     // Récupérer une promotion par ID
-    //@Override
     public Promotion recuperer(int id) {
         String query = "SELECT * FROM promotion WHERE id_promotion = ?";
 

@@ -1,4 +1,3 @@
-
 package Controllers;
 
 import java.io.IOException;
@@ -15,15 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import services.UserService;
 
-/**
- * FXML Controller class
- *
- * @author Mohamed
- */
 public class ChangementMdpController implements Initializable {
 
     @FXML
@@ -32,66 +25,55 @@ public class ChangementMdpController implements Initializable {
     private PasswordField mdp1;
     @FXML
     private PasswordField mdp2;
-    String email2;
-    UserService us=new UserService();
 
-    /**
-     * Initializes the controller class.
-     */
+    private String email2;
+    private final UserService us = new UserService();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // Initialisation si nécessaire
     }
 
-    public void updateMdp(String email){
-        email2=email;
-
+    public void updateMdp(String email) {
+        this.email2 = email;
+        System.out.println("Email reçu pour la mise à jour du mot de passe : " + email2);
     }
 
     @FXML
     private void Update_password(ActionEvent event) throws SQLException, IOException {
-        if(mdp1.getText().equals(mdp2.getText())){
-            // us.ModifMDP(email2, mdp1.getText());
+        String newPassword = mdp1.getText();
+        String confirmPassword = mdp2.getText();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("mot de passe");
-            alert.setHeaderText(null);
-            alert.setContentText("votre mot de passe a été changé avec succés");
-            alert.show();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
-            Parent root = loader.load();
-
-
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setTitle("Login");
-            stage.setScene(scene);
-            stage.show();
-
-
+        if (newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Erreur", "Les champs ne doivent pas être vides.");
+            return;
         }
 
-        else {
-
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("mot de passe");
-            alert.setHeaderText(null);
-            alert.setContentText("champ vide ou les mot de passe ne sont pas identiques");
-            alert.show();
-
-
+        if (!newPassword.equals(confirmPassword)) {
+            showAlert(Alert.AlertType.WARNING, "Erreur", "Les mots de passe ne sont pas identiques.");
+            return;
         }
 
+        // Mise à jour du mot de passe
 
+        us.modifMDP(email2, newPassword);
 
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "Votre mot de passe a été changé avec succès.");
 
-
+        // Redirection vers la page de connexion
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Login");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
-
-
-
-
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.show();
+    }
 }

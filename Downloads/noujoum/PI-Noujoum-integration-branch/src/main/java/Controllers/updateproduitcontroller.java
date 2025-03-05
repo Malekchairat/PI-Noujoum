@@ -1,117 +1,141 @@
 package Controllers;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.Parent;
+import javafx.stage.FileChooser;
+
 import models.Produit;
+import models.Produit.Categorie;
 import services.ServicesCrud;
-import java.io.ByteArrayInputStream;
+
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 
 public class updateproduitcontroller {
 
     @FXML
-    private TextField idProduit, nom, prix, disponibilite;
+    private TextField idProduit;
 
-    // Correction : utiliser TextArea au lieu de TextField
+    @FXML
+    private TextField nom;
+
     @FXML
     private TextArea description;
 
     @FXML
+    private ComboBox<Categorie> categorieComboBox;
+
+    @FXML
+    private TextField prix;
+
+    @FXML
+    private TextField disponibilite;
+
+    @FXML
     private ImageView image;
 
-    // Optionnel si vous l'utilisez pour la catégorie
     @FXML
-    private ComboBox<Produit.Categorie> categorieComboBox;
+    private Button browseImage;
 
     @FXML
-    private Button update;  // Bouton "Mettre à jour"
+    private Button updateButton;
 
     @FXML
-    private Button affich;  // Bouton "Afficher"
+    private Button affich;
+
+    private File selectedImageFile;
 
     @FXML
     public void initialize() {
-        int produitId = Produit.getProduitId();
-        if (produitId != 0) {
-            idProduit.setText(String.valueOf(produitId));
-            idProduit.setEditable(false);
+        categorieComboBox.getItems().addAll(Categorie.values());
+    }
 
-            ServicesCrud service = new ServicesCrud();
-            Produit produit = service.recupererParId(produitId);
+    @FXML
+    void browseImageAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner une image");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
+        selectedImageFile = fileChooser.showOpenDialog(null);
 
-            if (produit != null) {
-                nom.setText(produit.getNom());
-                description.setText(produit.getDescription());
-                prix.setText(String.valueOf(produit.getPrix()));
-                disponibilite.setText(String.valueOf(produit.getDisponibilite()));
-
-                // Optionnel : mettre à jour la ComboBox si besoin
-                // categorieComboBox.setValue(produit.getCategorie());
-
-                if (produit.getImage() != null) {
-                    try {
-                        byte[] imageData = produit.getImage().getBytes(1, (int) produit.getImage().length());
-                        Image img = new Image(new ByteArrayInputStream(imageData));
-                        image.setImage(img);
-                    } catch (Exception e) {
-                        System.out.println("Erreur chargement image: " + e.getMessage());
-                    }
-                }
-            }
+        if (selectedImageFile != null) {
+            Image img = new Image(selectedImageFile.toURI().toString());
+            image.setImage(img);
+        } else {
+            showAlert("Erreur", "Aucune image sélectionnée", Alert.AlertType.WARNING);
         }
     }
 
-    // Méthode appelée par onAction="#updateProduit" dans le FXML
     @FXML
-    private void updateProduit(ActionEvent event) {
+    void updateProduit(ActionEvent event) {
         try {
-            int id = Integer.parseInt(idProduit.getText());
+            int id = parseInteger(idProduit.getText(), "ID produit invalide");
             String nomProduit = nom.getText().trim();
             String desc = description.getText().trim();
-            float prixValue = Float.parseFloat(prix.getText().trim());
-            int dispo = Integer.parseInt(disponibilite.getText().trim());
+            Categorie selectedCategorie = categorieComboBox.getValue();
+            float productPrix = parseFloat(prix.getText(), "Prix invalide");
+            int disponibiliteInt = parseInteger(disponibilite.getText(), "Disponibilité invalide");
 
-            ServicesCrud service = new ServicesCrud();
-            Produit existingProduit = service.recupererParId(id);
-            if (existingProduit == null) {
-                showAlert("Erreur", "Produit non trouvé.", Alert.AlertType.ERROR);
+            if (nomProduit.isEmpty() || desc.isEmpty() || selectedCategorie == null) {
+                showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
                 return;
             }
 
-            Produit updatedProduit = new Produit(
-                    id,
-                    nomProduit,
-                    desc,
-                    existingProduit.getCategorie().name(),
-                    prixValue,
-                    dispo,
-                    existingProduit.getImage()
-            );
+            Blob imageBlob = null;
+            if (selectedImageFile != null) {
+                try (InputStream inputStream = new FileInputStream(selectedImageFile)) {
+                    byte[] imageBytes = inputStream.readAllBytes();
+                    imageBlob = new SerialBlob(imageBytes);
+                }
+            }
 
-            service.modifier(updatedProduit);
+            Produit produit = new Produit(id, nomProduit, desc, selectedCategorie, productPrix, disponibiliteInt, imageBlob);
+
+            ServicesCrud service = new ServicesCrud();
+            service.modifier(produit);
             showAlert("Succès", "Produit mis à jour avec succès!", Alert.AlertType.INFORMATION);
+
         } catch (Exception e) {
-            showAlert("Erreur", "Erreur lors de la mise à jour : " + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Erreur", "Échec de la mise à jour : " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-    // Méthode appelée par onAction="#Afficher" dans le FXML
     @FXML
-    private void Afficher(ActionEvent event) {
+    void Afficher(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheProduit.fxml"));
             Parent root = loader.load();
+            afficheproduitcontroller controller = loader.getController();
+            controller.loadProduits();
             affich.getScene().setRoot(root);
+
         } catch (IOException e) {
-            showAlert("Erreur", "Erreur navigation vers Afficher Produit : " + e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+            System.out.println("Erreur chargement afficherpromotion.fxml : " + e.getMessage());
+        }
+    }
+
+    private int parseInteger(String value, String errorMessage) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
+    private float parseFloat(String value, String errorMessage) {
+        try {
+            return Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(errorMessage);
         }
     }
 
@@ -122,12 +146,4 @@ public class updateproduitcontroller {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    // Si nécessaire, implémentez cette méthode
-    @FXML
-    private void browseImageAction(ActionEvent event) {
-        // Implémentez cette méthode si vous souhaitez modifier l'image
-    }
 }
-
-

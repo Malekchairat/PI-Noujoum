@@ -1,17 +1,13 @@
 package services;
 
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import models.Evenement;
 import models.Type_e;
 import tools.MyDataBase;
+
+import java.io.InputStream;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EvenementService implements IService<Evenement> {
 
@@ -166,5 +162,14 @@ public class EvenementService implements IService<Evenement> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Get featured event (returns the nth event by ID)
+    public Evenement getFeaturedEvent(int id) {
+        List<Evenement> evenements = recuperer();  // Fetch all events (adjust this to get the top featured ones)
+        if (id <= evenements.size()) {
+            return evenements.get(id - 1);  // Return the nth event (1-based index)
+        }
+        return null;  // Return null if the event id is out of bounds
     }
 }

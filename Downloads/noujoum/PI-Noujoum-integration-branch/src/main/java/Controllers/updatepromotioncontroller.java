@@ -1,12 +1,12 @@
 package Controllers;
 
+import javafx.scene.control.ComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import models.Produit;
 import models.Promotion;
@@ -24,16 +24,12 @@ public class updatepromotioncontroller {
     private Button show;
     @FXML
     private TextField id;
-
     @FXML
     private TextField code;
-
     @FXML
     private TextField pourcentage;
-
     @FXML
     private TextField expiration;
-
     @FXML
     private ComboBox<Produit> produitComboBox;  // ComboBox pour sélectionner le produit
 
@@ -53,8 +49,9 @@ public class updatepromotioncontroller {
             produitComboBox.getItems().add(produit);
         }
     }
+
     @FXML
-    void updatec(ActionEvent event) throws SQLException {
+    void updatec(ActionEvent event) {
         // Récupérer les données des champs
         String couponidStr = id.getText().trim();
         String couponpromo = code.getText().trim();
@@ -131,14 +128,16 @@ public class updatepromotioncontroller {
         // Créer un objet Promotion avec les données
         Promotion updatedPromotion = new Promotion(couponid, couponpromo, coupondiscount, couponexpiry, produitid);
         PromotionCrud cc = new PromotionCrud();
-        cc.modifier(updatedPromotion);
 
-        /*if (updateSuccess) {
+        // Try-catch block to handle the exception if the update fails
+        try {
+            cc.modifier(updatedPromotion);  // Calls the void method
             showAlert("Success", "Coupon updated successfully!", Alert.AlertType.INFORMATION);
-        } else {
-            showAlert("Error", "Error updating promotion.", Alert.AlertType.ERROR);
-        }*/
+        } catch (Exception e) {
+            showAlert("Error", "Error updating promotion: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
+
     @FXML
     void Afficher(ActionEvent event) {
         try {

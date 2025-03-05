@@ -74,6 +74,8 @@ public class addusercontroller implements Initializable {
         }
     }
 
+
+
     @FXML
     void addUser(ActionEvent event) {
         String first = id_nom.getText().trim();
@@ -103,6 +105,18 @@ public class addusercontroller implements Initializable {
             return;
         }
 
+        UserService userCrud = new UserService();
+
+        try {
+            if (userCrud.existEmail(emailInput)) {
+                showAlert("Erreur", "Cet email est déjà utilisé. Veuillez en choisir un autre!", Alert.AlertType.ERROR);
+                return;
+            }
+        } catch (SQLException e) {
+            showAlert("Erreur", "Problème de vérification de l'email: " + e.getMessage(), Alert.AlertType.ERROR);
+            return;
+        }
+
         Blob imageBlob = null;
         if (selectedImageFile != null) {
             try (InputStream inputStream = new FileInputStream(selectedImageFile)) {
@@ -115,13 +129,12 @@ public class addusercontroller implements Initializable {
         }
 
         User newUser = new User(1, first, last, emailInput, passwordInput, Integer.parseInt(phone), role, imageBlob);
-
-        UserService userCrud = new UserService();
         userCrud.ajouter(newUser);
         showAlert("Succès", "Utilisateur ajouté avec succès!", Alert.AlertType.INFORMATION);
-
         resetFields();
     }
+
+
 
     private void resetFields() {
         id_nom.clear();

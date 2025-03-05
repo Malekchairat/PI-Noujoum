@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml">
-    <Label text="Welcome, Admin!" layoutX="100" layoutY="100"/>
-</AnchorPane>
+<VBox spacing="0" alignment="TOP_LEFT" stylesheets="@styles.css" prefWidth="900" prefHeight="600"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BackofficeController"
+      style="-fx-background-color: black;">
 
+    <!-- Top Bar with User Info -->
+    <HBox spacing="10" style="-fx-background-color: #1a1a1a; -fx-padding: 10px; -fx-alignment: center-right;">
+        <ImageView fx:id="userImage" fitHeight="40" fitWidth="40" style="-fx-border-radius: 20px;"/>
+        <Label fx:id="userName" text="Utilisateur" style="-fx-text-fill: gold; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+    </HBox>
+
+    <HBox spacing="0" style="-fx-pref-height: 600; -fx-pref-width: 900;">
+        <!-- Sidebar Menu -->
+        <VBox spacing="15" style="-fx-background-color: #1a1a1a; -fx-pref-width: 200; -fx-padding: 20px;">
+            <Text text="Noujoum" style="-fx-font-size: 22px; -fx-fill: gold; -fx-font-weight: bold;"/>
+            <Button fx:id="btnDashboard" text="Dashboard" onAction="#handleDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: gold; -fx-font-size: 14px;"/>
+            <Button fx:id="btnUsers" text="Utilisateurs" onAction="#handleAfficherUser"
+                    style="-fx-background-color: transparent; -fx-text-fill: gold; -fx-font-size: 14px;"/>
+            <Button fx:id="btnEvents" text="Événements" onAction="#handleAjouterEvenement"
+                    style="-fx-background-color: transparent; -fx-text-fill: gold; -fx-font-size: 14px;"/>
+            <Button fx:id="btnProducts" text="Produits" onAction="#handleAjouterProduit"
+                    style="-fx-background-color: transparent; -fx-text-fill: gold; -fx-font-size: 14px;"/>
+        </VBox>
+
+        <!-- Main Content Area (This will change dynamically) -->
+        <VBox fx:id="mainContent" style="-fx-padding: 30px; -fx-background-color: black; -fx-pref-width: 700;">
+            <Text text="Bienvenue sur Noujoum" style="-fx-font-size: 24px; -fx-fill: gold; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+</VBox>

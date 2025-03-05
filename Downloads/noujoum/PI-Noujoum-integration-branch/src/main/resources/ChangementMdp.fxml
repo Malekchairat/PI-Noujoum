@@ -4,7 +4,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChangementMdpController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #302f21;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ChangementMdpController">
     <children>
         <Button fx:id="valider" layoutX="234.0" layoutY="212.0" mnemonicParsing="false" onAction="#Update_password" prefHeight="25.0" prefWidth="134.0" stylesheets="@/style.css" text="valider" />
         <PasswordField fx:id="mdp1" alignment="CENTER" layoutX="182.0" layoutY="77.0" prefHeight="25.0" prefWidth="226.0" promptText="Entrer votre mot de passe" />

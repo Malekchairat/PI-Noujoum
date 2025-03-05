@@ -1,6 +1,15 @@
 package Controllers;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import java.io.ByteArrayInputStream;
+import java.sql.SQLException;
+import java.util.List;
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,148 +21,195 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import services.FavorisService;
 import models.Favoris;
+import models.Produit;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Region;
 
-import java.io.IOException;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import services.FavorisService;
+import services.UserSession;
+
+
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import java.io.ByteArrayInputStream;
+import java.sql.SQLException;
 import java.util.List;
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import services.FavorisService;
+import models.Favoris;
+import models.Produit;
+import services.UserSession;
 
 public class showfavoriscontroller {
 
     @FXML
     private TilePane favorisTilePane;
-
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private VBox menuLateral;
 
     private final FavorisService favorisService = new FavorisService();
 
     @FXML
     public void initialize() {
         System.out.println("🔄 Initialisation du contrôleur ShowFavorisController");
+
         if (favorisTilePane == null || scrollPane == null) {
             System.out.println("❌ ERREUR: Un élément est NULL ! Vérifie ton fichier FXML.");
             return;
         }
 
-        // Configuration du ScrollPane pour permettre le défilement vertical
+        setupScrollPane();
+        setupTilePane();
+        loadFavoris(); // Call without parameters
+    }
+
+    private void setupScrollPane() {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(false);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setStyle("-fx-background: black; -fx-border-color: gold;");
+    }
 
-        // Configuration du TilePane
+    private void setupTilePane() {
         favorisTilePane.setHgap(20);
         favorisTilePane.setVgap(20);
         favorisTilePane.setPrefColumns(3);
         favorisTilePane.setStyle("-fx-background-color: black; -fx-padding: 20px;");
-
-        // 🔥 Fix: Faire en sorte que le TilePane s'ajuste dynamiquement
-        favorisTilePane.prefWidthProperty().bind(scrollPane.widthProperty().subtract(20));
-        favorisTilePane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-        loadFavoris();
     }
 
     public void loadFavoris() {
+        int userId = UserSession.getUserId();  // Retrieve the user ID from the session-like context
+
+        if (userId == 0) {  // If no user is logged in (user ID is 0), handle the error
+            System.out.println("❌ Aucun utilisateur connecté !");
+            return;
+        }
+
         favorisTilePane.getChildren().clear();
+        favorisTilePane.setHgap(30);
+        favorisTilePane.setVgap(50);
 
         try {
-            List<Favoris> favorisList = favorisService.recuperer();
-            System.out.println("🔍 Nombre de favoris récupérés: " + favorisList.size());
+            List<Produit> produits = favorisService.recupererFavoris(userId);
 
-            if (favorisList.isEmpty()) {
-                Label emptyMessage = new Label("⚠ Aucun favori trouvé.");
-                emptyMessage.setStyle("-fx-text-fill: gold; -fx-font-size: 16px;");
-                favorisTilePane.getChildren().add(emptyMessage);
-                return;
+            for (Produit produit : produits) {
+                VBox productCard = createProductCard(produit);
+                favorisTilePane.getChildren().add(productCard);
             }
-
-            for (Favoris favori : favorisList) {
-                VBox favorisCard = new VBox(10);
-                favorisCard.setAlignment(Pos.CENTER);
-                favorisCard.setStyle(
-                        "-fx-border-color: gold; " +
-                                "-fx-background-color: black; " +
-                                "-fx-text-fill: white; " +
-                                "-fx-border-radius: 10px; " +
-                                "-fx-padding: 15px; " +
-                                "-fx-background-radius: 10px; " +
-                                "-fx-effect: dropshadow(three-pass-box, gold, 5, 0, 0, 0);"
-                );
-                favorisCard.setMinWidth(200);
-                favorisCard.setMaxWidth(250);
-
-                Label idLabel = new Label("📌 ID Produit: " + favori.getIdProduit());
-                idLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
-
-                Label userLabel = new Label("👤 ID Utilisateur: " + favori.getIdUser());
-                userLabel.setStyle("-fx-text-fill: white;");
-
-                Label dateLabel = new Label("📅 Date: " + favori.getDate());
-                dateLabel.setStyle("-fx-text-fill: white;");
-
-                Button modifyButton = new Button("✏ Modifier");
-                modifyButton.setOnAction(event -> openModifierFavoris(favori));
-                modifyButton.setStyle("-fx-background-color: gold; -fx-text-fill: black; -fx-font-weight: bold; -fx-padding: 5px 10px;");
-
-                Button deleteButton = new Button("🗑 Supprimer");
-                deleteButton.setOnAction(event -> confirmDeleteFavoris(favori.getIdFavoris()));
-                deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 5px 10px;");
-
-                favorisCard.getChildren().addAll(idLabel, userLabel, dateLabel, modifyButton, deleteButton);
-                favorisTilePane.getChildren().add(favorisCard);
-            }
-
-            System.out.println("✅ Favoris chargés avec succès !");
         } catch (Exception e) {
-            System.out.println("❌ Erreur lors du chargement des favoris: " + e.getMessage());
-            e.printStackTrace();
+            System.out.println("❌ Erreur lors du chargement des favoris : " + e.getMessage());
         }
     }
 
-    private void openModifierFavoris(Favoris favori) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierfavoris.fxml"));
-            Parent root = loader.load();
+    private VBox createProductCard(Produit produit) {
+        VBox productCard = new VBox(10);
+        productCard.getStyleClass().add("product-card");
+        productCard.setPrefSize(250, 350);
 
-            modifierfavoriscontroller controller = loader.getController();
-            controller.initData(favori);
+        ImageView imageView = createProductImageView(produit);
 
-            Stage stage = new Stage();
-            stage.setTitle("Modifier Favoris");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            System.out.println("❌ Erreur lors de l'ouverture de la fenêtre de modification: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+        Label title = new Label(produit.getNom());
+        title.getStyleClass().add("product-title");
 
-    private void confirmDeleteFavoris(int id_favoris) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce favori ?");
-        alert.setContentText("Cette action est irréversible.");
+        Label priceLabel = new Label(produit.getPrix() + " €");
+        priceLabel.getStyleClass().add("product-price");
 
-        alert.showAndWait().ifPresent(response -> {
-            if (response.getButtonData().isDefaultButton()) {
-                deleteFavoris(id_favoris);
-            }
+        Label categoryLabel = new Label("Catégorie: " + produit.getCategorie());
+        categoryLabel.getStyleClass().add("product-category");
+
+        Label availabilityLabel = new Label("Disponibilité: " + produit.getDisponibilite());
+        availabilityLabel.getStyleClass().add("product-availability");
+
+        Button removeButton = new Button("🗑️ Supprimer des favoris");
+        removeButton.getStyleClass().add("delete-button");
+        removeButton.setOnAction(event -> {
+            favorisService.supprimerFavori(UserSession.getUserId(), produit.getIdproduit());
+            loadFavoris(); // Reload the favorites after removal
         });
+
+        productCard.getChildren().addAll(imageView, title, priceLabel, categoryLabel, availabilityLabel, removeButton);
+        return productCard;
     }
 
-    private void deleteFavoris(int id_favoris) {
-        try {
-            favorisService.supprimer(id_favoris);
-            System.out.println("🗑 Favori supprimé avec succès !");
-            loadFavoris();
-        } catch (Exception e) {
-            System.out.println("❌ Erreur lors de la suppression du favori: " + e.getMessage());
-            e.printStackTrace();
+    private ImageView createProductImageView(Produit produit) {
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(200);
+        imageView.getStyleClass().add("product-image");
+
+        if (produit.getImage() != null) {
+            try {
+                byte[] imageData = produit.getImage().getBytes(1, (int) produit.getImage().length());
+                Image image = new Image(new ByteArrayInputStream(imageData));
+                imageView.setImage(image);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return imageView;
+    }
+
+    @FXML
+    private void goToWishlist(ActionEvent event) throws IOException {
+        navigateTo(event, "/afficherfavoris.fxml");
+    }
+
+    @FXML
+    private void goToCart(ActionEvent event) throws IOException {
+        navigateTo(event, "/AfficherPanier.fxml");
+    }
+
+    @FXML
+    private void goToHome(ActionEvent event) throws IOException {
+        navigateTo(event, "/frontoffice.fxml");
+    }
+
+    @FXML
+    private void goToReclamations(ActionEvent event) {
+        System.out.println("Aller à Réclamations");
+    }
+
+    @FXML
+    private void goToProducts(ActionEvent event) throws IOException {
+        navigateTo(event, "/afficheproduitf.fxml");
+    }
+
+    @FXML
+    private void goToEvents(ActionEvent event) throws IOException {
+        navigateTo(event, "/afficherEvenement.fxml");
+    }
+
+    private void navigateTo(ActionEvent event, String fxmlPath) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }

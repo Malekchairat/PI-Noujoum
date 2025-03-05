@@ -8,36 +8,27 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addproduitcontroller" style="-fx-background-color: #1E1E1E;">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addproduitcontroller">
    <children>
-      <!-- Label et champ de texte pour "Nom" -->
-      <Label layoutX="52.0" layoutY="50.0" text="Nom" style="-fx-text-fill: white;"/>
-      <TextField fx:id="nom" layoutX="130.0" layoutY="50.0" prefWidth="600.0" style="-fx-background-radius: 10px; -fx-font-size: 14px; -fx-padding: 5px; -fx-background-color: #333333; -fx-text-fill: white;"/>
+      <TextField fx:id="nom" layoutX="130.0" layoutY="75.0" />
+      <TextField fx:id="disponibilite" layoutX="130.0" layoutY="299.0" />
+      <Label layoutX="52.0" layoutY="79.0" text="nom" />
+      <Label layoutX="52.0" layoutY="120.0" text="description" />
+      <Label layoutX="52.0" layoutY="159.0" />
+      <Label layoutX="300.0" layoutY="71.0" text="image" />
+      <Label layoutX="53.0" layoutY="303.0" text="disponibilite" />
+      <Button fx:id="ajout" layoutX="475.0" layoutY="340.0" mnemonicParsing="false" onAction="#ajout" text="ajouter" />
+      <Button fx:id="affich" layoutX="395.0" layoutY="340.0" mnemonicParsing="false" text="afficher" onAction="#Afficher" />
 
-      <!-- Label et TextArea pour "Description" -->
-      <Label layoutX="52.0" layoutY="100.0" text="Description" style="-fx-text-fill: #eadbdb;"/>
-      <TextArea fx:id="description" layoutX="130.0" layoutY="100.0" prefHeight="100.0" prefWidth="600.0" style="-fx-background-radius: 10px; -fx-font-size: 14px; -fx-padding: 5px; -fx-background-color: #333333; -fx-text-fill: #0e0606;"/>
+      <TextArea fx:id="description" layoutX="130.0" layoutY="101.0" prefHeight="72.0" prefWidth="100.0" />
+      <Label layoutX="52.0" layoutY="216.0" text="categorie" />
+      <ComboBox fx:id="categorieComboBox" layoutX="118.0" layoutY="212.0" prefWidth="200.0" />
+      <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" layoutX="375.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="browseImage" layoutX="400.0" layoutY="200.0" mnemonicParsing="false" onAction="#browseImageAction" text="Parcourir Image" />
+      <TextField fx:id="prix" layoutX="130.0" layoutY="253.0" />
+      <Label layoutX="53.0" layoutY="257.0" text="prix" />
 
-      <!-- Label et champ de texte pour "Prix" -->
-      <Label layoutX="52.0" layoutY="210.0" text="Prix" style="-fx-text-fill: white;"/>
-      <TextField fx:id="prix" layoutX="130.0" layoutY="210.0" prefWidth="600.0" style="-fx-background-radius: 10px; -fx-font-size: 14px; -fx-padding: 5px; -fx-background-color: #333333; -fx-text-fill: white;"/>
+      <Button fx:id="ajoutPromotion" layoutX="150.0" layoutY="340.0" mnemonicParsing="false" onAction="#ajoutPromotion" text="Ajouter Promotion" />
 
-      <!-- Label et ComboBox pour "Catégorie" -->
-      <Label layoutX="52.0" layoutY="270.0" text="Catégorie" style="-fx-text-fill: white;"/>
-      <ComboBox fx:id="categorieComboBox" layoutX="130.0" layoutY="270.0" prefWidth="600.0" style="-fx-background-radius: 10px; -fx-font-size: 14px; -fx-background-color: #333333; -fx-text-fill: white;"/>
-
-      <!-- Label et champ de texte pour "Disponibilité" -->
-      <Label layoutX="52.0" layoutY="320.0" text="Disponibilité" style="-fx-text-fill: white;"/>
-      <TextField fx:id="disponibilite" layoutX="130.0" layoutY="320.0" prefWidth="600.0" style="-fx-background-radius: 10px; -fx-font-size: 14px; -fx-padding: 5px; -fx-background-color: #333333; -fx-text-fill: white;"/>
-
-      <!-- Section d'insertion d'image -->
-      <Label layoutX="52.0" layoutY="370.0" text="Image" style="-fx-text-fill: white;"/>
-      <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" layoutX="375.0" layoutY="370.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: gold; -fx-border-radius: 10px;"/>
-      <Button fx:id="browseImage" layoutX="400.0" layoutY="520.0" text="Parcourir Image" style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 10px;" onAction="#browseImageAction"/>
-
-      <!-- Boutons d'action -->
-      <Button fx:id="ajout" layoutX="475.0" layoutY="570.0" text="Ajouter" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px;" onAction="#ajout"/>
-      <Button fx:id="affich" layoutX="395.0" layoutY="570.0" text="Afficher" style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 10px;" onAction="#Afficher"/>
-      <Button fx:id="ajoutPromotion" layoutX="150.0" layoutY="570.0" text="Ajouter Promotion" style="-fx-background-color: #FF4500; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px;" onAction="#ajoutPromotion"/>
    </children>
 </AnchorPane>

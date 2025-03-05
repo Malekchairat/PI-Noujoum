@@ -1,5 +1,8 @@
 package Controllers;
 
+import models.Produit;
+import models.Produit.Categorie;
+import services.ServicesCrud;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,17 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import models.Produit;
-import models.Produit.Categorie;
-import services.ServicesCrud;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
 
 public class addproduitcontroller {
 
@@ -117,7 +117,7 @@ public class addproduitcontroller {
                     0,
                     nomProduit,
                     desc,
-                    selectedCategorie.name(), // Conversion de l'énumération en String
+                    selectedCategorie,
                     prixValue,
                     disponibiliteInt,
                     imageBlob
@@ -157,16 +157,37 @@ public class addproduitcontroller {
     }
 
     @FXML
+    private void goToHome(ActionEvent event) {
+        System.out.println("Aller à Accueil");
+    }
+
+    @FXML
+    private void goToProducts(ActionEvent event) {
+        System.out.println("Aller à Produits");
+    }
+
+    @FXML
+    private void goToReclamations(ActionEvent event) {
+        System.out.println("Aller à Réclamations");
+    }
+
+    @FXML
+    private void goToEvents(ActionEvent event) {
+        System.out.println("Aller à Événements");
+    }
+
+    @FXML
     void Afficher(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheProduit.fxml"));
             Parent root = loader.load();
             afficheproduitcontroller controller = loader.getController();
-            controller.loadProduits();
+            controller.loadProduits(); // Now this should work, as loadProduits exists
             affich.getScene().setRoot(root);
+
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Erreur chargement afficheProduit.fxml : " + e.getMessage());
+            System.out.println("Erreur chargement afficheproduit.fxml : " + e.getMessage());
         }
     }
 

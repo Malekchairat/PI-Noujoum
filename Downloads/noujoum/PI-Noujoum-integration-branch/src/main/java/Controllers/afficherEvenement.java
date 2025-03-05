@@ -1,7 +1,9 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,6 +24,7 @@ import models.Evenement;
 import services.EvenementService;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Blob;
 import java.util.List;
 
@@ -34,6 +37,75 @@ public class afficherEvenement {
     private TilePane tilePane;
 
     private EvenementService serviceEvenement;
+
+    @FXML
+    private VBox menuLateral;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+
+    @FXML
+    private void goToWishlist(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/afficherfavoris.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    private void goToCart(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/AfficherPanier.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void goToHome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontoffice.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void goToReclamations(ActionEvent event) {
+        System.out.println("Aller à Réclamations");
+    }
+    @FXML
+    private void goToProducts(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheproduitf.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void goToEvents(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherEvenement.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     public void initialize() {

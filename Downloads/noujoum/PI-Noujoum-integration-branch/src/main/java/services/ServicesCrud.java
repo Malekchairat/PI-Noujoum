@@ -13,6 +13,32 @@ public class ServicesCrud implements IService<Produit> {
     public ServicesCrud() {
         this.cnx = MyDataBase.getInstance().getCnx();
     }
+    public List<Produit> recupererFavoris(int userId) {
+        List<Produit> produits = new ArrayList<>();
+        try {
+            String query = "SELECT p.* FROM favoris f INNER JOIN produit p ON f.id_produit = p.id_produit WHERE f.id_user = ?";
+            PreparedStatement pst = cnx.prepareStatement(query);  // Use cnx instead of connection
+            pst.setInt(1, userId);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Produit produit = new Produit(
+                        rs.getInt("id_produit"),
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        Produit.Categorie.valueOf(rs.getString("categorie").toUpperCase()),
+                        rs.getFloat("prix"),
+                        rs.getInt("disponibilite"),
+                        rs.getBlob("image")
+                );
+                produits.add(produit);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return produits;
+    }
+
 
     @Override
     public void ajouter(Produit produit) {
@@ -20,7 +46,7 @@ public class ServicesCrud implements IService<Produit> {
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, produit.getNom());
             pst.setString(2, produit.getDescription());
-            pst.setString(3, produit.getCategorie().name());
+            pst.setString(3, produit.getCategorie().name());  // Saving the enum as a string
             pst.setFloat(4, produit.getPrix());
             pst.setInt(5, produit.getDisponibilite());
             pst.setBlob(6, produit.getImage());
@@ -38,7 +64,7 @@ public class ServicesCrud implements IService<Produit> {
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, produit.getNom());
             pst.setString(2, produit.getDescription());
-            pst.setString(3, produit.getCategorie().name());
+            pst.setString(3, produit.getCategorie().name());  // Saving the enum as a string
             pst.setFloat(4, produit.getPrix());
             pst.setInt(5, produit.getDisponibilite());
             pst.setBlob(6, produit.getImage());
@@ -73,7 +99,7 @@ public class ServicesCrud implements IService<Produit> {
                         rs.getInt("id_produit"),
                         rs.getString("nom"),
                         rs.getString("description"),
-                        rs.getString("categorie"),
+                        Produit.Categorie.valueOf(rs.getString("categorie").toUpperCase()),  // Convert String to Categorie enum
                         rs.getFloat("prix"),
                         rs.getInt("disponibilite"),
                         rs.getBlob("image")
@@ -85,6 +111,7 @@ public class ServicesCrud implements IService<Produit> {
         return produits;
     }
 
+    // Method to retrieve a single product by its ID
     public Produit recupererParId(int id) {
         Produit produit = null;
         String query = "SELECT * FROM produit WHERE id_produit = ?";
@@ -98,7 +125,7 @@ public class ServicesCrud implements IService<Produit> {
                         rs.getInt("id_produit"),
                         rs.getString("nom"),
                         rs.getString("description"),
-                        rs.getString("categorie"),
+                        Produit.Categorie.valueOf(rs.getString("categorie").toUpperCase()),  // Convert String to Categorie enum
                         rs.getFloat("prix"),
                         rs.getInt("disponibilite"),
                         rs.getBlob("image")
@@ -109,5 +136,13 @@ public class ServicesCrud implements IService<Produit> {
         }
         return produit;
     }
-}
 
+    // Get featured product (returns the nth product by ID)
+    public Produit getFeaturedProduct(int id) {
+        List<Produit> produits = recuperer();  // Fetch all products (adjust this to get the top featured ones)
+        if (id <= produits.size()) {
+            return produits.get(id - 1);  // Return the nth product (1-based index)
+        }
+        return null;  // Return null if the product id is out of bounds
+    }
+}

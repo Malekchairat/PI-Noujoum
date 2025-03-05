@@ -1,15 +1,19 @@
 package Controllers;
 
+import services.PromotionCrud;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.TilePane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ButtonType;
 import models.Promotion;
-import services.PromotionCrud;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +27,9 @@ public class afficherpromotioncontroller {
     private Button ajout;
 
     @FXML
+    private Button affich;
+
+    @FXML
     private TilePane promoTilePane;
 
     @FXML
@@ -31,24 +38,10 @@ public class afficherpromotioncontroller {
     private PromotionCrud cc = new PromotionCrud();
 
     @FXML
-    public void initialize() {
-        // Configuration du ScrollPane
-        scrollPane.setFitToWidth(true);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-
-        // Associer le contenu du ScrollPane à promoTilePane
-        scrollPane.setContent(promoTilePane);
-
-        loadPromotions();
-    }
-
-    @FXML
     public void loadPromotions() {
         promoTilePane.getChildren().clear();
         promoTilePane.setHgap(50);
-        promoTilePane.setVgap(20);
-        promoTilePane.setPrefColumns(3); // Afficher 3 colonnes maximum
+        promoTilePane.setVgap(120);
 
         try {
             List<Promotion> promotions = cc.recuperer();
@@ -68,21 +61,22 @@ public class afficherpromotioncontroller {
                         new Label("Code: " + promo.getCode()),
                         new Label("Réduction: " + promo.getPourcentage() + "%"),
                         new Label("Expiration: " + promo.getExpiration()),
-                        new Label("Produit: " + promo.getProduit())
+                        new Label("Produit: " + promo.getProduit())  // Nouvelle ligne pour afficher le produit
                 );
 
                 // Bouton de suppression avec confirmation
                 Button deleteButton = new Button("Supprimer");
                 deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-                deleteButton.setOnAction(event -> showConfirmationAlert(promo));
+                deleteButton.setOnAction(event -> {
+                    // Demander une confirmation avant de supprimer
+                    showConfirmationAlert(promo);
+                });
 
                 couponCard.getChildren().add(deleteButton);
                 promoTilePane.getChildren().add(couponCard);
             }
 
-            // Mise à jour du layout
-            promoTilePane.requestLayout();
-            scrollPane.requestLayout();
+            scrollPane.setContent(promoTilePane);
 
         } catch (Exception e) {
             System.out.println("Erreur lors du chargement des promotions : " + e.getMessage());
@@ -90,6 +84,7 @@ public class afficherpromotioncontroller {
         }
     }
 
+    // Méthode pour afficher une alerte
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -98,6 +93,7 @@ public class afficherpromotioncontroller {
         alert.showAndWait();
     }
 
+    // Méthode pour afficher une alerte de confirmation
     private void showConfirmationAlert(Promotion promo) {
         Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
         confirmationAlert.setTitle("Confirmation de suppression");
@@ -110,10 +106,11 @@ public class afficherpromotioncontroller {
         });
     }
 
+    // Méthode pour supprimer la promotion après confirmation
     private void deleteCoupon(Promotion promo) {
         try {
-            cc.supprimer(promo.getIdpromotion());
-            loadPromotions();
+            cc.supprimer(promo.getIdpromotion());  // Suppression de la promotion
+            loadPromotions(); // Recharge les promotions après suppression
             showAlert("Succès", "Promotion supprimée avec succès.", AlertType.INFORMATION);
         } catch (Exception e) {
             showAlert("Erreur", "Une erreur est survenue lors de la suppression de la promotion.", AlertType.ERROR);
@@ -139,6 +136,18 @@ public class afficherpromotioncontroller {
             update.getScene().setRoot(root);
         } catch (IOException e) {
             showAlert("Erreur", "Erreur lors du chargement de l'interface de mise à jour.", AlertType.ERROR);
+        }
+    }
+    @FXML
+    void affich(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheProduit.fxml"));
+            Parent root = loader.load();
+            afficheproduitcontroller controller = loader.getController();
+            controller.loadProduits();
+            affich.getScene().setRoot(root);
+        } catch (IOException e) {
+            showAlert("Erreur", "Erreur lors du chargement de l'affichage des produit: " + e.getMessage(), AlertType.ERROR);
         }
     }
 }

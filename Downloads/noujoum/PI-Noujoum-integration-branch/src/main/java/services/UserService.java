@@ -109,4 +109,49 @@ public class UserService implements IService<User> {
         user.setImage(rs.getBlob("image"));
         return user;
     }
+    public void modifMDP(String email, String newPassword) throws SQLException {
+        String query = "UPDATE user SET mdp = ? WHERE email = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Mot de passe mis à jour avec succès pour l'email : " + email);
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec cet email.");
+            }
+        }
+    }
+    public static User findByEmail(String email) {
+        String query = "SELECT * FROM user WHERE email = ?";
+        User result = null;
+
+        try (PreparedStatement stmt = MyDataBase.getInstance().getCnx().prepareStatement(query)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Récupération du Blob (image)
+                    Blob blob = rs.getBlob("image");
+                    byte[] profilePic = (blob != null) ? blob.getBytes(1, (int) blob.length()) : null;
+
+                    result = new User(
+                            rs.getInt("id_user"),        // Correspond à id_user
+                            rs.getString("nom"),        // Correspond à nom
+                            rs.getString("prenom"),     // Correspond à prenom
+                            rs.getString("email"),
+                            rs.getString("mdp"),   // Correspond à mdp
+                            rs.getInt("tel"),         // Correspond à tel (changement en int)
+                            rs.getString("role"),       // Garde role en String
+                            rs.getBlob("image")                        // Stocke le Blob dans l'attribut image
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Remplace par un logger en prod
+        }
+
+        return result;
+    }
+
+
 }
