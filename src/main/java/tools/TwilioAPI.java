@@ -8,15 +8,15 @@ public class TwilioAPI {
     public TwilioAPI()
     {
         Twilio.init(
-                "ACe437f34e4b77f7971f1b55029db46fc5",
-                "953c43ff17734856540dc62a6f039093");
+                "AC6be49cb91b9e3630bc17ef0093eb97b4",
+                "3885aa0b6936f0c6cf784f4409573dff");
     }
 
     public void  sendSMS(String number,String message)
     {
         Message msg = Message.creator(
                         new PhoneNumber(number),
-                        new PhoneNumber("+13177432896"),
+                        new PhoneNumber("+15632028564"),
                         message)
                 .create();
     }

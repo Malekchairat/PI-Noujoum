@@ -24,13 +24,13 @@ module org.example.pirec {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
-    opens controller to javafx.fxml;
+    opens Controllers to javafx.fxml;
     opens models to javafx.fxml;
     opens services to javafx.fxml;
     opens tools to javafx.fxml;
     opens org.example to javafx.graphics, javafx.fxml;
 
-    exports controller;
+    exports Controllers;
     exports models;
     exports services;
     exports tools;

@@ -1,15 +1,12 @@
-package controller;
+package Controllers;
 
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import models.Reclamation;
 import models.User;
 import services.ReclamationService;
@@ -18,7 +15,6 @@ import tools.GeminiAPI;
 import tools.TwilioAPI;
 
 import java.util.Date;
-import java.util.regex.Pattern;
 
 public class AddRecController {
 
@@ -86,12 +82,19 @@ public class AddRecController {
             titreError.setText("Le titre doit contenir entre 3 et 50 caractères.");
             titreField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
             return false;
-        } else {
-            titreError.setText("");
-            titreField.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-            return true;
         }
+        if (!titre.matches("^[^0-9]+$")) { // Vérifie qu'il n'y a aucun chiffre
+            titreError.setText("Le titre ne doit pas contenir de chiffres.");
+            titreField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            return false;
+        }
+
+        // Si tout est valide
+        titreError.setText("");
+        titreField.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        return true;
     }
+
 
     /**
      * ✅ Validate "Description" field in real-time
@@ -113,7 +116,7 @@ public class AddRecController {
      */
     private String getPriorityFromGemini(String description) {
         try {
-            String prompt = "Classify the priority of this complaint as 'Basse', or 'Haute'. Respond with only the priority level:\n" + description;
+            String prompt = "Classify the priority of this complaint as 'Basse','Moyenne', or 'Haute'. Respond with only the priority level:\n" + description;
             System.out.println("Prompt: " + prompt);
             JsonObject response = GeminiAPI.getGeminiResponse(prompt);
 

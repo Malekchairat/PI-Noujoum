@@ -1,12 +1,10 @@
-package controller;
+package Controllers;
 
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.Reclamation;
 import services.ReclamationService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import tools.GeminiAPI;
 
 public class UpdateRecController {

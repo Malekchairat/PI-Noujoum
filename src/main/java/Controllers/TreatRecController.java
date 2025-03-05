@@ -1,4 +1,4 @@
-package controller;
+package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,7 +7,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import models.Reclamation;
 import services.ReclamationService;
-import controller.DashAdminRecController;
 
 public class TreatRecController {
 

@@ -16,15 +16,15 @@ public class ReclamationService implements IService<Reclamation> {
 
     @Override
     public void ajouter(Reclamation reclamation) {
-        String query = "INSERT INTO reclamation (user_id, titre, description, date_creation, statut, priorite, answer) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reclamation (user_id, titre, description, date_creation, statut, answer,priorite) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, reclamation.getUser().getId_user());
             pst.setString(2, reclamation.getTitre());
             pst.setString(3, reclamation.getDescription());
             pst.setDate(4, new java.sql.Date(reclamation.getDateCreation().getTime()));
             pst.setString(5, reclamation.getStatut());
-            pst.setString(6, reclamation.getPriorite());
-            pst.setString(7, reclamation.getAnswer());
+            pst.setString(7, reclamation.getPriorite());
+            pst.setString(6, reclamation.getAnswer());
             pst.executeUpdate();
             System.out.println("Réclamation ajoutée avec succès !");
         } catch (SQLException e) {
@@ -34,14 +34,14 @@ public class ReclamationService implements IService<Reclamation> {
 
     @Override
     public void modifier(Reclamation reclamation, int id) {
-        String query = "UPDATE reclamation SET user_id = ?, titre = ?, description = ?, statut = ?, priorite = ?, answer = ? WHERE id = ?";
+        String query = "UPDATE reclamation SET user_id = ?, titre = ?, description = ?, statut = ?, answer = ?, priorite = ? WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, reclamation.getUser().getId_user());
             pst.setString(2, reclamation.getTitre());
             pst.setString(3, reclamation.getDescription());
             pst.setString(4, reclamation.getStatut());
-            pst.setString(5, reclamation.getPriorite());
-            pst.setString(6, reclamation.getAnswer());
+            pst.setString(6, reclamation.getPriorite());
+            pst.setString(5, reclamation.getAnswer());
             pst.setInt(7, id);
             pst.executeUpdate();
             System.out.println("Réclamation mise à jour avec succès !");
@@ -144,6 +144,7 @@ public class ReclamationService implements IService<Reclamation> {
                         rs.getString("statut"),
                         rs.getString("priorite"),
                         rs.getString("answer")
+
                 );
                 reclamations.add(r);
             }

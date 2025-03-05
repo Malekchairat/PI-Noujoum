@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddRecController">
+<AnchorPane prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AddRecController">
 
     <VBox alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="330" prefWidth="380">
 
@@ -23,6 +23,7 @@
 
         <!-- Submit Button -->
         <Button fx:id="submitButton" onAction="#handleSubmit" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Ajouter" />
+      
 
     </VBox>
 </AnchorPane>

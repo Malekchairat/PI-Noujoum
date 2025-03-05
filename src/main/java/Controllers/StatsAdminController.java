@@ -1,4 +1,4 @@
-package controller;
+package Controllers;
 
 import com.google.gson.JsonObject;
 import com.itextpdf.layout.element.Paragraph;
@@ -23,9 +23,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -234,8 +231,8 @@ public class StatsAdminController {
     }
 
     public void sendEmail(String recipient) {
-        final String senderEmail = "mahmoudtouil9@gmail.com";
-        final String senderPassword = "zzjs enoh rimz nqvp"; // Use App Password if using Gmail
+        final String senderEmail = "montassarbenhariz90@gmail.com";
+        final String senderPassword = "vxdw fleq jdmc swrh"; // Use App Password if using Gmail
 
         // Check if the PDF file exists before proceeding
         String filePath = "statistics.pdf";
@@ -301,7 +298,7 @@ public class StatsAdminController {
 
     @FXML
     void sendMail(ActionEvent event) {
-        String recipient = "mahmoudtouil9@gmail.com";
+        String recipient = "montassarbenhariz90@gmail.com";
         sendEmail(recipient);
     }
 

@@ -8,7 +8,8 @@ import javafx.stage.Stage;
 public class MainFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/DashRecUser.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/DashRecUser.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/DashAdminRec.fxml"));
         Scene scene = new Scene(loader.load());
 
         stage.setTitle("Tableau de Bord Utilisateur - Réclamations");

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="754.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashRecUserController">
+<AnchorPane prefHeight="754.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DashRecUserController">
     <children>
         <TextField fx:id="searchField" layoutX="63.0" layoutY="31.0" prefHeight="26.0" prefWidth="203.0" promptText="Search here ..." />
         <ListView fx:id="RecTreatedListView" layoutX="14.0" layoutY="85.0" prefHeight="277.0" prefWidth="506.0" />
@@ -23,9 +23,10 @@
             </yAxis>
         </BarChart>
         <PieChart fx:id="pieChart" layoutX="533.0" layoutY="85.0" prefHeight="277.0" prefWidth="257.0" />
-        <ListView fx:id="RecListView" layoutX="13.0" layoutY="377.0" prefHeight="323.0" prefWidth="506.0" />
+        <ListView fx:id="RecListView" layoutX="13.0" layoutY="423.0" prefHeight="277.0" prefWidth="506.0" />
         <ComboBox fx:id="filter1" layoutX="396.0" layoutY="31.0" prefHeight="25.0" prefWidth="111.0" />
       <ComboBox fx:id="filter2" layoutX="278.0" layoutY="32.0" prefHeight="25.0" prefWidth="111.0" />
       <Button fx:id="add" layoutX="218.0" layoutY="714.0" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="96.0" text="Ajouter" />
+      <Button fx:id="feedback" layoutX="218.0" layoutY="377.0" mnemonicParsing="false" onAction="#openFeedback" prefHeight="25.0" prefWidth="96.0" text="Mes Feedback" />
     </children>
 </AnchorPane>
