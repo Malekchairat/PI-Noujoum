@@ -173,7 +173,7 @@ public class afficheproduitcontroller {
     @FXML
     private VBox menuLateral;
     private static final String ACCOUNT_SID = "AC3b74a9a1cdc84d0001f6c6e49ea011ec";
-    private static final String AUTH_TOKEN = "891ffb9806f3b93a12616b8193f65cd4";
+    private static final String AUTH_TOKEN = "bfc3644ac19e7fb08dae7679f97757be";
     private static final String TWILIO_PHONE_NUMBER = "+12702791467"; // Ton numéro Twilio
     private static final String TON_NUMERO = "+21652164756"; // Ton numéro de téléphone
     @FXML
@@ -782,7 +782,7 @@ public class afficheproduitcontroller {
 
             System.out.println("Envoi du SMS...");
             Message sms = Message.creator(
-                    new PhoneNumber(TON_NUMERO), // Numéro de destination
+                    new PhoneNumber("+21652164756"), // Numéro de destination
                     new PhoneNumber(TWILIO_PHONE_NUMBER), // Numéro Twilio
                     message // Message à envoyer
             ).create();
