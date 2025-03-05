@@ -8,6 +8,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
+<<<<<<< HEAD
             fx:controller="Controllers.showfavoriscontroller" style="-fx-background-color: black;">
     <children>
         <Button fx:id="affich" layoutX="289.0" layoutY="323.0" mnemonicParsing="false"
@@ -21,6 +22,19 @@
                 <TilePane fx:id="favorisTilePane" hgap="20" vgap="20"
                           prefWidth="540.0" prefHeight="200.0"
                           style="-fx-background-color: black; -fx-padding: 20px;"/>
+=======
+            fx:controller="controllers.showfavoriscontroller">
+    <children>
+        <Button fx:id="affich" layoutX="289.0" layoutY="323.0" mnemonicParsing="false"
+                onAction="#loadFavoris" text="Afficher" />
+        <ScrollPane fx:id="scrollPane" layoutX="14.0" layoutY="48.0" prefHeight="230.0" prefWidth="431.0">
+            <content>
+                <AnchorPane fx:id="scrollPanel" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <TilePane fx:id="favorisTilePane" layoutX="28.0" prefHeight="200.0" prefWidth="200.0" />
+                    </children>
+                </AnchorPane>
+>>>>>>> origin/integration-branch
             </content>
         </ScrollPane>
     </children>

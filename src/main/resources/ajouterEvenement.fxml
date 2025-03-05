@@ -48,5 +48,12 @@
         <!-- Nouveau bouton ajouté -->
         <Button fx:id="newButton" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#newButtonAction" text="Nouveau Bouton" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
 
+<<<<<<< HEAD
+=======
+        <Button fx:id="ajout" layoutX="450.0" layoutY="380.0" mnemonicParsing="false" onAction="#ajout" text="Ajouter" />
+        <Button fx:id="show" layoutX="350.0" layoutY="380.0" mnemonicParsing="false" onAction="#Afficher" text="Afficher" />
+        <Button fx:id="update" layoutX="250.0" layoutY="380.0" mnemonicParsing="false" onAction="#update" text="Mettre à jour" />
+        <Button fx:id="afficherTicketsButton" layoutX="150.0" layoutY="380.0" mnemonicParsing="false" onAction="#afficherTickets" text="Afficher Tickets" />
+>>>>>>> origin/integration-branch
     </children>
 </AnchorPane>

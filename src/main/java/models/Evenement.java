@@ -31,6 +31,10 @@ public class Evenement {
         this.ticketCount = ticketCount;
         this.imageE = imageE;
     }
+    public String getArtiste() {
+        return this.artist;
+    }
+
 
     public Evenement(String location, String artist, String description, Date startDate, Date endDate, int time, float price, Type_e type, int ticketCount, Blob imageE) {
         this.location = location;

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addusercontroller">
+   <children>
+      <Accordion layoutX="186.0" layoutY="138.0" />
+      <Pane layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <TextField fx:id="id_nom" layoutX="88.0" layoutY="69.0" promptText="entrez nom" />
+            <TextField fx:id="id_prenom" layoutX="88.0" layoutY="109.0" promptText="entrez prenom" />
+            <TextField fx:id="id_mail" layoutX="88.0" layoutY="140.0" promptText="entrez mail" />
+            <TextField fx:id="id_mdp" layoutX="88.0" layoutY="182.0" promptText="entrez mdp " />
+            <TextField fx:id="id_tel" layoutX="88.0" layoutY="224.0" promptText="entrez tel" />
+
+            <!-- Liste déroulante pour le rôle -->
+            <ComboBox fx:id="idrole" layoutX="88.0" layoutY="260.0" promptText="Sélectionnez un rôle" />
+
+            <Button fx:id="id_ajout" layoutX="103.0" layoutY="344.0" mnemonicParsing="false" onAction="#addUser" text="ajouteruser" />
+            <Button fx:id="show" layoutX="251.0" layoutY="344.0" mnemonicParsing="false" onAction="#Afficher" text="afficherusers" />
+
+            <!-- Nouveau bouton pour accéder à la page d'ajout des favoris -->
+            <Button fx:id="goToAddFavoris" layoutX="400.0" layoutY="344.0" mnemonicParsing="false" onAction="#goToAddFavoris" text="Ajouter Favoris" />
+
+            <Label layoutX="36.0" layoutY="73.0" text="nom" />
+            <Label layoutX="36.0" layoutY="113.0" text="prenom" />
+            <Label layoutX="36.0" layoutY="144.0" text="email" />
+            <Label layoutX="36.0" layoutY="186.0" text="mdp" />
+            <Label layoutX="36.0" layoutY="228.0" text="tel" />
+            <Label layoutX="36.0" layoutY="264.0" text="role" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< HEAD
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier" style="-fx-background-color: #000000;" stylesheets="@styles/styles.css">
     <children>
         <GridPane fx:id="gridPaniers" hgap="10" vgap="10" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;">
@@ -11,3 +12,17 @@
         </GridPane>
     </children>
 </VBox>
+=======
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier" style="-fx-background-color: #000000;">
+    <children>
+        <GridPane fx:id="gridPaniers" hgap="10" vgap="10">
+            <style>
+                -fx-text-fill: #B0B0B0; /* Gris clair pour le texte */
+                -fx-font-size: 14px; /* Taille de police plus grande pour améliorer la lisibilité */
+            </style>
+        </GridPane>
+
+
+    </children>
+</VBox>
+>>>>>>> origin/integration-branch

@@ -5,6 +5,25 @@
 
 package tests;
 
+<<<<<<< HEAD
+=======
+import java.sql.SQLException;
+import java.util.List;
+
+
+import models.Panier;
+import models.Personne;
+import services.PersonneService;
+import services.PanierService;
+import services.CommandeService;
+import models.Commande;
+
+
+import services.PanierService;
+import models.Panier;
+import java.sql.SQLException;
+
+>>>>>>> origin/integration-branch
 //modifier+supprimer panier
 /*
 public class main {

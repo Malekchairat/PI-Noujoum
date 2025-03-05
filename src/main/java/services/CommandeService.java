@@ -7,17 +7,28 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+<<<<<<< HEAD
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandeService implements IService<Commande> {
+=======
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.PreparedStatement;
+
+
+public class CommandeService implements ICommandeService<Commande> {
+
+>>>>>>> origin/integration-branch
     Connection cnx = MyDataBase.getInstance().getCnx();
 
     public CommandeService() {
     }
 
     @Override
+<<<<<<< HEAD
     public void ajouter(Commande t) {
         if (!isUserExists(t.getId_user())) {  // Check if the user exists
             System.out.println("❌ L'utilisateur avec l'ID " + t.getId_user() + " n'existe pas.");
@@ -37,12 +48,22 @@ public class CommandeService implements IService<Commande> {
             stm.setInt(8, t.getId_user());
 
             stm.executeUpdate();
+=======
+    public void ajouter(Commande t) throws SQLException{
+        try {
+            String req = "INSERT INTO `commande`(`id_panier`, `rue`, `ville`, `code_postal`, `etat`, `montant_total`, `methodePaiment`, `id_user`) " +
+                    "VALUES ('" + t.getId_panier() + "', '" + t.getRue() + "', '" + t.getVille() + "', '" + t.getCode_postal() + "', '"
+                    + t.getEtat() + "', '" + t.getMontant_total() + "', '" + t.getMethodePaiment() + "', '" + t.getId_user() + "')";
+            Statement stm = cnx.createStatement();
+            stm.executeUpdate(req);
+>>>>>>> origin/integration-branch
             System.out.println("✅ Commande ajoutée avec succès !");
         } catch (SQLException ex) {
             System.out.println("❌ Erreur lors de l'ajout : " + ex.getMessage());
         }
     }
 
+<<<<<<< HEAD
     public boolean isPanierExists(int idPanier) {
         String sql = "SELECT COUNT(*) FROM panier WHERE id_panier = ?";
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
@@ -90,6 +111,10 @@ public class CommandeService implements IService<Commande> {
 
     @Override
     public void modifier(Commande commande) {
+=======
+    @Override
+    public void modifier(Commande commande, String var2) throws SQLException {
+>>>>>>> origin/integration-branch
         String sql = "UPDATE commande SET id_panier = ?, rue = ?, ville = ?, code_postal = ?, etat = ?, montant_total = ?, methodePaiment = ?, id_user = ? WHERE commande_id = ?";
         try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
             stmt.setInt(1, commande.getId_panier());
@@ -101,6 +126,7 @@ public class CommandeService implements IService<Commande> {
             stmt.setString(7, commande.getMethodePaiment());
             stmt.setInt(8, commande.getId_user());
             stmt.setInt(9, commande.getCommande_id());
+<<<<<<< HEAD
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -110,15 +136,55 @@ public class CommandeService implements IService<Commande> {
             }
         } catch (SQLException ex) {
             System.err.println("❌ Erreur lors de la mise à jour de la commande : " + ex.getMessage());
+=======
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Commande mise à jour avec succès.");
+            } else {
+                System.out.println("Aucune commande trouvée avec cet ID.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la mise à jour de la commande : " + ex.getMessage());
+            throw ex;
+        }
+    }
+
+
+    @Override
+
+    public void supprimer(Commande commande) {
+        String sql = "DELETE FROM commande WHERE commande_id = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, commande.getCommande_id());
+            int rowsDeleted = stmt.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Commande supprimée avec succès.");
+            } else {
+                System.out.println("Aucune commande trouvée avec cet ID.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors de la suppression de la commande : " + ex.getMessage());
+>>>>>>> origin/integration-branch
         }
     }
 
     @Override
+<<<<<<< HEAD
     public List<Commande> recuperer() {
         List<Commande> commandes = new ArrayList<>();
         String sql = "SELECT * FROM commande";
 
         try (Statement stm = cnx.createStatement(); ResultSet rs = stm.executeQuery(sql)) {
+=======
+    public List<Commande> recuperer() throws SQLException {
+        List<Commande> commandes = new ArrayList<>();
+        String req = "SELECT * FROM commande";
+
+        try {
+            Statement stm = cnx.createStatement();
+            ResultSet rs = stm.executeQuery(req);
+
+>>>>>>> origin/integration-branch
             while (rs.next()) {
                 Commande c = new Commande();
                 c.setCommande_id(rs.getInt("commande_id"));
@@ -127,13 +193,22 @@ public class CommandeService implements IService<Commande> {
                 c.setVille(rs.getString("ville"));
                 c.setCode_postal(rs.getString("code_postal"));
                 c.setEtat(rs.getString("etat"));
+<<<<<<< HEAD
                 c.setMontant_total(rs.getFloat("montant_total"));
                 c.setMethodePaiment(rs.getString("methodePaiment"));
+=======
+                c.setMontant_total((float) rs.getDouble("montant_total"));
+                c.setMethodePaiment(rs.getString("MethodePaiment"));
+>>>>>>> origin/integration-branch
                 c.setId_user(rs.getInt("id_user"));
                 commandes.add(c);
             }
         } catch (SQLException ex) {
+<<<<<<< HEAD
             System.out.println("❌ Erreur lors de la récupération des commandes : " + ex.getMessage());
+=======
+            System.out.println("❌ Erreur lors de la récupération : " + ex.getMessage());
+>>>>>>> origin/integration-branch
         }
 
         return commandes;

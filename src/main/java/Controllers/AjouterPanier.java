@@ -11,12 +11,17 @@ import models.Panier;
 import services.PanierService;
 
 import java.io.IOException;
+<<<<<<< HEAD
+=======
+import java.sql.SQLException;
+>>>>>>> origin/integration-branch
 
 public class AjouterPanier {
 
     @FXML
     private TextField idProduit, nbrProduit, idUser;
 
+<<<<<<< HEAD
     @FXML
     private void ajout(ActionEvent event) {
         if (!validateAndConvertFields()) {
@@ -63,10 +68,41 @@ public class AjouterPanier {
 
         } catch (Exception e) {
             showAlert("Erreur", "Une erreur est survenue : " + e.getMessage(), Alert.AlertType.ERROR);
+=======
+    private int idProduitInt, nbrProduitInt, idUserInt;
+
+    @FXML
+    private void ajout(ActionEvent event) {
+        if (idProduit == null || nbrProduit == null || idUser == null) {
+            System.err.println("Un ou plusieurs champs ne sont pas initialisés !");
+            return;
+        }
+
+        if (!validateAndConvertFields()) {
+            return; // Arrêter si la validation échoue
+        }
+
+        try {
+            PanierService panierService = new PanierService();
+            Panier panier = new Panier(idProduitInt, nbrProduitInt);
+            panier.setId_user(idUserInt);
+
+            panierService.ajouter(panier);
+            showAlert("Succès", "Panier ajouté avec succès !", Alert.AlertType.INFORMATION);
+        } catch (SQLException e) {
+            if (e.getSQLState().equals("23000")) {
+                showAlert("Erreur SQL", "ID Produit ou ID Utilisateur invalide.", Alert.AlertType.ERROR);
+            } else {
+                showAlert("Erreur SQL", "Une erreur s'est produite lors de l'ajout à la base de données : " + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            showAlert("Erreur", "Une erreur inconnue est survenue : " + e.getMessage(), Alert.AlertType.ERROR);
+>>>>>>> origin/integration-branch
         }
     }
 
     private boolean validateAndConvertFields() {
+<<<<<<< HEAD
         if (idProduit.getText().isEmpty() || nbrProduit.getText().isEmpty() || idUser.getText().isEmpty()) {
             showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
             return false;
@@ -79,12 +115,33 @@ public class AjouterPanier {
 
             if (idProduitInt <= 0 || nbrProduitInt <= 0 || idUserInt <= 0) {
                 showAlert("Erreur", "Les valeurs numériques doivent être strictement positives.", Alert.AlertType.ERROR);
+=======
+        try {
+            // Vérification des champs
+            if (idProduit.getText().isEmpty() || nbrProduit.getText().isEmpty() || idUser.getText().isEmpty()) {
+                showAlert("Erreur", "Tous les champs doivent être remplis.", Alert.AlertType.ERROR);
+                return false;
+            }
+
+            // Conversion des champs en entiers
+            idProduitInt = Integer.parseInt(idProduit.getText());
+            nbrProduitInt = Integer.parseInt(nbrProduit.getText());
+            idUserInt = Integer.parseInt(idUser.getText());
+
+            // Validation des valeurs numériques
+            if (idProduitInt <= 0 || nbrProduitInt <= 0 || idUserInt <= 0) {
+                showAlert("Erreur", "Les valeurs numériques doivent être positives.", Alert.AlertType.ERROR);
+>>>>>>> origin/integration-branch
                 return false;
             }
 
             return true;
         } catch (NumberFormatException e) {
+<<<<<<< HEAD
             showAlert("Erreur", "Tous les champs doivent contenir uniquement des nombres entiers valides.", Alert.AlertType.ERROR);
+=======
+            showAlert("Erreur", "Format invalide pour les champs numériques : " + e.getMessage(), Alert.AlertType.ERROR);
+>>>>>>> origin/integration-branch
             return false;
         }
     }
@@ -98,10 +155,18 @@ public class AjouterPanier {
             stage.setTitle("Liste des Paniers");
             stage.show();
         } catch (IOException e) {
+<<<<<<< HEAD
+=======
+            e.printStackTrace();
+>>>>>>> origin/integration-branch
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AfficherPanier.", Alert.AlertType.ERROR);
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/integration-branch
     @FXML
     void revenirAjouterCommande(ActionEvent event) {
         try {
@@ -111,10 +176,17 @@ public class AjouterPanier {
             stage.setTitle("Ajouter Commande");
             stage.show();
 
+<<<<<<< HEAD
             // Fermer la fenêtre actuelle
             Stage currentStage = (Stage) idProduit.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
+=======
+            Stage currentStage = (Stage) idProduit.getScene().getWindow();
+            currentStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+>>>>>>> origin/integration-branch
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AjouterCommande.", Alert.AlertType.ERROR);
         }
     }
@@ -126,4 +198,8 @@ public class AjouterPanier {
         alert.setContentText(message);
         alert.showAndWait();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/integration-branch

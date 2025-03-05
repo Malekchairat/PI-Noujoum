@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<<<<<<< HEAD
 <?import javafx.scene.image.ImageView?>
 
 <AnchorPane prefHeight="500.0" prefWidth="600.0"
@@ -52,5 +53,31 @@
               text="✔ Modifier"
               onAction="#updateUser"
               style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
+=======
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.updateusercontroller">
+   <children>
+      <TextField fx:id="id" layoutX="95.0" layoutY="56.0" visible="false" />
+
+      <Label layoutX="52.0" layoutY="105.0" text="Nom" />
+      <TextField fx:id="nom" layoutX="95.0" layoutY="101.0" />
+
+      <Label layoutX="52.0" layoutY="148.0" text="Prénom" />
+      <TextField fx:id="prenom" layoutX="96.0" layoutY="144.0" />
+
+      <Label layoutX="52.0" layoutY="192.0" text="Email" />
+      <TextField fx:id="email" layoutX="97.0" layoutY="188.0" />
+
+      <Label layoutX="54.0" layoutY="236.0" text="Mot de passe" />
+      <TextField fx:id="mdp" layoutX="98.0" layoutY="232.0" />
+
+      <Label layoutX="57.0" layoutY="278.0" text="Téléphone" />
+      <TextField fx:id="tel" layoutX="97.0" layoutY="274.0" />
+
+      <Label layoutX="52.0" layoutY="314.0" text="Rôle" />
+      <ComboBox fx:id="rolee" layoutX="94.0" layoutY="310.0" />
+
+      <Button fx:id="ajout" layoutX="152.0" layoutY="349.0" mnemonicParsing="false" onAction="#updateUser" text="Modifier" />
+>>>>>>> origin/integration-branch
    </children>
 </AnchorPane>

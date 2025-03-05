@@ -34,7 +34,10 @@ public class Ticket {
         return (evenement != null) ? evenement.getArtist() : "Événement inconnu";
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/integration-branch
     public Ticket(Evenement evenement, int idUtilisateur, float prix, int quantite, String qrCode, Type_P methodePaiement) {
         this.evenement = evenement;
         this.idUtilisateur = idUtilisateur;

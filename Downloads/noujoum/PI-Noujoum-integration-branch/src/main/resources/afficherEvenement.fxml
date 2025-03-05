@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.Color?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" style="-fx-background-color: black;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.afficherEvenement">
+
+    <children>
+        <!-- Title -->
+        <Text text="Gestion des Produits" layoutX="350.0" layoutY="50.0" fill="GOLD"
+              style="-fx-font-weight: bold;" fontSmoothingType="GRAY">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Text>
+
+        <!-- ScrollPane for the products -->
+        <ScrollPane fx:id="scrollPane" layoutX="40.0" layoutY="80.0" prefHeight="620.0" prefWidth="920.0"
+                    style="-fx-background: black; -fx-border-color: gold; -fx-border-width: 2;">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="900.0">
+                    <children>
+                        <!-- TilePane for product cards -->
+                        <TilePane fx:id="tilePane" hgap="25" vgap="25" layoutX="10.0" layoutY="10.0"
+                                  prefHeight="600.0" prefWidth="880.0"
+                                  style="-fx-background-color: black;">
+                            <!-- Product cards will be added dynamically -->
+                        </TilePane>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

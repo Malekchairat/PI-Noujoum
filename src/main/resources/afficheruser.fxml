@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.TilePane?>
 
+<<<<<<< HEAD
 <AnchorPane prefHeight="500.0" prefWidth="700.0"
             style="-fx-background-color: #1E1E1E;"
             xmlns="http://javafx.com/javafx/23.0.1"
@@ -25,5 +26,23 @@
                       hgap="20.0" vgap="20.0"
                       style="-fx-padding: 10px;"/>
         </ScrollPane>
+=======
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.showusercontroller">
+    <children>
+        <Button fx:id="affich" layoutX="250.0" layoutY="350.0"
+                mnemonicParsing="false"
+                onAction="#loadUsers"
+                text="Afficher" />
+
+        <ScrollPane layoutX="14.0" layoutY="48.0" prefHeight="230.0" prefWidth="500.0" fitToWidth="true">
+            <content>
+                <TilePane fx:id="userTilePane" prefWidth="500.0" prefTileWidth="220.0" prefTileHeight="250.0" hgap="20.0" vgap="20.0" />
+            </content>
+        </ScrollPane>
+
+>>>>>>> origin/integration-branch
     </children>
 </AnchorPane>
