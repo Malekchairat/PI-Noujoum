@@ -127,31 +127,6 @@ public class BAfficherCommande {
             e.printStackTrace();
         }
     }
-/*
-    private void showEtatStatistics() {
-        Map<String, Integer> etatCounts = new HashMap<>();
-        List<Commande> commandes = commandeService.recuperer();
-
-        for (Commande cmd : commandes) {
-            etatCounts.put(cmd.getEtat(), etatCounts.getOrDefault(cmd.getEtat(), 0) + 1);
-        }
-
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        for (Map.Entry<String, Integer> entry : etatCounts.entrySet()) {
-            pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
-        }
-
-        PieChart pieChart = new PieChart(pieChartData);
-        pieChart.setTitle("Répartition des Commandes par État");
-        pieChart.setLabelsVisible(true);
-
-        // Change the text color of the labels in the chart to dark grey
-        pieChart.getData().forEach(data -> data.getNode().setStyle("-fx-text-fill: darkgrey;"));
-
-        // Ensure the chart is added to the HBox correctly
-
-    }
-    */
 
 
 }

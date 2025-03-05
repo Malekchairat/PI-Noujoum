@@ -61,7 +61,6 @@
 
 
                 <VBox spacing="12.0">
-                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="ID Utilisateur" />
                     <TextField fx:id="idUser" prefWidth="250.0" />
                 </VBox>
             </children>
@@ -71,6 +70,8 @@
         <VBox layoutX="150.0" layoutY="350.0" spacing="10.0" />
 
         <Button fx:id="ajouterPanier" layoutX="375.8" layoutY="29.4" minWidth="140.0" onAction="#ajouterPanier" styleClass="custom-button" text="Gestion Paniers" />
+
+        <Button fx:id="maps" text="Show Ville on Map" onAction="#showCityOnMap"/>
 
         <Button fx:id="afficher" layoutX="376.0" layoutY="124.0" onAction="#afficherCommandes" styleClass="custom-button" text="Historique des Commandes" />
 

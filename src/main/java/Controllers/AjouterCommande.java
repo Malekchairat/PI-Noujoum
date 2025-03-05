@@ -1,7 +1,10 @@
 package Controllers;
 
+import API.EventLocation;
 import API.PaymentService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Commande;
 import models.Panier;
 import models.Produit;
+import models.User;
 import org.apache.commons.io.IOUtils;
 import services.CommandeService;
 import com.itextpdf.text.Document;
@@ -23,9 +29,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 import java.awt.Desktop;
@@ -35,33 +38,24 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
 import services.UserService;
 import utils.Mail;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import static java.sql.DriverManager.println;
-
-
-//import static utils.Mail.prepareMessage;
+import javax.xml.stream.Location;
 
 public class AjouterCommande {
 
     @FXML
-    private TextField idPanier, rue, ville, codePostal, etat, montantTotal, idUser; // Keep all fields
+    private TextField idPanier, rue, ville, codePostal, etat, montantTotal, idUser;
     @FXML
     private WebView paymentWebView;
-
     @FXML
     private TextArea produit;
     @FXML
@@ -70,13 +64,15 @@ public class AjouterCommande {
     private Button email;
     @FXML
     private Button ajout;
-
     @FXML
     private Button pdf;
+    @FXML
+    private Button maps;
 
     public void setIdPanier(int id_panier) {
         idPanier.setText(String.valueOf(id_panier));
     }
+
     public WebView getPaymentWebView() {
         return paymentWebView;
     }
@@ -86,12 +82,11 @@ public class AjouterCommande {
         email.setDisable(true);
         idPanier.setVisible(false);
         idPanier.setEditable(false);
-// Set this after setting the value
+        // Set idUser always to 1 and make it non-editable.
+        idUser.setText("1");
+        idUser.setEditable(false);
+        idUser.setVisible(false);
     }
-
-
-
-
 
     public void setCartItems(List<Panier> paniers, List<Produit> produits) {
         double totalPrice = 0.0;
@@ -99,12 +94,14 @@ public class AjouterCommande {
 
         for (int i = 0; i < paniers.size(); i++) {
             Panier panier = paniers.get(i);
-            Produit produit = produits.get(i);
-            totalPrice += panier.getNbr_produit() * produit.getPrix();
-            productNames.append(produit.getNom()).append(" (Quantity: ").append(panier.getNbr_produit()).append(")\n");
+            Produit produitObj = produits.get(i);
+            totalPrice += panier.getNbr_produit() * produitObj.getPrix();
+            productNames.append(produitObj.getNom())
+                    .append(" (Quantity: ")
+                    .append(panier.getNbr_produit())
+                    .append(")\n");
         }
         setIdPanier(34);
-
         setMontantTotal(totalPrice);
         this.produit.setText(productNames.toString());
     }
@@ -113,7 +110,7 @@ public class AjouterCommande {
     void ajout(ActionEvent event) throws Exception {
         try {
             CommandeService commandeCrud = new CommandeService();
-            UserService userService = new UserService(); // Create an instance of UserService
+            UserService userService = new UserService();
 
             if (!isValidInput()) {
                 showAlert("Erreur", "Tous les champs doivent être remplis.", AlertType.ERROR);
@@ -121,43 +118,34 @@ public class AjouterCommande {
             }
 
             String montantTotalText = montantTotal.getText().trim().replace(",", ".");
-            String idUserText = idUser.getText().trim();
-
-            // Parsing the input values
+            // We ignore any input from idUser and always use value 1.
             int idPanierInt = Integer.parseInt(idPanier.getText().trim());
             float montantTotalFloat = Float.parseFloat(montantTotalText);
-            int idUserInt = Integer.parseInt(idUserText);
+            int idUserInt = 1;  // Force the user ID to be 1
 
-            // Check if the Panier exists
             if (!commandeCrud.isPanierExists(idPanierInt)) {
                 showAlert("Erreur", "Le panier avec l'ID " + idPanierInt + " n'existe pas.", AlertType.ERROR);
                 return;
             }
 
-            // Check if the User exists
             if (!commandeCrud.isUserExists(idUserInt)) {
                 showAlert("Erreur", "L'utilisateur avec l'ID " + idUserInt + " n'existe pas.", AlertType.ERROR);
                 return;
             }
 
-            // Create the Commande object
             Commande commande = new Commande(
                     0, idPanierInt, rue.getText(), ville.getText(), codePostal.getText(),
                     etat.getText(), montantTotalFloat, methodePaiment.getValue(),
                     idUserInt, produit.getText()
             );
 
-            // Add the Commande to the database
             commandeCrud.ajouter(commande);
             showAlert("Succès", "Commande ajoutée avec succès !", AlertType.INFORMATION);
 
-            // Enable the email button after successful addition
             email.setDisable(false);
 
             initiatePayment();
 
-
-            // Clear fields after submission
             clearFields();
 
         } catch (NumberFormatException e) {
@@ -167,14 +155,10 @@ public class AjouterCommande {
         }
     }
 
-
-
-
-
     private boolean isValidInput() {
         if (idPanier.getText().isEmpty() || rue.getText().isEmpty() || ville.getText().isEmpty() ||
                 codePostal.getText().isEmpty() || etat.getText().isEmpty() || montantTotal.getText().isEmpty() ||
-                methodePaiment.getValue() == null || idUser.getText().isEmpty()) {
+                methodePaiment.getValue() == null) {  // Removed idUser check since it's always set to 1.
             showAlert("Erreur", "Tous les champs doivent être remplis.", AlertType.ERROR);
             return false;
         }
@@ -188,15 +172,6 @@ public class AjouterCommande {
             showAlert("Erreur", "Les champs rue, ville et état ne doivent contenir que des lettres.", AlertType.ERROR);
             return false;
         }
-
-        // Numeric validation for idUser only
-        try {
-            Integer.parseInt(idUser.getText().trim());
-        } catch (NumberFormatException e) {
-            showAlert("Erreur", "Le champ ID User doit être numérique.", AlertType.ERROR);
-            return false;
-        }
-
         return true;
     }
 
@@ -210,9 +185,9 @@ public class AjouterCommande {
         ville.clear();
         codePostal.clear();
         etat.clear();
-        montantTotal.clear();
         methodePaiment.getSelectionModel().clearSelection();
-        idUser.clear();
+        // Reset idUser to 1 after clearing fields.
+        idUser.setText("1");
     }
 
     @FXML
@@ -239,10 +214,11 @@ public class AjouterCommande {
     private double totalPrice;
 
     public void setMontantTotal(double totalPrice) {
-        this.totalPrice = totalPrice; // Set the totalPrice field
+        this.totalPrice = totalPrice;
         montantTotal.setText(String.format("%.2f", totalPrice));
-        montantTotal.setEditable(false); // Keep this field non-editable
+        montantTotal.setEditable(false);
     }
+
     @FXML
     private void ajouterPanier(ActionEvent event) {
         try {
@@ -255,13 +231,27 @@ public class AjouterCommande {
             showAlert("Erreur", "Impossible d'ouvrir la fenêtre AjouterPanier.", AlertType.ERROR);
         }
     }
+
     @FXML
     void sendBtnOnAction(ActionEvent event) throws MessagingException {
-        String recipientEmail = "hedifridhy@gmail.com";
-        sendEmail(recipientEmail);
-        produit.clear();
+        UserService userService = new UserService();
+        // Retrieve the user with id 1
+        User utilisateur = userService.getById(1);
 
+        // Check if the user and email are valid
+        if (utilisateur == null || utilisateur.getEmail() == null || utilisateur.getEmail().isEmpty()) {
+            showAlert("Erreur", "L'utilisateur ou son adresse email n'a pas été trouvé.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // Use the email from the user
+        String recipientEmail = utilisateur.getEmail();
+        sendEmail(recipientEmail);
+
+        produit.clear();
+        montantTotal.clear();
     }
+
 
     private void sendEmail(String recipientEmail) throws MessagingException {
         Properties properties = new Properties();
@@ -289,14 +279,12 @@ public class AjouterCommande {
             message.setText("Bonjour star de NOUJOUM !\n\n" +
                     "Votre commande a été ajoutée avec succès !\n\n" +
                     "Voici votre liste de produits : \n" +
-                    "- " + produit.getText().replace(", ", "\n- ") + "\n\n" +  // Affichage en liste
+                    "- " + produit.getText().replace(", ", "\n- ") + "\n\n" +
                     "Montant total : " + montantTotal.getText() + " DT\n\n" +
                     "Nous espérons que ces articles illumineront votre quotidien. Et psst… une surprise vous attend peut-être sur votre prochaine commande !\n\n" +
                     "Restez à l'affût et continuez à briller avec NOUJOUM !\n\n" +
                     "À très bientôt,\n" +
                     "L’équipe NOUJOUM");
-
-
             Transport.send(message);
             new Alert(Alert.AlertType.INFORMATION, "Email envoyé avec succès !").show();
         } catch (MessagingException e) {
@@ -321,7 +309,6 @@ public class AjouterCommande {
 
     @FXML
     private void initiatePayment() {
-        // Do not reassign the button's action here.
         if (paymentWebView == null) {
             System.out.println("WebView is not initialized in the main controller.");
         }
@@ -334,7 +321,6 @@ public class AjouterCommande {
         String clientSecret = PaymentService.createPaymentIntent(amount, currency);
 
         if (clientSecret != null) {
-            // Extract Payment Intent ID and build the Stripe URL
             String paymentIntentId = clientSecret.split("_secret")[0];
             String stripeUrl = "https://dashboard.stripe.com/test/payments/" + paymentIntentId;
             loadStripePaymentPage(stripeUrl);
@@ -348,11 +334,8 @@ public class AjouterCommande {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/paymentview.fxml"));
             AnchorPane root = loader.load();
 
-            // Try to get the WebView from the loaded FXML by lookup.
             WebView webView = (WebView) root.lookup("#paymentWebView");
             if (webView == null) {
-                // Alternatively, if the controller is set in paymentview.fxml,
-                // get the controller and then the WebView.
                 AjouterCommande controller = loader.getController();
                 webView = controller.getPaymentWebView();
             }
@@ -374,20 +357,18 @@ public class AjouterCommande {
     }
 
     private void showAlert(AlertType alertType, String erreur, String s) {
+        // Overloaded method (empty implementation if needed)
     }
-
 
     @FXML
     private void generateWelcomePdf(ActionEvent event) {
-        // Récupération des valeurs des champs de texte
         String userName = "Hedy Fridhi";
         String street = rue.getText();
         String city = ville.getText();
         String postalCode = codePostal.getText();
         String state = etat.getText();
-        String totalAmount = montantTotal.getText().replace(",", ".").replaceAll("[^0-9.]", ""); // Supprime tout sauf les chiffres et le point
+        String totalAmount = montantTotal.getText().replace(",", ".").replaceAll("[^0-9.]", "");
 
-// Convertir la chaîne de produits en une liste (séparée par des sauts de ligne)
         List<String> productList = Arrays.asList(produit.getText().split("\n"));
 
         String userHome = System.getProperty("user.home");
@@ -398,7 +379,6 @@ public class AjouterCommande {
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
             document.open();
 
-            // Ajout d'un logo (remplace "logo.png" par ton fichier réel)
             InputStream logoStream = getClass().getResourceAsStream("/images/logonjm.jpg");
             if (logoStream != null) {
                 Image logo = Image.getInstance(IOUtils.toByteArray(logoStream));
@@ -409,27 +389,22 @@ public class AjouterCommande {
                 System.out.println("Erreur : Image non trouvée !");
             }
 
-
-            // Ajouter le titre du document
             Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, new BaseColor(0, 102, 204));
             Paragraph title = new Paragraph("Facture NOUJOUM", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
             document.add(new Paragraph("\n"));
 
-            // Ajouter les informations de l'utilisateur
             Font userInfoFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
             document.add(new Paragraph("👤 Client : " + userName, userInfoFont));
             document.add(new Paragraph("📍 Adresse : " + street + ", " + city + " " + postalCode + ", " + state, userInfoFont));
             document.add(new Paragraph("\n"));
 
-            // Ajouter la liste des produits sous forme de tableau
-            PdfPTable table = new PdfPTable(2); // 2 colonnes : Produit - Prix
+            PdfPTable table = new PdfPTable(2);
             table.setWidthPercentage(100);
             table.setSpacingBefore(10f);
             table.setSpacingAfter(10f);
 
-            // Style des cellules d'en-tête
             PdfPCell productHeader = new PdfPCell(new Phrase("Produit", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
             PdfPCell priceHeader = new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE)));
             productHeader.setBackgroundColor(new BaseColor(50, 50, 50));
@@ -439,16 +414,14 @@ public class AjouterCommande {
             table.addCell(productHeader);
             table.addCell(priceHeader);
 
-            // Ajouter les produits commandés
             for (String item : productList) {
-                PdfPCell productName = new PdfPCell(new Phrase(item)); // Produit sans prix
+                PdfPCell productName = new PdfPCell(new Phrase(item));
                 productName.setHorizontalAlignment(Element.ALIGN_LEFT);
-                productName.setColspan(2); // Étend sur les 2 colonnes pour éviter d'afficher un prix inutile
+                productName.setColspan(2);
                 table.addCell(productName);
             }
             System.out.println("Valeur de totalAmount avant formatage : " + totalAmount);
 
-            // Ajouter le total
             PdfPCell totalLabel = new PdfPCell(new Phrase("Total", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLUE)));
             PdfPCell totalValue = new PdfPCell(new Phrase("Total: " + totalAmount + "DT"));
             totalLabel.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -459,7 +432,6 @@ public class AjouterCommande {
 
             document.add(table);
 
-            // Message de remerciement
             Font italicFont = new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, new BaseColor(80, 80, 80));
             document.add(new Paragraph("\nMerci pour votre confiance !", italicFont));
             document.add(new Paragraph("L’équipe NOUJOUM vous souhaite une excellente journée ! 🚀", italicFont));
@@ -467,8 +439,6 @@ public class AjouterCommande {
             document.close();
             document.close();
 
-
-            // Ouvre automatiquement le fichier après création
             File pdfFile = new File(filePath);
             if (pdfFile.exists()) {
                 Desktop.getDesktop().open(pdfFile);
@@ -481,6 +451,87 @@ public class AjouterCommande {
         }
     }
 
+
+
+
+
+    @FXML
+    private void showCityOnMap() {
+        // Get the city name from the TextField named 'ville'
+        String city = ville.getText(); // This gets the text content of the 'ville' TextField
+
+        // Debug: Check if the 'ville' field is empty
+        if (city.isEmpty()) {
+            System.out.println("Error: City name is empty.");
+            return;
+        }
+
+        // Create an instance of the EventLocation class to retrieve latitude and longitude
+        EventLocation location = new EventLocation();
+
+        // Debug: Log the city name
+        System.out.println("City Name: " + city);
+
+        double lat = location.getLatitude(city);  // Pass the city name (String)
+        double lng = location.getLongitude(city); // Pass the city name (String)
+
+        // Debug: Log the coordinates
+        System.out.println("Latitude: " + lat);
+        System.out.println("Longitude: " + lng);
+
+        // If the coordinates are valid (not 0, 0), show the city on the map
+        if (lat != 0 && lng != 0) {
+            // Construct the HTML for the map with the coordinates of the selected city
+            String html = String.format(Locale.US, """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>City Map</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        </head>
+        <body>
+            <div id="map" style="width: 100%%; height: 600px;"></div>
+            <script>
+                var map = L.map('map').setView([%.6f, %.6f], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                }).addTo(map);
+                
+                // Add a marker at the city coordinates
+                L.marker([%.6f, %.6f]).addTo(map)
+                    .bindPopup("<b>%s</b>")
+                    .openPopup();
+            </script>
+        </body>
+        </html>
+        """, lat, lng, lat, lng, city);
+
+            // Debugging: Log the generated HTML
+            System.out.println("Generated HTML:\n" + html);
+
+            // Create a WebView to show the map
+            WebView webView = new WebView();
+            WebEngine webEngine = webView.getEngine();
+            webEngine.setJavaScriptEnabled(true);
+
+            // Load the HTML content directly
+            webEngine.loadContent(html);
+
+            // Show the map in a new stage
+            Stage mapStage = new Stage();
+            mapStage.initModality(Modality.APPLICATION_MODAL);
+            mapStage.setTitle("City Map");
+            mapStage.setScene(new Scene(webView, 800, 600));
+            mapStage.show();
+        } else {
+            // If coordinates are invalid (0, 0), show an error
+            System.out.println("Error: Invalid coordinates for the city.");
+        }
+    }
+
+
+
 }
-
-
