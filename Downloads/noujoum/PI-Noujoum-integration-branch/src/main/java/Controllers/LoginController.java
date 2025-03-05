@@ -265,7 +265,7 @@ public class LoginController implements Initializable {
 
     private void sendSmsNotification(String productName, String msg) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        String messageBody = "New product added: " + productName + " Someone's trying to log in with your account" + msg;
+        String messageBody = "hello: " + productName + " Someone's trying to log in with your account" + msg;
 
         Message message = Message.creator(
                 new PhoneNumber("+21656921682"), // Replace with recipient's phone number
