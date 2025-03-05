@@ -19,14 +19,12 @@ public class MainFx extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficheProduit.fxml"));
             Parent root = loader.load();
-            Scene sc = new Scene(root);
+            Scene sc = new Scene(root, 1200, 800); // Définir une taille initiale (largeur, hauteur)
             stage.setTitle("Ajouter");
             stage.setScene(sc);
             stage.show();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 }

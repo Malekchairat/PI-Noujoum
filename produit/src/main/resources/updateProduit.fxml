@@ -7,33 +7,47 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.updateproduitcontroller">
-    <children>
-        <TextField fx:id="idProduit" layoutX="130.0" layoutY="35.0" />
-        <Label layoutX="52.0" layoutY="39.0" text="ID Produit" />
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.updateproduitcontroller" style="-fx-background-color: #f9f9f9;">
 
-        <TextField fx:id="nom" layoutX="130.0" layoutY="75.0" />
-        <TextField fx:id="disponibilite" layoutX="130.0" layoutY="299.0" />
+    <!-- ID Produit -->
+    <Label layoutX="50.0" layoutY="30.0" text="🔖 ID Produit" />
+    <TextField fx:id="idProduit" layoutX="150.0" layoutY="25.0" prefWidth="200.0"/>
 
-        <Label layoutX="52.0" layoutY="79.0" text="Nom" />
-        <Label layoutX="52.0" layoutY="120.0" text="Description" />
-        <Label layoutX="300.0" layoutY="71.0" text="Image" />
-        <Label layoutX="53.0" layoutY="303.0" text="Disponibilité" />
+    <!-- Nom -->
+    <Label layoutX="50.0" layoutY="75.0" text="🎵 Nom" />
+    <TextField fx:id="nom" layoutX="150.0" layoutY="70.0" prefWidth="200.0"/>
 
-        <Button fx:id="update" layoutX="475.0" layoutY="340.0" mnemonicParsing="false" onAction="#updateProduit" text="Mettre à jour" />
-        <Button fx:id="affich" layoutX="395.0" layoutY="340.0" mnemonicParsing="false" text="Afficher" onAction="#Afficher" />
+    <!-- Description -->
+    <Label layoutX="50.0" layoutY="120.0" text="📝 Description" />
+    <TextArea fx:id="description" layoutX="150.0" layoutY="115.0" prefWidth="200.0" prefHeight="80.0"/>
 
-        <TextArea fx:id="description" layoutX="130.0" layoutY="101.0" prefHeight="72.0" prefWidth="100.0" />
+    <!-- Prix -->
+    <Label layoutX="50.0" layoutY="210.0" text="💰 Prix" />
+    <TextField fx:id="prix" layoutX="150.0" layoutY="205.0" prefWidth="200.0"/>
 
-        <Label layoutX="52.0" layoutY="216.0" text="Catégorie" />
-        <ComboBox fx:id="categorieComboBox" layoutX="118.0" layoutY="212.0" prefWidth="200.0" />
+    <!-- Catégorie -->
+    <Label layoutX="50.0" layoutY="255.0" text="📂 Catégorie" />
+    <ComboBox fx:id="categorieComboBox" layoutX="150.0" layoutY="250.0" prefWidth="200.0"/>
 
-        <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" layoutX="375.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-        <Button fx:id="browseImage" layoutX="400.0" layoutY="200.0" mnemonicParsing="false" onAction="#browseImageAction" text="Parcourir Image" />
+    <!-- Disponibilité -->
+    <Label layoutX="50.0" layoutY="300.0" text="✅ Disponibilité" />
+    <TextField fx:id="disponibilite" layoutX="150.0" layoutY="295.0" prefWidth="200.0"/>
 
-        <TextField fx:id="prix" layoutX="130.0" layoutY="253.0" />
-        <Label layoutX="53.0" layoutY="257.0" text="Prix" />
+    <!-- Image -->
+    <Label layoutX="420.0" layoutY="30.0" text="🖼️ Image" />
+    <ImageView fx:id="image" fitHeight="200.0" fitWidth="250.0" layoutX="420.0" layoutY="60.0" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8,0,0,2);" />
+    <Button fx:id="browseImage" layoutX="470.0" layoutY="270.0" text="📁 Parcourir" onAction="#browseImageAction" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
 
-    </children>
+    <!-- Boutons d'action -->
+    <HBox layoutX="420.0" layoutY="350.0" spacing="15.0">
+        <children>
+            <Button fx:id="affich" text="📦 Afficher" onAction="#Afficher" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-padding: 8px 16px;"/>
+            <Button fx:id="update" text="✅ Mettre à jour" onAction="#updateProduit" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-padding: 8px 16px;"/>
+        </children>
+    </HBox>
+
 </AnchorPane>

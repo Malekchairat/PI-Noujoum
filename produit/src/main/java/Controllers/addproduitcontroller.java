@@ -26,7 +26,7 @@ public class addproduitcontroller {
     private TextField nom;
 
     @FXML
-    private TextArea description;
+    private TextField description;
 
     @FXML
     private ComboBox<Categorie> categorieComboBox;

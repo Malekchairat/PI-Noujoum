@@ -36,7 +36,7 @@ public class PromotionCrud implements IService<Promotion> {
                         + produitNom + " !";
 
                 // Appel direct de la méthode statique
-                NotificationServices.envoyerSMS(message, "+21652164756");
+                NotificationServices.envoyerSMS(message, "");
             } else {
                 System.out.println("Aucune ligne affectée");
             }

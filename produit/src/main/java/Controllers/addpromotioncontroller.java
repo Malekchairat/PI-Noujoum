@@ -89,7 +89,25 @@ public class addpromotioncontroller {
             showAlert("Erreur", "Erreur lors de l'ajout de la promotion: " + e.getMessage(), AlertType.ERROR);
         }
     }
+    @FXML
+    private void goToHome(ActionEvent event) {
+        System.out.println("Aller à Accueil");
+    }
 
+    @FXML
+    private void goToProducts(ActionEvent event) {
+        System.out.println("Aller à Produits");
+    }
+
+    @FXML
+    private void goToReclamations(ActionEvent event) {
+        System.out.println("Aller à Réclamations");
+    }
+
+    @FXML
+    private void goToEvents(ActionEvent event) {
+        System.out.println("Aller à Événements");
+    }
     @FXML
     void Afficher(ActionEvent event) {
         try {
