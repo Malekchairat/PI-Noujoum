@@ -376,7 +376,6 @@ public class afficherproduitfcontroller {
         }
     }
 
-    // Example method to toggle favorite status (you can use a favorite list or database to store favorites)
     private void toggleFavorite(Produit produit) {
         // This is where you can store the favorite product, e.g., in a database or a list
         // For now, let's print a message to simulate adding to favorites
