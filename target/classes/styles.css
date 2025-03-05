@@ -1,0 +1,55 @@
+/* Styles généraux */
+.root {
+    -fx-background-color: black;
+}
+
+/* Style du conteneur principal */
+.anchor-pane {
+    -fx-pref-width: 900px;
+    -fx-pref-height: 600px;
+}
+
+/* Style des labels */
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Style des champs de texte et combo-box */
+.text-field, .combo-box {
+    -fx-background-color: #222;
+    -fx-text-fill: white;
+    -fx-border-color: gold;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: white;
+}
+
+/* Style des boutons */
+.button {
+    -fx-background-color: gold;
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 215, 0, 0.5), 5, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: white;
+    -fx-text-fill: gold;
+}
+
+/* Style de l'ImageView */
+.image-view {
+    -fx-border-color: gold;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+}
