@@ -9,6 +9,9 @@
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
             fx:controller="Controllers.showfavoriscontroller" style="-fx-background-color: black;">
     <children>
         <Button fx:id="affich" layoutX="289.0" layoutY="323.0" mnemonicParsing="false"
@@ -22,6 +25,7 @@
                 <TilePane fx:id="favorisTilePane" hgap="20" vgap="20"
                           prefWidth="540.0" prefHeight="200.0"
                           style="-fx-background-color: black; -fx-padding: 20px;"/>
+<<<<<<< HEAD
 =======
             fx:controller="controllers.showfavoriscontroller">
     <children>
@@ -35,6 +39,8 @@
                     </children>
                 </AnchorPane>
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
             </content>
         </ScrollPane>
     </children>

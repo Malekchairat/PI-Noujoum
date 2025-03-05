@@ -4,21 +4,28 @@ import models.Commande;
 import services.CommandeService;
 import javafx.fxml.FXML;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox; // Importer ComboBox
 
+<<<<<<< HEAD
 =======
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
 
 import java.sql.SQLException;
 
 public class ModifierCommande {
 
     @FXML
+<<<<<<< HEAD
 <<<<<<< HEAD
     private TextField txtIdCommande, txtIdUser, txtIdPanier, txtRue, txtVille, txtCodePostal, txtEtat, txtMontant;
 
@@ -28,6 +35,12 @@ public class ModifierCommande {
 
     private TextField txtIdCommande, txtIdUser, txtIdPanier, txtRue, txtVille, txtCodePostal, txtEtat, txtMontant, txtMethodePaiement;
 >>>>>>> origin/integration-branch
+=======
+    private TextField txtIdCommande, txtIdUser, txtIdPanier, txtRue, txtVille, txtCodePostal, txtEtat, txtMontant;
+
+    @FXML
+    private ComboBox<String> txtMethodePaiement; // Changer ici
+>>>>>>> origin/GestionCommande
 
     private Commande commande;
     private final CommandeService commandeService = new CommandeService();
@@ -41,10 +54,14 @@ public class ModifierCommande {
         txtEtat.setText(commande.getEtat());
         txtMontant.setText(String.valueOf(commande.getMontant_total()));
 <<<<<<< HEAD
+<<<<<<< HEAD
         txtMethodePaiement.setValue(commande.getMethodePaiment()); // Modifier ici pour utiliser ComboBox
 =======
         txtMethodePaiement.setText(commande.getMethodePaiment());
 >>>>>>> origin/integration-branch
+=======
+        txtMethodePaiement.setValue(commande.getMethodePaiment()); // Modifier ici pour utiliser ComboBox
+>>>>>>> origin/GestionCommande
     }
 
     public void setAfficherCommandeController(AfficherCommande controller) {
@@ -55,6 +72,9 @@ public class ModifierCommande {
     private void enregistrerModification() {
         try {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
             // Vérification des champs obligatoires
             if (txtRue.getText().isEmpty() || txtVille.getText().isEmpty() || txtCodePostal.getText().isEmpty() ||
                     txtEtat.getText().isEmpty() || txtMontant.getText().isEmpty() || txtMethodePaiement.getValue() == null) { // Modifier ici
@@ -88,13 +108,17 @@ public class ModifierCommande {
                 return;
             }
 
+<<<<<<< HEAD
 =======
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
             // Mise à jour des valeurs de l'objet Commande
             commande.setRue(txtRue.getText());
             commande.setVille(txtVille.getText());
             commande.setCode_postal(txtCodePostal.getText());
             commande.setEtat(txtEtat.getText());
+<<<<<<< HEAD
 <<<<<<< HEAD
             commande.setMontant_total(montantTotal);
             commande.setMethodePaiment(txtMethodePaiement.getValue()); // Modifier ici pour utiliser ComboBox
@@ -108,6 +132,13 @@ public class ModifierCommande {
             // Mise à jour dans la base de données
             commandeService.modifier(commande, "ignored_param");
 >>>>>>> origin/integration-branch
+=======
+            commande.setMontant_total(montantTotal);
+            commande.setMethodePaiment(txtMethodePaiement.getValue()); // Modifier ici pour utiliser ComboBox
+
+            // Mise à jour dans la base de données
+            commandeService.modifier(commande);
+>>>>>>> origin/GestionCommande
 
             // Rafraîchir la liste des commandes
             if (afficherCommandeController != null) {
@@ -118,6 +149,7 @@ public class ModifierCommande {
             Stage stage = (Stage) txtRue.getScene().getWindow();
             stage.close();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         } catch (Exception e) {
             showAlert("Erreur SQL", "Une erreur s'est produite : " + e.getMessage(), Alert.AlertType.ERROR);
@@ -130,6 +162,13 @@ public class ModifierCommande {
         }
     }
 >>>>>>> origin/integration-branch
+=======
+        } catch (Exception e) {
+            showAlert("Erreur SQL", "Une erreur s'est produite : " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+>>>>>>> origin/GestionCommande
     @FXML
     private void fermer() {
         Stage stage = (Stage) txtRue.getScene().getWindow();
@@ -137,6 +176,9 @@ public class ModifierCommande {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -144,7 +186,11 @@ public class ModifierCommande {
         alert.setContentText(message);
         alert.showAndWait();
     }
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> origin/integration-branch
+=======
+}
+>>>>>>> origin/GestionCommande

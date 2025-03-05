@@ -7,8 +7,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/GestionCommande
 public class Acceuil {
     public void handleAjouterUser() throws IOException {
         loadPage("/ajouteruser.fxml");
@@ -19,6 +22,11 @@ public class Acceuil {
     }
 
     public void handleAjouterPanier() throws IOException {
+<<<<<<< HEAD
+=======
+        //loadPage("/BAfficherCommande.fxml");
+
+>>>>>>> origin/GestionCommande
         loadPage("/AjouterCommande.fxml");
     }
 
@@ -32,6 +40,10 @@ public class Acceuil {
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
+<<<<<<< HEAD
+=======
+        stage.setFullScreen(true);  // Fenêtre en plein écran
+>>>>>>> origin/GestionCommande
         stage.show();
     }
 }

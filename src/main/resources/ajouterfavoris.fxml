@@ -5,6 +5,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
 <?import javafx.scene.paint.Color?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addfavoriscontroller" style="-fx-background-color: black;">
@@ -20,6 +23,7 @@
 
    </children>
 </AnchorPane>
+<<<<<<< HEAD
 =======
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addfavoriscontroller">
@@ -37,3 +41,5 @@
 </AnchorPane>
 
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande

@@ -31,10 +31,13 @@ public class Evenement {
         this.ticketCount = ticketCount;
         this.imageE = imageE;
     }
+<<<<<<< HEAD
     public String getArtiste() {
         return this.artist;
     }
 
+=======
+>>>>>>> origin/GestionCommande
 
     public Evenement(String location, String artist, String description, Date startDate, Date endDate, int time, float price, Type_e type, int ticketCount, Blob imageE) {
         this.location = location;
@@ -149,6 +152,7 @@ public class Evenement {
     public void setImage(Blob image) {
         this.imageE = image;
     }
+<<<<<<< HEAD
     private String googleCalendarId; // Store the Google Calendar event ID
 
     public String getGoogleCalendarId() {
@@ -174,4 +178,6 @@ public class Evenement {
         this.googleCalendarId = googleCalendarId;
     }
 
+=======
+>>>>>>> origin/GestionCommande
 }

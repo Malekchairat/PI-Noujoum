@@ -79,4 +79,8 @@ public class EventLocation {
             return 0.0; // Return a default value in case of an error
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionCommande

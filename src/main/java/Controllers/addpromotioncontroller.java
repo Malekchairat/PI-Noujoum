@@ -92,8 +92,11 @@ public class addpromotioncontroller {
         }
     }
 
+<<<<<<< HEAD
 
     //i said push
+=======
+>>>>>>> origin/GestionCommande
     @FXML
     void Afficher(ActionEvent event) {
         try {

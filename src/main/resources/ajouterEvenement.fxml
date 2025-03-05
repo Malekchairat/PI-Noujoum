@@ -2,6 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<<<<<<< HEAD
+=======
+<?import javafx.scene.paint.Color?>
+>>>>>>> origin/GestionCommande
 
 <AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ajouterEvenement" style="-fx-background-color: black;">
     <children>
@@ -44,6 +48,7 @@
         <Button fx:id="show" layoutX="350.0" layoutY="420.0" mnemonicParsing="false" onAction="#Afficher" text="Afficher" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
         <Button fx:id="update" layoutX="250.0" layoutY="420.0" mnemonicParsing="false" onAction="#update" text="Mettre à jour" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
         <Button fx:id="afficherTicketsButton" layoutX="150.0" layoutY="420.0" mnemonicParsing="false" onAction="#afficherTickets" text="Afficher Tickets" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
+<<<<<<< HEAD
 
         <!-- Nouveau bouton ajouté -->
         <Button fx:id="newButton" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#newButtonAction" text="Nouveau Bouton" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
@@ -55,5 +60,7 @@
         <Button fx:id="update" layoutX="250.0" layoutY="380.0" mnemonicParsing="false" onAction="#update" text="Mettre à jour" />
         <Button fx:id="afficherTicketsButton" layoutX="150.0" layoutY="380.0" mnemonicParsing="false" onAction="#afficherTickets" text="Afficher Tickets" />
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
     </children>
 </AnchorPane>

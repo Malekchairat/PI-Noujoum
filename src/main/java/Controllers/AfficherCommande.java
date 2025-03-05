@@ -1,35 +1,45 @@
 package Controllers;
 
+import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import models.Commande;
 import services.CommandeService;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public class AfficherCommande {
 
     @FXML
     private GridPane gridCommandes;
-    @FXML
-    private Button btnFermer;
 
     private final CommandeService commandeService = new CommandeService();
 
     @FXML
     public void initialize() {
-        refreshGrid(); // Charger les commandes au démarrage
+        gridCommandes.setPrefWidth(900); // Optimize width
+        gridCommandes.setHgap(10); // Reduce horizontal spacing
+        gridCommandes.setVgap(10); // Reduce vertical spacing
+        gridCommandes.setStyle("-fx-background-color: #2c2f33; -fx-padding: 15px; -fx-border-radius: 10px;");
+        setupColumns();
+        refreshGrid();
+    }
+
+    private void setupColumns() {
+        gridCommandes.getColumnConstraints().clear();
+
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(30); // 30% for Montant
+
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(70); // 70% for Produits
+
+        gridCommandes.getColumnConstraints().addAll(col1, col2);
     }
 
     public void refreshGrid() {
+<<<<<<< HEAD
 <<<<<<< HEAD
         gridCommandes.getChildren().clear(); // Supprimer les anciennes données
 
@@ -41,22 +51,29 @@ public class AfficherCommande {
                 headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
 =======
         gridCommandes.getChildren().clear(); // Supprime les anciennes données
+=======
+        gridCommandes.getChildren().clear();
+>>>>>>> origin/GestionCommande
 
         try {
-            // Ajouter les en-têtes de colonne
-            String[] headers = {"ID", "ID User", "ID Panier", "Rue", "Ville", "Code Postal", "État", "Montant", "Paiement", "Actions"};
+            // Headers with better design
+            String[] headers = {"Montant", "Produits"};
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
+<<<<<<< HEAD
                 headerLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5px;");
 >>>>>>> origin/integration-branch
+=======
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-size: 18px; -fx-padding: 8px;");
+>>>>>>> origin/GestionCommande
                 gridCommandes.add(headerLabel, i, 0);
             }
 
-            // Charger les commandes depuis la base de données
+            // Load commandes from DB
             List<Commande> commandes = commandeService.recuperer();
-
             int row = 1;
             for (Commande cmd : commandes) {
+<<<<<<< HEAD
 <<<<<<< HEAD
                 gridCommandes.add(createStyledLabel(String.valueOf(cmd.getCommande_id())), 0, row);
                 gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_user())), 1, row);
@@ -115,10 +132,23 @@ public class AfficherCommande {
                 btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
                 btnSupprimer.setOnAction(event -> supprimerCommande(cmd));
                 gridCommandes.add(btnSupprimer, 10, row);
+=======
+                Label montantLabel = createStyledLabel(String.valueOf(cmd.getMontant_total()));
+                Label produitsLabel = createStyledLabel(cmd.getProduit());
 
+                // Add background to alternate rows for better readability
+                if (row % 2 == 0) {
+                    montantLabel.setStyle(montantLabel.getStyle() + "; -fx-background-color: #3a3d42; -fx-padding: 10px; -fx-border-radius: 5px;");
+                    produitsLabel.setStyle(produitsLabel.getStyle() + "; -fx-background-color: #3a3d42; -fx-padding: 10px; -fx-border-radius: 5px;");
+                }
+>>>>>>> origin/GestionCommande
+
+                gridCommandes.add(montantLabel, 0, row);
+                gridCommandes.add(produitsLabel, 1, row);
                 row++;
             }
 
+<<<<<<< HEAD
         } catch (SQLException e) {
 >>>>>>> origin/integration-branch
             System.err.println("Erreur lors du chargement des commandes : " + e.getMessage());
@@ -161,18 +191,25 @@ public class AfficherCommande {
             commandeService.supprimer(commande);
 >>>>>>> origin/integration-branch
             refreshGrid(); // Rafraîchir après suppression
+=======
+>>>>>>> origin/GestionCommande
         } catch (Exception e) {
-            System.err.println("Erreur lors de la suppression : " + e.getMessage());
+            System.err.println("Error loading orders: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    @FXML
-    private void fermer() {
-        btnFermer.getScene().getWindow().hide();
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 5px;");
+        return label;
     }
 <<<<<<< HEAD
 }
 =======
 }
+<<<<<<< HEAD
 
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande

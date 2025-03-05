@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 package services;
 
 import java.sql.PreparedStatement;
@@ -31,11 +32,16 @@ public interface IService<T> {
 //
 
 >>>>>>> GestionCommande
+=======
+>>>>>>> origin/GestionCommande
 package services;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 public interface IService<T> {
@@ -47,9 +53,21 @@ public interface IService<T> {
 
 }
 =======
-public interface IService<T> {
-    void ajouter(T var1) throws SQLException;
+=======
+import models.Evenement;
+import models.Ticket;
+import tools.MyDataBase;
 
+import models.Favoris;
+
+import java.util.List;
+
+>>>>>>> origin/GestionCommande
+public interface IService<T> {
+    void ajouter(T t);
+    List<T> recuperer(); // Remplace "afficher"
+
+<<<<<<< HEAD
     void supprimer(T var1);
 
     void modifier(T var1, String var2);
@@ -58,3 +76,9 @@ public interface IService<T> {
 }
 >>>>>>> GestionCommande
 >>>>>>> origin/integration-branch
+=======
+    void supprimer(int id);
+    void modifier(T t);
+    //void ajouter(Evenement  Ticket);// Suppression du second paramètre
+}
+>>>>>>> origin/GestionCommande

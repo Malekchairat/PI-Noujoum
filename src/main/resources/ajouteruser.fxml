@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <?import javafx.scene.control.Accordion?>
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -49,6 +55,7 @@
                     onAction="#Afficher" text="Afficher utilisateurs" styleClass="button"/>
             <Button fx:id="goToAddFavoris" layoutX="500.0" layoutY="370.0" mnemonicParsing="false"
                     onAction="#goToAddFavoris" text="Ajouter Favoris" styleClass="button"/>
+<<<<<<< HEAD
 =======
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -80,6 +87,8 @@
             <Label layoutX="36.0" layoutY="228.0" text="tel" />
             <Label layoutX="36.0" layoutY="264.0" text="role" />
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
          </children>
       </Pane>
    </children>

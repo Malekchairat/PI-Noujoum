@@ -11,10 +11,15 @@ public class Produit {
     private int disponibilite;
     private Blob image;
 
+<<<<<<< HEAD
     // Variable statique pour stocker l'ID du produit sélectionné
     private static int selectedProduitId;
 
     // Enum pour les catégories
+=======
+    // Enum pour les catégories
+
+>>>>>>> origin/GestionCommande
     public enum Categorie {
         ELECTRONIQUE, VETEMENTS, ALIMENTATION, AUTRE;
 
@@ -27,7 +32,11 @@ public class Produit {
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+    public Produit(){}
+>>>>>>> origin/GestionCommande
     // Constructeur
     public Produit(int idproduit, String nom, String description, String categorie, float prix, int disponibilite, Blob image) {
         this.idproduit = idproduit;
@@ -95,6 +104,7 @@ public class Produit {
     public void setImage(Blob image) {
         this.image = image;
     }
+<<<<<<< HEAD
 
     // Méthodes pour stocker l'ID du produit sélectionné
     public static void setProduitId(int id) {
@@ -108,3 +118,6 @@ public class Produit {
 
 }
 
+=======
+}
+>>>>>>> origin/GestionCommande

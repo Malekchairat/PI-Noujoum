@@ -1,6 +1,9 @@
 package models;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
 import java.sql.Blob;
 
 public class User {
@@ -17,6 +20,7 @@ public class User {
     public User() {}
 
     // Constructor with all fields
+<<<<<<< HEAD
 =======
 
 import java.sql.SQLException;
@@ -32,6 +36,8 @@ public class User {
     private Blob image; // Utilise java.sql.Blob
 
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
     public User(int id_user, String nom, String prenom, String email, String mdp, int tel, String role, Blob image) {
         this.id_user = id_user;
         this.nom = nom;
@@ -43,6 +49,7 @@ public class User {
         this.image = image;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     // Getters and setters
 =======
@@ -59,10 +66,14 @@ public class User {
     public User() {}
 
 >>>>>>> origin/integration-branch
+=======
+    // Getters and setters
+>>>>>>> origin/GestionCommande
     public int getId() {
         return id_user;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public void setId(int id) {
         this.id_user = id;
@@ -78,6 +89,10 @@ public class User {
     public void setTel(int tel) {
         this.tel = tel;
 >>>>>>> origin/integration-branch
+=======
+    public void setId(int id) {
+        this.id_user = id;
+>>>>>>> origin/GestionCommande
     }
 
     public String getNom() {
@@ -113,6 +128,9 @@ public class User {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
     public int getTel() {
         return tel;
     }
@@ -121,8 +139,11 @@ public class User {
         this.tel = tel;
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
     public String getRole() {
         return role;
     }
@@ -138,6 +159,7 @@ public class User {
     public void setImage(Blob image) {
         this.image = image;
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -194,4 +216,6 @@ public class User {
         return "User{" + "id=" + id_user + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", mdp=" + mdp + ", tel=" + tel + ", role=" + role + ", image=" + image + '}';
     }
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
 }

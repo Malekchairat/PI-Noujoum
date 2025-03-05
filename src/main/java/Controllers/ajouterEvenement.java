@@ -3,7 +3,10 @@ package Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+<<<<<<< HEAD
 import javafx.scene.Parent;
+=======
+>>>>>>> origin/GestionCommande
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -16,7 +19,10 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+<<<<<<< HEAD
 import java.security.GeneralSecurityException;
+=======
+>>>>>>> origin/GestionCommande
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -33,8 +39,13 @@ public class ajouterEvenement {
     @FXML private TextField price;
     @FXML private TextField ticketCount;
     @FXML private ComboBox<Type_e> eventType;
+<<<<<<< HEAD
     @FXML private Label imageLabel; // Affiche le nom de l'image sélectionnée
     private Blob eventImage; // Stocke l'image au format Blob
+=======
+    @FXML private Label imageLabel; // Label pour afficher le nom de l'image sélectionnée
+    private Blob eventImage; // Attribut pour stocker l'image au format Blob
+>>>>>>> origin/GestionCommande
 
     private EvenementService service;
 
@@ -46,14 +57,25 @@ public class ajouterEvenement {
 
     @FXML
     private void uploadImage(ActionEvent event) {
+<<<<<<< HEAD
+=======
+        // Ouvrir un FileChooser pour permettre à l'utilisateur de sélectionner une image
+>>>>>>> origin/GestionCommande
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
+<<<<<<< HEAD
             imageLabel.setText(selectedFile.getName());
             try (FileInputStream fileInputStream = new FileInputStream(selectedFile)) {
                 byte[] imageBytes = fileInputStream.readAllBytes();
+=======
+            imageLabel.setText(selectedFile.getName()); // Afficher le nom de l'image sélectionnée
+            try (FileInputStream fileInputStream = new FileInputStream(selectedFile)) {
+                byte[] imageBytes = fileInputStream.readAllBytes();
+                // Créer un SerialBlob à partir du tableau de bytes
+>>>>>>> origin/GestionCommande
                 eventImage = new SerialBlob(imageBytes);
             } catch (IOException | SQLException e) {
                 e.printStackTrace();
@@ -74,17 +96,29 @@ public class ajouterEvenement {
         String ticketCountText = ticketCount.getText().trim();
         Type_e type = eventType.getValue();
 
+<<<<<<< HEAD
+=======
+        // ✅ Vérification des champs obligatoires
+>>>>>>> origin/GestionCommande
         if (location.isEmpty() || artistName.isEmpty() || desc.isEmpty() || start == null || end == null
                 || timeText.isEmpty() || priceText.isEmpty() || ticketCountText.isEmpty() || type == null || eventImage == null) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Tous les champs doivent être remplis !");
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // ✅ Vérification du format de l'heure (doit être un nombre à 4 chiffres)
+>>>>>>> origin/GestionCommande
         if (!timeText.matches("^\\d{4}$")) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "L'heure doit être au format HHMM (ex: 1400 pour 14h00)");
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // ✅ Vérification du format du prix (nombre positif)
+>>>>>>> origin/GestionCommande
         float priceValue;
         try {
             priceValue = Float.parseFloat(priceText);
@@ -97,6 +131,10 @@ public class ajouterEvenement {
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // ✅ Vérification du nombre de tickets (entier positif)
+>>>>>>> origin/GestionCommande
         int ticketCountValue;
         try {
             ticketCountValue = Integer.parseInt(ticketCountText);
@@ -109,11 +147,16 @@ public class ajouterEvenement {
             return;
         }
 
+<<<<<<< HEAD
+=======
+        // ✅ Vérification que la date de début est avant la date de fin
+>>>>>>> origin/GestionCommande
         if (start.isAfter(end)) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "La date de début ne peut pas être après la date de fin !");
             return;
         }
 
+<<<<<<< HEAD
         Evenement newEvent = new Evenement(location, artistName, desc,
                 Date.valueOf(start), Date.valueOf(end),
                 Integer.parseInt(timeText), priceValue, type, ticketCountValue, eventImage);
@@ -128,11 +171,31 @@ public class ajouterEvenement {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout de l'événement en base : " + e.getMessage());
+=======
+        // ✅ Création de l'objet événement avec l'image au format Blob
+        Evenement newEvent = new Evenement(location, artistName, desc,
+                Date.valueOf(start), Date.valueOf(end),
+                Integer.parseInt(timeText), priceValue, type, ticketCountValue, eventImage);
+
+        // ✅ Ajout de l'événement à la base de données avec gestion des exceptions
+        try {
+            service.ajouter(newEvent);
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "L'événement a été ajouté avec succès !");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de l'ajout de l'événement : " + e.getMessage());
+>>>>>>> origin/GestionCommande
         }
     }
 
     @FXML
+<<<<<<< HEAD
     private void update(ActionEvent event) {}
+=======
+    private void update(ActionEvent event) {
+        // Logique pour mettre à jour un événement (si nécessaire)
+    }
+>>>>>>> origin/GestionCommande
 
     @FXML
     private void Afficher(ActionEvent event) {
@@ -164,6 +227,7 @@ public class ajouterEvenement {
         }
     }
 
+<<<<<<< HEAD
     @FXML
     private void newButtonAction(ActionEvent event) {
         try {
@@ -178,9 +242,15 @@ public class ajouterEvenement {
         }
     }
 
+=======
+>>>>>>> origin/GestionCommande
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type, message, ButtonType.OK);
         alert.setTitle(title);
         alert.showAndWait();
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionCommande

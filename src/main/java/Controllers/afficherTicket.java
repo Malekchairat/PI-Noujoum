@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/afficherTicket.java
 package Controllers;
 =======
 package controller;
 >>>>>>> origin/integration-branch:src/main/java/controller/afficherTicket.java
+=======
+package Controllers;
+>>>>>>> origin/GestionCommande
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

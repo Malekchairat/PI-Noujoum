@@ -167,6 +167,7 @@ public class EvenementService implements IService<Evenement> {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
     public void mettreAJourGoogleId(int eventId, String googleEventId) {
         String query = "UPDATE evenement SET google_calendar_id = ? WHERE id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -178,4 +179,6 @@ public class EvenementService implements IService<Evenement> {
             e.printStackTrace();
         }
     }
+=======
+>>>>>>> origin/GestionCommande
 }

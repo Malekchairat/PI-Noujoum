@@ -5,6 +5,9 @@ import tools.MyDataBase;
 
 import java.sql.*;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +91,7 @@ public class FavorisService implements IService<Favoris> {
             pst.setInt(2, f.getIdProduit());
 
             // Vérifier si la date est non nulle avant de l'insérer
+<<<<<<< HEAD
 =======
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +114,8 @@ public class FavorisService implements IFavorisService<Favoris> {
 
             // Ensure date is not null before inserting
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
             if (f.getDate() != null) {
                 pst.setDate(3, Date.valueOf(f.getDate()));
             } else {
@@ -117,6 +123,9 @@ public class FavorisService implements IFavorisService<Favoris> {
             }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
             pst.setInt(4, f.getIdFavoris()); // ID du favori à modifier
 
             int affectedRows = pst.executeUpdate();
@@ -157,6 +166,7 @@ public class FavorisService implements IFavorisService<Favoris> {
         return false;
     }
 }
+<<<<<<< HEAD
 =======
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
@@ -232,3 +242,5 @@ public class FavorisService implements IFavorisService<Favoris> {
     }
 }
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande

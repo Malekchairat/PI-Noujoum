@@ -1,12 +1,18 @@
 package services;
 
+<<<<<<< HEAD
 import models.User;
 <<<<<<< HEAD
+=======
+import javafx.scene.control.TextField;
+import models.User;
+>>>>>>> origin/GestionCommande
 import tools.MyDataBase;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import javax.sql.rowset.serial.SerialBlob;
 =======
 import java.sql.Connection;
@@ -18,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import tools.MyDataBase;
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
 
 public class UserService implements IService<User> {
 
@@ -29,6 +37,9 @@ public class UserService implements IService<User> {
 
     @Override
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
     public void ajouter(User t) {
         String req = "INSERT INTO user (nom, prenom, email, mdp, tel, image, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = cnx.prepareStatement(req)) {
@@ -38,10 +49,18 @@ public class UserService implements IService<User> {
             stmt.setString(4, t.getMdp());
             stmt.setInt(5, t.getTel());
 
+<<<<<<< HEAD
             if (t.getImage() != null) {
                 stmt.setBlob(6, t.getImage());
             } else {
                 stmt.setNull(6, Types.BLOB);
+=======
+            // Handle Blob (image)
+            if (t.getImage() != null) {
+                stmt.setBlob(6, t.getImage());
+            } else {
+                stmt.setNull(6, Types.BLOB); // Set null if image is not available
+>>>>>>> origin/GestionCommande
             }
 
             stmt.setString(7, t.getRole());
@@ -53,6 +72,7 @@ public class UserService implements IService<User> {
         }
     }
 
+<<<<<<< HEAD
     public boolean existEmail(String email) throws SQLException {
         String query = "SELECT * FROM user WHERE email = ?";
         try (PreparedStatement ps = cnx.prepareStatement(query)) {
@@ -63,6 +83,8 @@ public class UserService implements IService<User> {
         }
     }
 
+=======
+>>>>>>> origin/GestionCommande
     @Override
     public void modifier(User t) {
         String req = "UPDATE user SET nom=?, prenom=?, email=?, mdp=?, tel=?, image=?, role=? WHERE id_user=?";
@@ -72,7 +94,11 @@ public class UserService implements IService<User> {
             stmt.setString(3, t.getEmail());
             stmt.setString(4, t.getMdp());
             stmt.setInt(5, t.getTel());
+<<<<<<< HEAD
             stmt.setBlob(6, t.getImage());
+=======
+            stmt.setBlob(6, t.getImage()); // Store the Blob image
+>>>>>>> origin/GestionCommande
             stmt.setString(7, t.getRole());
             stmt.setInt(8, t.getId());
 
@@ -101,6 +127,7 @@ public class UserService implements IService<User> {
         String req = "SELECT * FROM user";
         try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(req)) {
             while (rs.next()) {
+<<<<<<< HEAD
                 users.add(mapUser(rs));
             }
         } catch (SQLException e) {
@@ -169,11 +196,21 @@ public class UserService implements IService<User> {
         while (rs.next()) {
             users.add(mapUser(rs));
 >>>>>>> origin/integration-branch
+=======
+                User user = mapUser(rs);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des utilisateurs : " + e.getMessage());
+>>>>>>> origin/GestionCommande
         }
         return users;
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
     private User mapUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getInt("id_user"));
@@ -183,6 +220,7 @@ public class UserService implements IService<User> {
         user.setMdp(rs.getString("mdp"));
         user.setTel(rs.getInt("tel"));
         user.setRole(rs.getString("role"));
+<<<<<<< HEAD
         user.setImage(rs.getBlob("image"));
         return user;
 =======
@@ -232,4 +270,55 @@ public class UserService implements IService<User> {
         return p;
 >>>>>>> origin/integration-branch
     }
+=======
+        user.setImage(rs.getBlob("image")); // Retrieve image as Blob
+        return user;
+    }
+
+    // Method to fetch user image
+    public Blob getUserImage(int userId) {
+        Blob image = null;
+        String query = "SELECT image FROM user WHERE id_user = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                image = rs.getBlob("image");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    // Function to get a user by ID
+    public User getById(int id) {
+        User utilisateur = null;
+        String req = "SELECT * FROM user WHERE id_user = ?";
+
+        try (PreparedStatement preparedStatement = cnx.prepareStatement(req)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    utilisateur = new User();
+                    utilisateur.setId(resultSet.getInt("id_user"));
+                    utilisateur.setNom(resultSet.getString("nom"));
+                    utilisateur.setPrenom(resultSet.getString("prenom"));
+                    utilisateur.setEmail(resultSet.getString("email"));
+                    utilisateur.setMdp(resultSet.getString("mdp"));
+                    utilisateur.setTel(resultSet.getInt("tel"));
+                    utilisateur.setRole(resultSet.getString("role"));
+                    utilisateur.setImage(resultSet.getBlob("image"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateur;
+    }
+
+
+
+
+>>>>>>> origin/GestionCommande
 }

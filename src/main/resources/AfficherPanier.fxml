@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier" style="-fx-background-color: #000000;" stylesheets="@styles/styles.css">
     <children>
@@ -26,3 +36,59 @@
     </children>
 </VBox>
 >>>>>>> origin/integration-branch
+=======
+<AnchorPane prefHeight="825.0" prefWidth="1339.0" style="-fx-background-color: black;" stylesheets="styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherPanier">
+    <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <top>
+            <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1292.0" spacing="20.0" styleClass="white-background" stylesheets="@styles/styles.css" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets left="20.0" />
+                </padding>
+                <children>
+                    <HBox alignment="CENTER" prefHeight="64.0" prefWidth="402.0" spacing="10" style="-fx-padding: 10px;">
+                        <ComboBox fx:id="searchCriteriaComboBox" prefHeight="4.0" prefWidth="162.0" promptText="Filtrer par" styleClass="combo-box" />
+                        <TextField fx:id="searchTextField" prefHeight="42.0" prefWidth="168.0" promptText="Rechercher..." style="-fx-background-color: #444; -fx-text-fill: black;" />
+                    </HBox>
+                    <Separator maxHeight="-Infinity" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="38.0" prefWidth="26.0" />
+                    <HBox alignment="CENTER" spacing="10">
+                        <ComboBox fx:id="sortCriteriaComboBox" prefHeight="43.0" prefWidth="160.0" promptText="Trier par" />
+                        <Button fx:id="sortButton" onAction="#sortPanier" prefHeight="38.0" prefWidth="122.0" styleClass="custom-button" text="Trier">
+                            <font>
+                                <Font name="System Bold" size="17.0" />
+                            </font></Button>
+                    </HBox>
+                    <Pane prefHeight="200.0" prefWidth="442.0" HBox.hgrow="ALWAYS" />
+                </children>
+            </HBox>
+        </top>
+        <center>
+            <ListView fx:id="panierListView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="678.0" prefWidth="1312.0" />
+        </center>
+        <bottom>
+            <HBox prefHeight="58.0" prefWidth="1315.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Label prefHeight="58.0" prefWidth="255.0" text="Checkout :" textFill="WHITE">
+                        <font>
+                            <Font name="Berlin Sans FB" size="40.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="price" layoutX="30.0" layoutY="10.0" prefHeight="58.0" prefWidth="127.0">
+                        <font>
+                            <Font name="Berlin Sans FB" size="27.0" />
+                        </font>
+                    </Label>
+                    <Pane prefHeight="58.0" prefWidth="846.0" />
+                    <Button fx:id="promo" onAction="#proceedToCheckout" prefHeight="58.0" prefWidth="214.0" styleClass="custom-button" text="Passer à la caisse">
+                  <font>
+                     <Font name="System Bold" size="17.0" />
+                  </font></Button>
+
+                </children>
+                <padding>
+                    <Insets left="20.0" />
+                </padding>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</AnchorPane>
+>>>>>>> origin/GestionCommande

@@ -20,7 +20,11 @@ public class ServicesCrud implements IService<Produit> {
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, produit.getNom());
             pst.setString(2, produit.getDescription());
+<<<<<<< HEAD
             pst.setString(3, produit.getCategorie().name());
+=======
+            pst.setString(3, produit.getCategorie().name()); // Utilisation correcte de name()
+>>>>>>> origin/GestionCommande
             pst.setFloat(4, produit.getPrix());
             pst.setInt(5, produit.getDisponibilite());
             pst.setBlob(6, produit.getImage());
@@ -38,7 +42,11 @@ public class ServicesCrud implements IService<Produit> {
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setString(1, produit.getNom());
             pst.setString(2, produit.getDescription());
+<<<<<<< HEAD
             pst.setString(3, produit.getCategorie().name());
+=======
+            pst.setString(3, produit.getCategorie().name()); // Utilisation correcte de name()
+>>>>>>> origin/GestionCommande
             pst.setFloat(4, produit.getPrix());
             pst.setInt(5, produit.getDisponibilite());
             pst.setBlob(6, produit.getImage());
@@ -73,7 +81,11 @@ public class ServicesCrud implements IService<Produit> {
                         rs.getInt("id_produit"),
                         rs.getString("nom"),
                         rs.getString("description"),
+<<<<<<< HEAD
                         rs.getString("categorie"),
+=======
+                        rs.getString("categorie"), // Correction ici : on passe un String
+>>>>>>> origin/GestionCommande
                         rs.getFloat("prix"),
                         rs.getInt("disponibilite"),
                         rs.getBlob("image")
@@ -85,6 +97,7 @@ public class ServicesCrud implements IService<Produit> {
         return produits;
     }
 
+<<<<<<< HEAD
     public Produit recupererParId(int id) {
         Produit produit = null;
         String query = "SELECT * FROM produit WHERE id_produit = ?";
@@ -111,3 +124,9 @@ public class ServicesCrud implements IService<Produit> {
     }
 }
 
+=======
+    public List<Produit> recuperertous() {
+        return recuperer(); // Évite la duplication du code
+    }
+}
+>>>>>>> origin/GestionCommande

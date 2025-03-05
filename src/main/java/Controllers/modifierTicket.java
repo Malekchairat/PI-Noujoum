@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/modifierTicket.java
 package Controllers;
 =======
 package controller;
 >>>>>>> origin/integration-branch:src/main/java/controller/modifierTicket.java
+=======
+package Controllers;
+>>>>>>> origin/GestionCommande
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;

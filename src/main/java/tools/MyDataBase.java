@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -15,6 +16,8 @@
 =======
 >>>>>>> GestionCommande
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
 package tools;
 
 import java.sql.Connection;
@@ -23,12 +26,15 @@ import java.sql.SQLException;
 
 public class MyDataBase {
 <<<<<<< HEAD
+<<<<<<< HEAD
     public final String URL="jdbc:mysql://localhost:3306/noujoum";
     public final String USER="root";
     public final String PWD ="";
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
     public final String URL="jdbc:mysql://localhost:3306/noujoum";
     public final String USER="root";
     public final String PWD ="";
@@ -46,6 +52,7 @@ public class MyDataBase {
     public static MyDataBase getInstance(){
         if(instance==null)
             instance= new MyDataBase();
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> GestionCommande
@@ -80,10 +87,13 @@ public class MyDataBase {
 =======
 >>>>>>> GestionCommande
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
         return instance;
     }
 
     public Connection getCnx() {
+<<<<<<< HEAD
 <<<<<<< HEAD
         return cnx;
 =======
@@ -97,5 +107,8 @@ public class MyDataBase {
         return this.cnx;
 >>>>>>> GestionCommande
 >>>>>>> origin/integration-branch
+=======
+        return cnx;
+>>>>>>> origin/GestionCommande
     }
 }

@@ -1,12 +1,19 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Favoris.java
 =======
 >>>>>>> origin/integration-branch
+=======
+// Favoris.java
+>>>>>>> origin/GestionCommande
 package models;
 
 import java.util.Objects;
 import java.time.LocalDate;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
 
 public class Favoris {
     private int idFavoris;
@@ -44,6 +51,7 @@ public class Favoris {
     @Override
     public int hashCode() {
         return Objects.hash(idFavoris, idProduit, idUser, date);
+<<<<<<< HEAD
 =======
 public class Favoris {
 
@@ -106,6 +114,8 @@ public class Favoris {
     public int hashCode() {
         return Objects.hash(id_favoris, id_produit, id_user, date);
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
     }
 
     @Override
@@ -114,6 +124,9 @@ public class Favoris {
         if (obj == null || getClass() != obj.getClass()) return false;
         Favoris favoris = (Favoris) obj;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/GestionCommande
         return idFavoris == favoris.idFavoris && idProduit == favoris.idProduit && idUser == favoris.idUser && Objects.equals(date, favoris.date);
     }
 
@@ -124,6 +137,7 @@ public class Favoris {
                 ", idProduit=" + idProduit +
                 ", idUser=" + idUser +
                 ", date=" + date +
+<<<<<<< HEAD
 =======
         return id_favoris == favoris.id_favoris &&
                 id_produit == favoris.id_produit &&
@@ -140,6 +154,8 @@ public class Favoris {
                 ", id_user=" + id_user +
                 ", date='" + date + '\'' +
 >>>>>>> origin/integration-branch
+=======
+>>>>>>> origin/GestionCommande
                 '}';
     }
 }

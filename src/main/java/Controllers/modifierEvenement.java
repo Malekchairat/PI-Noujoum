@@ -120,8 +120,11 @@ public class modifierEvenement {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la modification de l'événement.");
         }
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/GestionCommande
     public void setEvenementData(Evenement evenement) {
         if (evenement != null) {
             locationField.setText(evenement.getLocation());

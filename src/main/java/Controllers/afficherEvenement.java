@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+<<<<<<< HEAD
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,13 +22,35 @@ import models.Evenement;
 import models.Type_e;
 import services.EvenementService;
 import API.EventLocation;
+=======
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.geometry.Insets;
+import javafx.stage.Stage;
+
+import models.Evenement;
+import services.EvenementService;
+>>>>>>> origin/GestionCommande
 
 import java.io.ByteArrayInputStream;
 import java.sql.Blob;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.stream.Collectors;
+=======
+>>>>>>> origin/GestionCommande
 
 public class afficherEvenement {
 
@@ -37,6 +60,7 @@ public class afficherEvenement {
     @FXML
     private TilePane tilePane;
 
+<<<<<<< HEAD
     @FXML
     private TextField searchField;
 
@@ -60,6 +84,13 @@ public class afficherEvenement {
 
     @FXML
     public void initialize() {
+=======
+    private EvenementService serviceEvenement;
+
+    @FXML
+    public void initialize() {
+        // Initialisation de l'objet serviceEvenement
+>>>>>>> origin/GestionCommande
         serviceEvenement = new EvenementService();
 
         // Configuration du ScrollPane
@@ -68,6 +99,7 @@ public class afficherEvenement {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setContent(tilePane);
 
+<<<<<<< HEAD
         // Récupérer tous les événements
         allEvenements = serviceEvenement.recuperer();
 
@@ -149,12 +181,23 @@ public class afficherEvenement {
     private void afficherEvenements(List<Evenement> evenements) {
         tilePane.getChildren().clear();
 
+=======
+        // Charger les événements
+        afficherEvenements();
+    }
+
+    private void afficherEvenements() {
+        tilePane.getChildren().clear(); // Clear any existing cards
+
+        List<Evenement> evenements = serviceEvenement.recuperer();
+>>>>>>> origin/GestionCommande
         for (Evenement evenement : evenements) {
             VBox card = createEventCard(evenement);
             tilePane.getChildren().add(card);
         }
     }
 
+<<<<<<< HEAD
     // Création d'une carte pour un événement avec un bouton "Voir Map"
     private VBox createEventCard(Evenement event) {
         VBox eventCard = new VBox();
@@ -172,12 +215,32 @@ public class afficherEvenement {
         Blob imageBlob = event.getImageE();
         if (imageBlob != null) {
             try {
+=======
+    private VBox createEventCard(Evenement event) {
+        // Create the container for the event card (using VBox)
+        VBox eventCard = new VBox();
+        eventCard.setSpacing(15);
+        eventCard.setStyle("-fx-background-color: black; -fx-padding: 15; -fx-border-radius: 10; -fx-border-color: gold; -fx-border-width: 2;");
+
+        // Create the image view for the event's image
+        ImageView eventImageView = new ImageView();
+        eventImageView.setFitWidth(300);
+        eventImageView.setFitHeight(200);
+        eventImageView.setPreserveRatio(true);
+
+        // Get the image from the Evenement entity
+        Blob imageBlob = event.getImageE();
+        if (imageBlob != null) {
+            try {
+                // Convert Blob to byte array
+>>>>>>> origin/GestionCommande
                 byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
                 Image image = new Image(byteArrayInputStream);
                 eventImageView.setImage(image);
             } catch (Exception e) {
                 e.printStackTrace();
+<<<<<<< HEAD
                 eventImageView.setImage(new Image("file:path/to/placeholder/image.jpg"));
             }
         } else {
@@ -231,6 +294,75 @@ public class afficherEvenement {
         return button;
     }
 
+=======
+                // If there's an error, set a placeholder image
+                eventImageView.setImage(new Image("file:path/to/placeholder/image.jpg"));
+            }
+        } else {
+            // If the image is null, set a placeholder image
+            eventImageView.setImage(new Image("file:path/to/placeholder/image.jpg"));
+        }
+
+        // Set up event details (name, description, etc.)
+        VBox eventDetails = new VBox();
+        eventDetails.setSpacing(10);
+
+        // Event name with emoji and gold styling
+        Label eventName = new Label("🎤 " + event.getArtist());
+        eventName.setTextFill(Color.GOLD);
+        eventName.setFont(Font.font("Arial", 20));
+        eventName.setStyle("-fx-font-weight: bold;");
+
+        // Event description with emoji
+        Label eventDescription = new Label("📖 " + event.getDescription());
+        eventDescription.setTextFill(Color.WHITE);
+        eventDescription.setFont(Font.font("Arial", 14));
+
+        // Event location with emoji
+        Label eventLocation = new Label("📍 " + event.getLocation());
+        eventLocation.setTextFill(Color.WHITE);
+        eventLocation.setFont(Font.font("Arial", 14));
+
+        // Event price with emoji
+        Label eventPrice = new Label("💰 Price: $" + event.getPrice());
+        eventPrice.setTextFill(Color.GOLD);
+        eventPrice.setFont(Font.font("Arial", 16));
+
+        // Add details to eventDetails container
+        eventDetails.getChildren().addAll(eventName, eventDescription, eventLocation, eventPrice);
+
+        // Create buttons for the event card
+        HBox buttonsContainer = new HBox(10);
+        buttonsContainer.setSpacing(10);
+
+        // Button to modify event
+        Button modifyButton = new Button("Modifier");
+        modifyButton.setStyle("-fx-background-color: gold; -fx-text-fill: black; -fx-font-weight: bold;");
+        modifyButton.setOnAction(e -> handleModifyEvent(event.getIdEvenement()));
+
+        // Button to delete event
+        Button deleteButton = new Button("Supprimer");
+        deleteButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;");
+        deleteButton.setOnAction(e -> handleDeleteEvent(event.getIdEvenement()));
+
+        // Button to reserve ticket for the event
+        Button reserveButton = new Button("Réserver");
+        reserveButton.setStyle("-fx-background-color: green; -fx-text-fill: white; -fx-font-weight: bold;");
+        reserveButton.setOnAction(e -> handleReserverTicket(event));
+
+        // Add buttons to the buttons container
+        buttonsContainer.getChildren().addAll(modifyButton, deleteButton, reserveButton);
+
+        // Add the image, details, and buttons to the event card
+        eventCard.getChildren().addAll(eventImageView, eventDetails, buttonsContainer);
+
+        // Add some padding inside the event card to make it more spacious
+        eventCard.setPadding(new Insets(10));
+
+        return eventCard;
+    }
+
+>>>>>>> origin/GestionCommande
     private void handleModifyEvent(int eventId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierEvenement.fxml"));
@@ -242,6 +374,10 @@ public class afficherEvenement {
             stage.setTitle("Modifier Événement");
             stage.setScene(new Scene(root));
             stage.show();
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/GestionCommande
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de modification.");
@@ -249,23 +385,36 @@ public class afficherEvenement {
     }
 
     private void handleDeleteEvent(int eventId) {
+<<<<<<< HEAD
         serviceEvenement.supprimer(eventId);
         showAlert(Alert.AlertType.INFORMATION, "Succès", "L'événement a été supprimé avec succès.");
         allEvenements = serviceEvenement.recuperer();
         filtrerEtAfficher();
+=======
+        EvenementService service = new EvenementService();
+        service.supprimer(eventId);
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "L'événement a été supprimé avec succès.");
+        afficherEvenements();
+>>>>>>> origin/GestionCommande
     }
 
     private void handleReserverTicket(Evenement evenement) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajouterTicket.fxml"));
             Parent root = loader.load();
+<<<<<<< HEAD
             ajouterTicket ticketController = loader.getController();
             ticketController.initData(evenement);
+=======
+            Controllers.ajouterTicket controller = loader.getController();
+            controller.initData(evenement);
+>>>>>>> origin/GestionCommande
 
             Stage stage = new Stage();
             stage.setTitle("Réserver un Ticket");
             stage.setScene(new Scene(root));
             stage.show();
+<<<<<<< HEAD
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de réservation de ticket.");
@@ -285,11 +434,22 @@ public class afficherEvenement {
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
+=======
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de réservation.");
+        }
+    }
+
+    private void showAlert(AlertType type, String title, String message) {
+>>>>>>> origin/GestionCommande
         Alert alert = new Alert(type, message);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
+<<<<<<< HEAD
 
     // ------------------- MAP FUNCTIONALITY -------------------
 
@@ -385,4 +545,6 @@ public class afficherEvenement {
         EventLocation eventLocation = new EventLocation();
         return eventLocation.getLongitude(address);
     }
+=======
+>>>>>>> origin/GestionCommande
 }

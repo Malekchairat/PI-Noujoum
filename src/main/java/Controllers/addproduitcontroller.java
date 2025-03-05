@@ -4,10 +4,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+<<<<<<< HEAD
+=======
+import javafx.scene.Scene;
+>>>>>>> origin/GestionCommande
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+<<<<<<< HEAD
+=======
+import javafx.stage.Stage;
+>>>>>>> origin/GestionCommande
 import models.Produit;
 import models.Produit.Categorie;
 import services.ServicesCrud;
@@ -163,8 +171,21 @@ public class addproduitcontroller {
             Parent root = loader.load();
             afficheproduitcontroller controller = loader.getController();
             controller.loadProduits();
+<<<<<<< HEAD
             affich.getScene().setRoot(root);
         } catch (IOException e) {
+=======
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+
+            // Mettre la fenêtre en plein écran
+            stage.setScene(scene);
+            stage.setMaximized(true); // Maximiser la fenêtre
+            stage.setFullScreen(true); // Mode plein écran (optionnel)
+
+            // Afficher la nouvelle fenêtre
+            stage.show();        } catch (IOException e) {
+>>>>>>> origin/GestionCommande
             e.printStackTrace();
             System.out.println("Erreur chargement afficheProduit.fxml : " + e.getMessage());
         }

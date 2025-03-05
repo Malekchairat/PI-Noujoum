@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/ajouterTicket.java
 package Controllers;
 
@@ -24,6 +25,10 @@ import com.google.zxing.WriterException;
 =======
 package controller;
 
+=======
+package Controllers;
+
+>>>>>>> origin/GestionCommande
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -32,7 +37,10 @@ import models.Evenement;
 import models.Ticket;
 import models.Type_P;
 import services.TicketService;
+<<<<<<< HEAD
 >>>>>>> origin/integration-branch:src/main/java/controller/ajouterTicket.java
+=======
+>>>>>>> origin/GestionCommande
 
 public class ajouterTicket {
 
@@ -40,6 +48,7 @@ public class ajouterTicket {
     @FXML private TextField prixField;
     @FXML private TextField quantiteField;
     @FXML private ComboBox<String> paiementCombo;
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/ajouterTicket.java
     @FXML private ImageView qrCodeImageView;
     // The paymentWebView defined in the FXML for the main view may not be used here.
@@ -54,11 +63,17 @@ public class ajouterTicket {
     private final TicketService ticketService = new TicketService();
     private Evenement evenement; // L'événement sélectionné
 >>>>>>> origin/integration-branch:src/main/java/controller/ajouterTicket.java
+=======
+
+    private final TicketService ticketService = new TicketService();
+    private Evenement evenement; // L'événement sélectionné
+>>>>>>> origin/GestionCommande
 
     public void initData(Evenement evenement) {
         this.evenement = evenement;
         lblEventName.setText("Réservation pour : " + evenement.getArtist());
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/ajouterTicket.java
         ajout.setOnAction(event -> ajouterTicket(event)); // Associate the button with the reservation
 
@@ -92,18 +107,24 @@ public class ajouterTicket {
             prixField.setText("0.00");
         }
 =======
+=======
+>>>>>>> origin/GestionCommande
         // Ajouter les valeurs de l'énumération Type_P dans la ComboBox
         for (Type_P type : Type_P.values()) {
             paiementCombo.getItems().add(type.getTypeString());
         }
 
         paiementCombo.setValue(Type_P.CASH.getTypeString()); // Valeur par défaut
+<<<<<<< HEAD
 >>>>>>> origin/integration-branch:src/main/java/controller/ajouterTicket.java
+=======
+>>>>>>> origin/GestionCommande
     }
 
     @FXML
     public void ajouterTicket(ActionEvent event) {
         try {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/ajouterTicket.java
             if (quantiteField.getText().trim().isEmpty() || paiementCombo.getValue() == null) {
                 throw new IllegalArgumentException("Veuillez remplir tous les champs obligatoires.");
@@ -115,6 +136,8 @@ public class ajouterTicket {
             }
 
 =======
+=======
+>>>>>>> origin/GestionCommande
             // Validation des champs
             if (quantiteField.getText().trim().isEmpty() || prixField.getText().trim().isEmpty()) {
                 throw new IllegalArgumentException("Tous les champs doivent être remplis.");
@@ -128,11 +151,15 @@ public class ajouterTicket {
             }
 
             // Vérification de l'événement
+<<<<<<< HEAD
 >>>>>>> origin/integration-branch:src/main/java/controller/ajouterTicket.java
+=======
+>>>>>>> origin/GestionCommande
             if (evenement == null) {
                 throw new NullPointerException("Aucun événement sélectionné.");
             }
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/ajouterTicket.java
             if (LoginController.UserConnected == null) {
                 throw new Exception("Aucun utilisateur connecté. Veuillez vous connecter.");
@@ -176,12 +203,21 @@ public class ajouterTicket {
 =======
             // Création du ticket avec un id_utilisateur fictif (Remplacez par un utilisateur réel)
             int idUtilisateur = 0;
+=======
+            // Création du ticket avec un id_utilisateur fictif (Remplacez par un utilisateur réel)
+            int idUtilisateur = 27;
+>>>>>>> origin/GestionCommande
             Type_P typePaiement = Type_P.valueOf(paiementCombo.getValue().toUpperCase());
 
             Ticket ticket = new Ticket(0, evenement.getIdEvenement(), idUtilisateur, prix, quantite, null, typePaiement);
 
+<<<<<<< HEAD
             // Ajout via le service
             ticketService.ajouter(evenement, ticket);
+=======
+            // Utilisation de la bonne méthode d'ajout
+            ticketService.ajouterAvecEvenement(evenement, ticket);
+>>>>>>> origin/GestionCommande
 
             // Succès
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Ticket réservé avec succès !");
@@ -190,7 +226,10 @@ public class ajouterTicket {
             ((Stage) prixField.getScene().getWindow()).close();
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez entrer des valeurs numériques valides.");
+<<<<<<< HEAD
 >>>>>>> origin/integration-branch:src/main/java/controller/ajouterTicket.java
+=======
+>>>>>>> origin/GestionCommande
         } catch (IllegalArgumentException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
         } catch (Exception e) {
@@ -205,6 +244,7 @@ public class ajouterTicket {
         alert.setContentText(message);
         alert.showAndWait();
     }
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/Controllers/ajouterTicket.java
 
     @FXML
@@ -265,3 +305,6 @@ public class ajouterTicket {
 =======
 }
 >>>>>>> origin/integration-branch:src/main/java/controller/ajouterTicket.java
+=======
+}
+>>>>>>> origin/GestionCommande
