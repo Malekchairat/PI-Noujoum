@@ -30,6 +30,16 @@ public class AfficherCommande {
     }
 
     public void refreshGrid() {
+<<<<<<< HEAD
+        gridCommandes.getChildren().clear(); // Supprimer les anciennes données
+
+        try {
+            // Ajouter les en-têtes de colonne avec texte blanc
+            String[] headers = {"ID", "ID User", "ID Panier", "Rue", "Ville", "Code Postal", "État", "Montant", "Paiement", "Actions"};
+            for (int i = 0; i < headers.length; i++) {
+                Label headerLabel = new Label(headers[i]);
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
+=======
         gridCommandes.getChildren().clear(); // Supprime les anciennes données
 
         try {
@@ -38,6 +48,7 @@ public class AfficherCommande {
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
                 headerLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5px;");
+>>>>>>> origin/integration-branch
                 gridCommandes.add(headerLabel, i, 0);
             }
 
@@ -46,6 +57,17 @@ public class AfficherCommande {
 
             int row = 1;
             for (Commande cmd : commandes) {
+<<<<<<< HEAD
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getCommande_id())), 0, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_user())), 1, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getId_panier())), 2, row);
+                gridCommandes.add(createStyledLabel(cmd.getRue()), 3, row);
+                gridCommandes.add(createStyledLabel(cmd.getVille()), 4, row);
+                gridCommandes.add(createStyledLabel(cmd.getCode_postal()), 5, row);
+                gridCommandes.add(createStyledLabel(cmd.getEtat()), 6, row);
+                gridCommandes.add(createStyledLabel(String.valueOf(cmd.getMontant_total())), 7, row);
+                gridCommandes.add(createStyledLabel(cmd.getMethodePaiment()), 8, row);
+=======
                 gridCommandes.add(new Label(String.valueOf(cmd.getCommande_id())), 0, row);
                 gridCommandes.add(new Label(String.valueOf(cmd.getId_user())), 1, row);
                 gridCommandes.add(new Label(String.valueOf(cmd.getId_panier())), 2, row);
@@ -55,10 +77,37 @@ public class AfficherCommande {
                 gridCommandes.add(new Label(cmd.getEtat()), 6, row);
                 gridCommandes.add(new Label(String.valueOf(cmd.getMontant_total())), 7, row);
                 gridCommandes.add(new Label(cmd.getMethodePaiment()), 8, row);
+>>>>>>> origin/integration-branch
 
                 // Bouton Modifier
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(cmd));
+<<<<<<< HEAD
+                btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
+
+// Effet hover pour Modifier
+                btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
+                btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
+
+                gridCommandes.add(btnModifier, 9, row);
+
+// Bouton Supprimer
+                Button btnSupprimer = new Button("Supprimer");
+                btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+                btnSupprimer.setOnAction(event -> supprimerCommande(cmd));
+
+// Effet hover pour Supprimer
+                btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
+                btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+
+                gridCommandes.add(btnSupprimer, 10, row);
+
+
+                row++;
+            }
+
+        } catch (Exception e) {
+=======
                 gridCommandes.add(btnModifier, 9, row);
 
                 // Bouton Supprimer
@@ -71,11 +120,21 @@ public class AfficherCommande {
             }
 
         } catch (SQLException e) {
+>>>>>>> origin/integration-branch
             System.err.println("Erreur lors du chargement des commandes : " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+<<<<<<< HEAD
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: white;"); // Applique la couleur blanche à chaque label
+        return label;
+    }
+
+=======
+>>>>>>> origin/integration-branch
     private void ouvrirFenetreModification(Commande commande) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierCommande.fxml"));
@@ -96,7 +155,11 @@ public class AfficherCommande {
 
     private void supprimerCommande(Commande commande) {
         try {
+<<<<<<< HEAD
+            commandeService.supprimer(commande.getCommande_id());
+=======
             commandeService.supprimer(commande);
+>>>>>>> origin/integration-branch
             refreshGrid(); // Rafraîchir après suppression
         } catch (Exception e) {
             System.err.println("Erreur lors de la suppression : " + e.getMessage());
@@ -107,5 +170,9 @@ public class AfficherCommande {
     private void fermer() {
         btnFermer.getScene().getWindow().hide();
     }
+<<<<<<< HEAD
+}
+=======
 }
 
+>>>>>>> origin/integration-branch

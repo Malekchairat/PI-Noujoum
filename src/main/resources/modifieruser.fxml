@@ -5,6 +5,55 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<<<<<<< HEAD
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0"
+            style="-fx-background-color: #1E1E1E; -fx-padding: 20px; -fx-border-color: gold; -fx-border-radius: 15px;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.updateusercontroller">
+
+   <children>
+      <!-- Champ caché pour l'ID -->
+      <TextField fx:id="id" layoutX="95.0" layoutY="56.0" visible="false" />
+
+      <!-- Labels et champs de saisie -->
+      <Label layoutX="50.0" layoutY="100.0" text="Nom" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+      <TextField fx:id="nom" layoutX="150.0" layoutY="96.0" style="-fx-background-radius: 10px;"/>
+
+      <Label layoutX="50.0" layoutY="150.0" text="Prénom" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+      <TextField fx:id="prenom" layoutX="150.0" layoutY="146.0" style="-fx-background-radius: 10px;"/>
+
+      <Label layoutX="50.0" layoutY="200.0" text="Email" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+      <TextField fx:id="email" layoutX="150.0" layoutY="196.0" style="-fx-background-radius: 10px;"/>
+
+      <Label layoutX="50.0" layoutY="250.0" text="Mot de passe" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+      <TextField fx:id="mdp" layoutX="150.0" layoutY="246.0" style="-fx-background-radius: 10px;"/>
+
+      <Label layoutX="50.0" layoutY="300.0" text="Téléphone" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+      <TextField fx:id="tel" layoutX="150.0" layoutY="296.0" style="-fx-background-radius: 10px;"/>
+
+      <Label layoutX="50.0" layoutY="350.0" text="Rôle" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+      <ComboBox fx:id="rolee" layoutX="150.0" layoutY="346.0" prefWidth="180.0"/>
+
+      <!-- Image Upload Button -->
+      <Button fx:id="uploadImageBtn" layoutX="150.0" layoutY="400.0"
+              text="📷 Télécharger Image"
+              onAction="#uploadImage"
+              style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
+
+      <!-- Image Preview -->
+      <ImageView fx:id="imagePreview" layoutX="350.0" layoutY="400.0"
+                 fitHeight="100.0" fitWidth="100.0"
+                 style="-fx-border-color: gold; -fx-border-radius: 10px;"/>
+
+      <!-- Bouton Modifier -->
+      <Button fx:id="ajout" layoutX="200.0" layoutY="450.0"
+              text="✔ Modifier"
+              onAction="#updateUser"
+              style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
+=======
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.updateusercontroller">
    <children>
@@ -29,5 +78,6 @@
       <ComboBox fx:id="rolee" layoutX="94.0" layoutY="310.0" />
 
       <Button fx:id="ajout" layoutX="152.0" layoutY="349.0" mnemonicParsing="false" onAction="#updateUser" text="Modifier" />
+>>>>>>> origin/integration-branch
    </children>
 </AnchorPane>

@@ -34,11 +34,19 @@ public class AfficherPanier {
         gridPaniers.getChildren().clear(); // Supprime les anciennes données
 
         try {
+<<<<<<< HEAD
+            // Ajouter les en-têtes de colonne avec texte blanc
+            String[] headers = {"ID Panier", "ID Produit", "ID User", "Nombre de Produits", "Actions"};
+            for (int i = 0; i < headers.length; i++) {
+                Label headerLabel = new Label(headers[i]);
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 5px;");
+=======
             // Ajouter les en-têtes de colonne
             String[] headers = {"ID Panier", "ID Produit", "ID User", "Nombre de Produits", "Actions"};
             for (int i = 0; i < headers.length; i++) {
                 Label headerLabel = new Label(headers[i]);
                 headerLabel.setStyle("-fx-font-weight: bold; -fx-padding: 5px;");
+>>>>>>> origin/integration-branch
                 gridPaniers.add(headerLabel, i, 0);
             }
 
@@ -47,14 +55,41 @@ public class AfficherPanier {
 
             int row = 1;
             for (Panier panier : paniers) {
+<<<<<<< HEAD
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getId_panier())), 0, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getId_produit())), 1, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getId_user())), 2, row);
+                gridPaniers.add(createStyledLabel(String.valueOf(panier.getNbr_produit())), 3, row);
+=======
                 gridPaniers.add(new Label(String.valueOf(panier.getId_panier())), 0, row);
                 gridPaniers.add(new Label(String.valueOf(panier.getId_produit())), 1, row);
                 gridPaniers.add(new Label(String.valueOf(panier.getId_user())), 2, row);
                 gridPaniers.add(new Label(String.valueOf(panier.getNbr_produit())), 3, row);
+>>>>>>> origin/integration-branch
 
                 // Bouton Modifier
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setOnAction(event -> ouvrirFenetreModification(panier));
+<<<<<<< HEAD
+                btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;");
+                btnModifier.setOnMouseEntered(event -> btnModifier.setStyle("-fx-background-color: black; -fx-text-fill: yellow;"));
+                btnModifier.setOnMouseExited(event -> btnModifier.setStyle("-fx-background-color: yellow; -fx-text-fill: black;"));
+
+                gridPaniers.add(btnModifier, 4, row);
+
+                // Bouton Supprimer
+                Button btnSupprimer = new Button("Supprimer");
+                btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+                btnSupprimer.setOnAction(event -> supprimerPanier(panier));
+                btnSupprimer.setOnMouseEntered(event -> btnSupprimer.setStyle("-fx-background-color: darkred; -fx-text-fill: white;"));
+                btnSupprimer.setOnMouseExited(event -> btnSupprimer.setStyle("-fx-background-color: red; -fx-text-fill: white;"));
+                gridPaniers.add(btnSupprimer, 5, row);
+
+                row++;
+            }
+
+        } catch (Exception e) {
+=======
                 gridPaniers.add(btnModifier, 4, row);
 
                 Button btnSupprimer = new Button("Supprimer");
@@ -66,13 +101,27 @@ public class AfficherPanier {
             }
 
         } catch (SQLException e) {
+>>>>>>> origin/integration-branch
             System.err.println("Erreur lors du chargement des paniers : " + e.getMessage());
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
+
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: white;"); // Applique la couleur blanche à chaque label
+        return label;
+    }
+
+    private void supprimerPanier(Panier panier) {
+        try {
+            panierService.supprimer(panier.getId_panier());
+=======
     private void supprimerPanier(Panier panier) {
         try {
             panierService.supprimer(panier);
+>>>>>>> origin/integration-branch
             refreshGrid(); // Rafraîchir après suppression
             System.out.println("Panier supprimé avec succès !");
         } catch (Exception e) {
@@ -80,8 +129,11 @@ public class AfficherPanier {
         }
     }
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> origin/integration-branch
     private void ouvrirFenetreModification(Panier panier) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierPanier.fxml"));
@@ -97,6 +149,10 @@ public class AfficherPanier {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+<<<<<<< HEAD
+        } } }
+=======
         }
     }
 }
+>>>>>>> origin/integration-branch

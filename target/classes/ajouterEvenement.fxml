@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ajouterEvenement" style="-fx-background-color: black;">
+    <children>
+        <!-- Labels and Text Fields with gold and white theme -->
+        <Label layoutX="50.0" layoutY="20.0" text="Location" textFill="gold"/>
+        <TextField fx:id="locationField" layoutX="200.0" layoutY="20.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; -fx-padding: 5;" />
+
+        <Label layoutX="50.0" layoutY="60.0" text="Artist" textFill="gold"/>
+        <TextField fx:id="artist" layoutX="200.0" layoutY="60.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; -fx-padding: 5;" />
+
+        <Label layoutX="50.0" layoutY="100.0" text="Description" textFill="gold"/>
+        <TextField fx:id="description" layoutX="200.0" layoutY="100.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; -fx-padding: 5;" />
+
+        <Label layoutX="50.0" layoutY="140.0" text="Start Date" textFill="gold"/>
+        <DatePicker fx:id="startDate" layoutX="200.0" layoutY="140.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5;" />
+
+        <Label layoutX="50.0" layoutY="180.0" text="End Date" textFill="gold"/>
+        <DatePicker fx:id="endDate" layoutX="200.0" layoutY="180.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5;" />
+
+        <Label layoutX="50.0" layoutY="220.0" text="Time (hhmm)" textFill="gold"/>
+        <TextField fx:id="time" layoutX="200.0" layoutY="220.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; -fx-padding: 5"/>
+
+        <Label layoutX="50.0" layoutY="260.0" text="Price" textFill="gold"/>
+        <TextField fx:id="price" layoutX="200.0" layoutY="260.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; -fx-padding: 5;" />
+
+        <Label layoutX="50.0" layoutY="300.0" text="Ticket Count" textFill="gold"/>
+        <TextField fx:id="ticketCount" layoutX="200.0" layoutY="300.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; -fx-padding: 5;" />
+
+        <Label layoutX="50.0" layoutY="340.0" text="Event Type" textFill="gold"/>
+        <ComboBox fx:id="eventType" layoutX="200.0" layoutY="340.0" style="-fx-background-color: white; -fx-text-fill: black; -fx-border-radius: 5; "/>
+
+        <!-- Button to upload image -->
+        <Button fx:id="uploadImageButton" layoutX="200.0" layoutY="380.0" onAction="#uploadImage" text="Ajouter une image" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20;" />
+
+        <!-- Image Label -->
+        <Label fx:id="imageLabel" layoutX="350.0" layoutY="380.0" text="Aucune image sélectionnée" textFill="gold"/>
+
+        <!-- Buttons with black and gold theme -->
+        <Button fx:id="ajout" layoutX="450.0" layoutY="420.0" mnemonicParsing="false" onAction="#ajout" text="Ajouter" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
+        <Button fx:id="show" layoutX="350.0" layoutY="420.0" mnemonicParsing="false" onAction="#Afficher" text="Afficher" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
+        <Button fx:id="update" layoutX="250.0" layoutY="420.0" mnemonicParsing="false" onAction="#update" text="Mettre à jour" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
+        <Button fx:id="afficherTicketsButton" layoutX="150.0" layoutY="420.0" mnemonicParsing="false" onAction="#afficherTickets" text="Afficher Tickets" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
+
+        <!-- Nouveau bouton ajouté -->
+        <Button fx:id="newButton" layoutX="50.0" layoutY="420.0" mnemonicParsing="false" onAction="#newButtonAction" text="Nouveau Bouton" style="-fx-background-color: #d4af37; -fx-text-fill: black; -fx-padding: 10 20"/>
+
+    </children>
+</AnchorPane>
