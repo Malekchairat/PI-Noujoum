@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+<<<<<<< HEAD
+<?import javafx.scene.control.Label?>
+
+<AnchorPane fx:controller="Controllers.ajouterTicket" xmlns:fx="http://javafx.com/fxml/1.0" xmlns="http://javafx.com/javafx/21.0.2">
+    <children>
+        <Label text="Payment Page" layoutX="20" layoutY="20" />
+        <WebView fx:id="paymentWebView" layoutX="20" layoutY="50" prefWidth="700" prefHeight="700" />
+    </children>
+=======
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.AjouterCommande">
+    <WebView fx:id="paymentWebView" layoutX="20" layoutY="20" prefWidth="760" prefHeight="760"/>
+>>>>>>> origin/GestionCommande
+</AnchorPane>

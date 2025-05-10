@@ -1,0 +1,92 @@
+package Controllers;
+
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
+import models.Commande;
+import services.CommandeService;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import java.util.List;
+
+public class AfficherCommande {
+
+    @FXML
+    private GridPane gridCommandes;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    private final CommandeService commandeService = new CommandeService();
+
+    @FXML
+    public void initialize() {
+        gridCommandes.setPrefWidth(900); // Optimize width
+        gridCommandes.setHgap(10); // Reduce horizontal spacing
+        gridCommandes.setVgap(10); // Reduce vertical spacing
+        gridCommandes.setStyle("-fx-background-color: #2c2f33; -fx-padding: 15px; -fx-border-radius: 10px;");
+        setupScrollPane();
+        setupGridPane();
+        refreshGrid();
+    }
+
+    private void setupScrollPane() {
+        scrollPane.setFitToWidth(true); // Ensure the scroll pane resizes properly
+        scrollPane.setStyle("-fx-background: #2c2f33;"); // Match background color
+    }
+    private void setupGridPane() {
+        gridCommandes.setHgap(5); // Reduce unnecessary gaps
+        gridCommandes.setVgap(8);
+        gridCommandes.setStyle("-fx-background-color: #2c2f33; -fx-padding: 10px; -fx-border-radius: 10px;");
+
+        gridCommandes.getColumnConstraints().clear();
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(25); // Adjusted for better balance
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(75);
+        gridCommandes.getColumnConstraints().addAll(col1, col2);
+    }
+
+    public void refreshGrid() {
+        gridCommandes.getChildren().clear();
+
+        try {
+            // Headers with better design
+            String[] headers = {"Montant", "Produits"};
+            for (int i = 0; i < headers.length; i++) {
+                Label headerLabel = new Label(headers[i]);
+                headerLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-size: 18px; -fx-padding: 8px;");
+                gridCommandes.add(headerLabel, i, 0);
+            }
+
+            // Load commandes from DB
+            List<Commande> commandes = commandeService.recuperer();
+            int row = 1;
+            for (Commande cmd : commandes) {
+                Label montantLabel = createStyledLabel(String.valueOf(cmd.getMontant_total()));
+                Label produitsLabel = createStyledLabel(cmd.getProduit());
+
+                // Add background to alternate rows for better readability
+                if (row % 2 == 0) {
+                    montantLabel.setStyle(montantLabel.getStyle() + "; -fx-background-color: #3a3d42; -fx-padding: 10px; -fx-border-radius: 5px;");
+                    produitsLabel.setStyle(produitsLabel.getStyle() + "; -fx-background-color: #3a3d42; -fx-padding: 10px; -fx-border-radius: 5px;");
+                }
+
+                gridCommandes.add(montantLabel, 0, row);
+                gridCommandes.add(produitsLabel, 1, row);
+                row++;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error loading orders: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private Label createStyledLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 5px;");
+        return label;
+    }
+}
