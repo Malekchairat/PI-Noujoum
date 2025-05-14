@@ -2,7 +2,7 @@
 #esprit #noujoum 
 
 🌟 Noujoum - Fan Events & Merchandise Platform
-Noujoum is a web application built with Symfony, designed to connect fan communities by offering a platform for publishing events (concerts, fan meets) and selling merchandise. The platform includes user management, ticket reservations, product purchases, and more — all accessible to fans and administrators.
+Noujoum is a web application built with Java fx, designed to connect fan communities by offering a platform for publishing events (concerts, fan meets) and selling merchandise. The platform includes user management, ticket reservations, product purchases, and more — all accessible to fans and administrators.
 
 📁 Project Structure
 This project is divided into 5 main management modules:
@@ -53,13 +53,7 @@ Copy
 Edit
 git clone https://github.com/YourTeam/Noujoum.git
 cd Noujoum
-composer install
-cp .env.example .env
-php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load
-symfony server:start
-Make sure to configure your .env file with your database credentials.
+Make sure to configure your .MyDataBase file with your database credentials.
 
 👥 Team Members
 Name	Module
