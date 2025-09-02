@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+
+<AnchorPane style="-fx-background-color: linear-gradient(to bottom, #2E2E2E, #000000);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.addpromotioncontroller">
+
+   <!-- Barre de navigation -->
+   <HBox layoutX="0" layoutY="0" prefHeight="80.0" spacing="20" style="-fx-background-color: #1A1A1A; -fx-padding: 15; -fx-alignment: center-left;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fx:id="logo" fitHeight="56.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="homeBtn" onAction="#goToHome" text="Accueil" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+      <Button fx:id="productsBtn" onAction="#goToProducts" text="Produits" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+      <Button fx:id="claimsBtn" onAction="#goToReclamations" text="Réclamations" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+      <Button fx:id="eventsBtn" onAction="#goToEvents" text="Événements" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+   </HBox>
+
+   <!-- Contenu principal -->
+   <VBox spacing="15" layoutX="50.0" layoutY="100.0" style="-fx-padding: 20; -fx-background-color: #181818; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 5);" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.bottomAnchor="50.0">
+
+      <!-- Champ Code -->
+      <HBox spacing="10">
+         <Label text="Code" style="-fx-text-fill: white;" />
+         <TextField fx:id="code" prefWidth="200.0" style="-fx-background-radius: 10; -fx-padding: 5; -fx-background-color: #2E2E2E; -fx-text-fill: white;" />
+      </HBox>
+
+      <!-- Champ Pourcentage -->
+      <HBox spacing="10">
+         <Label text="Pourcentage" style="-fx-text-fill: white;" />
+         <TextField fx:id="pourcentage" prefWidth="200.0" style="-fx-background-radius: 10; -fx-padding: 5; -fx-background-color: #2E2E2E; -fx-text-fill: white;" />
+      </HBox>
+
+      <!-- Champ Expiration -->
+      <HBox spacing="10">
+         <Label text="Expiration" style="-fx-text-fill: white;" />
+         <TextField fx:id="expiration" prefWidth="200.0" style="-fx-background-radius: 10; -fx-padding: 5; -fx-background-color: #2E2E2E; -fx-text-fill: white;" />
+      </HBox>
+
+      <!-- Sélection du produit -->
+      <HBox spacing="10">
+         <Label text="Produit" style="-fx-text-fill: white;" />
+         <ComboBox fx:id="produitComboBox" prefWidth="200.0" style="-fx-background-radius: 10; -fx-padding: 5; -fx-background-color: #2E2E2E; -fx-text-fill: white;" />
+      </HBox>
+
+      <!-- Boutons d'action -->
+      <HBox spacing="15" alignment="center">
+         <Button fx:id="ajout" text="Ajouter" onAction="#ajout" style="-fx-background-color: #FDD700; -fx-text-fill: black; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10;"/>
+         <Button fx:id="affich" text="Afficher" onAction="#Afficher" style="-fx-background-color: #FDD700; -fx-text-fill: black; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 10;"/>
+      </HBox>
+   </VBox>
+</AnchorPane>

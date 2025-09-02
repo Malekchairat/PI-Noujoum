@@ -1,0 +1,55 @@
+.product-card {
+    -fx-background-color: transparent; /* Rendre la carte invisible */
+    -fx-border-color: transparent; /* Supprimer les bordures */
+    -fx-shadow: none; /* Supprimer les ombres */
+    -fx-padding: 15px;
+    -fx-alignment: center;
+}
+
+
+/* Style de l'image */
+.product-image {
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+/* Style du texte */
+.product-card Label {
+    -fx-text-fill: white;        /* Texte blanc */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial";    /* Police personnalisée */
+}
+
+/* Titre du produit */
+.product-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Prix du produit */
+.product-price {
+    -fx-text-fill: #E0B973;
+    -fx-font-size: 14px;
+}
+
+/* Catégorie et disponibilité */
+.product-category, .product-availability {
+    -fx-text-fill: #B0B0B0;
+    -fx-font-size: 12px;
+}
+
+/* Bouton de suppression */
+.delete-button {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;  /* Correction ici */
+}
+
+/* Correction du style des boutons généraux */
+.button {
+    -fx-cursor: hand; /* Ajouté pour éviter l'erreur */
+}

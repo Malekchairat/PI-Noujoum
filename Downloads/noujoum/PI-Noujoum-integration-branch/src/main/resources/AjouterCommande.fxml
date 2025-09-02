@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="764.0" prefWidth="619.0"
+            style="-fx-background-color: #1e1e1e;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.AjouterCommande"
+            stylesheets="@styles/styles.css">
+
+    <children>
+        <!-- Zone de saisie des informations -->
+        <VBox alignment="CENTER_LEFT" layoutX="50.0" layoutY="30.0" spacing="20.0">
+            <children>
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="ID Panier" />
+                    <TextField fx:id="idPanier" prefWidth="250.0"/>
+                </VBox>
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Rue" />
+                    <TextField fx:id="rue" prefWidth="250.0"/>
+                </VBox>
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Code Postal" />
+                    <TextField fx:id="codePostal" prefWidth="250.0" />
+                </VBox>
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Ville" />
+                    <TextField fx:id="ville" prefWidth="250.0"  />
+                </VBox>
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="État" />
+                    <TextField fx:id="etat" prefWidth="250.0" />
+                </VBox>
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Montant Total" />
+                    <TextField fx:id="montantTotal" prefWidth="250.0"  />
+                </VBox>
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="Méthode de Paiement" />
+                    <ComboBox fx:id="methodePaiment" prefWidth="250.0">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Credit Card" />
+                                <String fx:value="PayPal" />
+                                <String fx:value="Cash" />
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </VBox>
+
+
+                <VBox spacing="12.0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px;" text="ID Utilisateur" />
+                    <TextField fx:id="idUser" prefWidth="250.0"  />
+                </VBox>
+            </children>
+        </VBox>
+
+        <!-- Zone des boutons -->
+        <VBox layoutX="150.0" layoutY="350.0" spacing="10.0" />
+
+        <Button fx:id="ajouterPanier" layoutX="375.8" layoutY="29.4" minWidth="140.0" onAction="#ajouterPanier" text="Gestion Paniers" styleClass="custom-button"/>
+
+        <Button fx:id="afficher" layoutX="376.0" layoutY="124.0" onAction="#afficherCommandes" text="Afficher Commandes" styleClass="custom-button" />
+
+        <Button fx:id="ajout" layoutX="400.0" layoutY="691.0" onAction="#ajout" text="Ajouter Commande" styleClass="custom-button" />
+    </children>
+</AnchorPane>

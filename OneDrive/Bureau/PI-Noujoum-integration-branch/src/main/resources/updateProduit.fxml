@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.updateproduitcontroller" style="-fx-background-color: #f9f9f9;">
+
+    <!-- ID Produit -->
+    <Label layoutX="50.0" layoutY="30.0" text="🔖 ID Produit" />
+    <TextField fx:id="idProduit" layoutX="150.0" layoutY="25.0" prefWidth="200.0"/>
+
+    <!-- Nom -->
+    <Label layoutX="50.0" layoutY="75.0" text="🎵 Nom" />
+    <TextField fx:id="nom" layoutX="150.0" layoutY="70.0" prefWidth="200.0"/>
+
+    <!-- Description -->
+    <Label layoutX="50.0" layoutY="120.0" text="📝 Description" />
+    <TextArea fx:id="description" layoutX="150.0" layoutY="115.0" prefWidth="200.0" prefHeight="80.0"/>
+
+    <!-- Prix -->
+    <Label layoutX="50.0" layoutY="210.0" text="💰 Prix" />
+    <TextField fx:id="prix" layoutX="150.0" layoutY="205.0" prefWidth="200.0"/>
+
+    <!-- Catégorie -->
+    <Label layoutX="50.0" layoutY="255.0" text="📂 Catégorie" />
+    <ComboBox fx:id="categorieComboBox" layoutX="150.0" layoutY="250.0" prefWidth="200.0"/>
+
+    <!-- Disponibilité -->
+    <Label layoutX="50.0" layoutY="300.0" text="✅ Disponibilité" />
+    <TextField fx:id="disponibilite" layoutX="150.0" layoutY="295.0" prefWidth="200.0"/>
+
+    <!-- Image -->
+    <Label layoutX="420.0" layoutY="30.0" text="🖼️ Image" />
+    <ImageView fx:id="image" fitHeight="200.0" fitWidth="250.0" layoutX="420.0" layoutY="60.0" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8,0,0,2);" />
+    <Button fx:id="browseImage" layoutX="470.0" layoutY="270.0" text="📁 Parcourir" onAction="#browseImageAction" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px;"/>
+
+    <!-- Boutons d'action -->
+    <HBox layoutX="420.0" layoutY="350.0" spacing="15.0">
+        <children>
+            <Button fx:id="affich" text="📦 Afficher" onAction="#Afficher" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-padding: 8px 16px;"/>
+            <Button fx:id="update" text="✅ Mettre à jour" onAction="#updateProduit" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10px; -fx-padding: 8px 16px;"/>
+        </children>
+    </HBox>
+
+</AnchorPane>

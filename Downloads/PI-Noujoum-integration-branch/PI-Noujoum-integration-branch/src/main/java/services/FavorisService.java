@@ -1,0 +1,124 @@
+package services;
+
+import models.Favoris;
+import tools.MyDataBase;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class FavorisService implements IService<Favoris> {
+    Connection cnx = MyDataBase.getInstance().getCnx();
+
+    @Override
+    public void ajouter(Favoris f) {
+        // Vérifier si le favori existe déjà pour le même user et produit
+        if (favoriExiste(f.getIdUser(), f.getIdProduit())) {
+            System.out.println("⚠ Ce favori existe déjà !");
+            return;
+        }
+
+        String req = "INSERT INTO favoris (id_user, id_produit, date) VALUES (?, ?, ?)";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, f.getIdUser());
+            pst.setInt(2, f.getIdProduit());
+            pst.setDate(3, java.sql.Date.valueOf(f.getDate()));
+            pst.executeUpdate();
+            System.out.println("✅ Favoris ajouté avec succès !");
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de l'ajout du favori : " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public List<Favoris> recuperer() {
+        List<Favoris> list = new ArrayList<>();
+        String req = "SELECT * FROM favoris";
+        try (PreparedStatement pst = cnx.prepareStatement(req);
+             ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                list.add(new Favoris(
+                        rs.getInt("id_favoris"),
+                        rs.getInt("id_produit"),
+                        rs.getInt("id_user"),
+                        rs.getDate("date").toLocalDate()
+                ));
+            }
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de l'affichage des favoris : " + ex.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public void supprimer(int id) {
+        String req = "DELETE FROM favoris WHERE id_favoris = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, id);
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Favoris supprimé !");
+            } else {
+                System.out.println("⚠ Aucune entrée trouvée avec cet ID.");
+            }
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de la suppression du favori : " + ex.getMessage());
+        }
+    }
+
+    @Override
+
+    public void modifier(Favoris f) {
+        String req = "UPDATE favoris SET id_user = ?, id_produit = ?, date = ? WHERE id_favoris = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, f.getIdUser());
+            pst.setInt(2, f.getIdProduit());
+
+            // Vérifier si la date est non nulle avant de l'insérer
+            if (f.getDate() != null) {
+                pst.setDate(3, Date.valueOf(f.getDate()));
+            } else {
+                pst.setNull(3, Types.DATE);
+            }
+
+            pst.setInt(4, f.getIdFavoris()); // ID du favori à modifier
+
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("✅ Favori modifié avec succès !");
+            } else {
+                System.out.println("⚠ Aucun favori trouvé avec cet ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Erreur lors de la modification du favori : " + e.getMessage());
+        }
+    }
+
+    // Vérifier si un produit existe
+    public boolean produitExiste(int idProduit) {
+        String req = "SELECT COUNT(*) FROM produits WHERE id_produit = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, idProduit);
+            ResultSet rs = pst.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de la vérification du produit : " + ex.getMessage());
+        }
+        return false;
+    }
+
+    // Vérifier si un favori existe déjà pour un utilisateur et un produit
+    public boolean favoriExiste(int idUser, int idProduit) {
+        String req = "SELECT COUNT(*) FROM favoris WHERE id_user = ? AND id_produit = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, idUser);
+            pst.setInt(2, idProduit);
+            ResultSet rs = pst.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        } catch (SQLException ex) {
+            System.out.println("❌ Erreur lors de la vérification du favori : " + ex.getMessage());
+        }
+        return false;
+    }
+}
